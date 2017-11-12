@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
@@ -12,7 +12,7 @@ public class WithdrawalRequest {
 
   private Long id;
 
-  private final Date datetime;
+  private final ZonedDateTime datetime;
 
   private Type type;
   private BigDecimal amount;
@@ -33,7 +33,7 @@ public class WithdrawalRequest {
     this.datetime = BitstampUtils.parseDate(datetime);
   }
 
-  public Date getDatetime() {
+  public ZonedDateTime getDatetime() {
     return datetime;
   }
 

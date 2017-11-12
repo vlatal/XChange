@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
 import org.junit.Test;
+import org.knowm.xchange.bitstamp.BitstampUtils;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction.TransactionType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,9 +39,7 @@ public class UserTransactionsJSONTest {
     assertThat(transactions[0].getId()).isEqualTo(1296712L);
     assertThat(transactions[0].getOrderId()).isEqualTo(6877187L);
 
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(transactions[0].getDatetime());
+    String dateString = BitstampUtils.DATE_FORMAT.format(transactions[0].getDatetime());
 
     assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
     assertThat(transactions[0].getType()).isEqualTo(TransactionType.trade);

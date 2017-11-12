@@ -1,7 +1,7 @@
 package org.knowm.xchange.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 import org.knowm.xchange.currency.CurrencyPair;
@@ -32,7 +32,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
-  public LimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+  public LimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp, BigDecimal limitPrice) {
 
     super(type, originalAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
@@ -47,7 +47,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
-  public LimitOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, Date timestamp,
+  public LimitOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp,
       BigDecimal limitPrice) {
 
     super(type, originalAmount, currencyPair, id, timestamp, BigDecimal.ZERO, cumulativeAmount, OrderStatus.PENDING_NEW);
@@ -65,7 +65,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param cumulativeAmount the amount that has been filled
    * @param status the status of the order at the exchange or broker
    */
-  public LimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+  public LimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp, BigDecimal limitPrice,
       BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
 
     super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
@@ -184,7 +184,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     }
 
     @Override
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(ZonedDateTime timestamp) {
 
       return (Builder) super.timestamp(timestamp);
     }

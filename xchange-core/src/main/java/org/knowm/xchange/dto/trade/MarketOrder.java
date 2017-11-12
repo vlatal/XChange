@@ -1,7 +1,7 @@
 package org.knowm.xchange.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Set;
 
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,7 +26,7 @@ public class MarketOrder extends Order {
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */
-  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp, BigDecimal averagePrice,
       BigDecimal cumulativeAmount, OrderStatus status) {
     super(type, originalAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
   }
@@ -38,7 +38,7 @@ public class MarketOrder extends Order {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order
    */
-  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp) {
 
     super(type, originalAmount, currencyPair, id, timestamp);
   }
@@ -49,7 +49,7 @@ public class MarketOrder extends Order {
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param timestamp the absolute time for this order
    */
-  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, Date timestamp) {
+  public MarketOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, ZonedDateTime timestamp) {
 
     super(type, originalAmount, currencyPair, "", timestamp);
   }
@@ -114,7 +114,7 @@ public class MarketOrder extends Order {
     }
 
     @Override
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(ZonedDateTime timestamp) {
 
       return (Builder) super.timestamp(timestamp);
     }

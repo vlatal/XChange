@@ -4,8 +4,10 @@ import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -135,7 +137,7 @@ public final class BitstampAdapters {
 
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = String.valueOf(tx.getTid());
-    Date date = DateUtils.fromMillisUtc(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
+    ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(tx.getDate() * timeScale), ZoneOffset.UTC);// polled order books provide a timestamp in seconds, stream in ms
     return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
@@ -155,7 +157,7 @@ public final class BitstampAdapters {
     BigDecimal low = bitstampTicker.getLow();
     BigDecimal vwap = bitstampTicker.getVwap();
     BigDecimal volume = bitstampTicker.getVolume();
-    Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
+    ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(bitstampTicker.getTimestamp() * 1000L), ZoneOffset.UTC);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
         .timestamp(timestamp).build();

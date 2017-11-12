@@ -2,7 +2,7 @@ package org.knowm.xchange.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.dto.Order.OrderType;
 
@@ -39,7 +39,7 @@ public class LoanOrder implements Serializable {
   /**
    * The timestamp on the order according to the exchange's server, null if not provided
    */
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
 
   /**
    * Constructor
@@ -51,7 +51,7 @@ public class LoanOrder implements Serializable {
    * @param id An identifier that uniquely identifies the order
    * @param timestamp The timestamp on the order according to the exchange's server, null if not provided
    */
-  public LoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, Date timestamp) {
+  public LoanOrder(OrderType type, String currency, BigDecimal originalAmount, int dayPeriod, String id, ZonedDateTime timestamp) {
 
     this.type = type;
     this.currency = currency;
@@ -86,7 +86,7 @@ public class LoanOrder implements Serializable {
     return id;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }

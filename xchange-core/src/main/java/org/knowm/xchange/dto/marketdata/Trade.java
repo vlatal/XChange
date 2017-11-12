@@ -2,7 +2,7 @@ package org.knowm.xchange.dto.marketdata;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -36,7 +36,7 @@ public class Trade implements Serializable{
   /**
    * The timestamp of the trade according to the exchange's server, null if not provided
    */
-  protected final Date timestamp;
+  protected final ZonedDateTime timestamp;
 
   /**
    * The trade id
@@ -54,7 +54,7 @@ public class Trade implements Serializable{
    * @param timestamp The timestamp of the trade according to the exchange's server, null if not provided
    * @param id The id of the trade
    */
-  public Trade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
+  public Trade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, ZonedDateTime timestamp, String id) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -84,7 +84,7 @@ public class Trade implements Serializable{
     return price;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }
@@ -125,7 +125,7 @@ public class Trade implements Serializable{
     protected BigDecimal originalAmount;
     protected CurrencyPair currencyPair;
     protected BigDecimal price;
-    protected Date timestamp;
+    protected ZonedDateTime timestamp;
     protected String id;
 
     public static Builder from(Trade trade) {
@@ -157,7 +157,7 @@ public class Trade implements Serializable{
       return this;
     }
 
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(ZonedDateTime timestamp) {
 
       this.timestamp = timestamp;
       return this;

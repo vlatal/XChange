@@ -1,7 +1,7 @@
 package org.knowm.xchange.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -43,7 +43,7 @@ public class UserTrade extends Trade {
    * @param feeAmount The fee that was charged by the exchange for this trade
    * @param feeCurrency The symbol of the currency in which the fee was charged
    */
-  public UserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
+  public UserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, ZonedDateTime timestamp, String id, String orderId,
       BigDecimal feeAmount, Currency feeCurrency) {
 
     super(type, originalAmount, currencyPair, price, timestamp, id);
@@ -108,7 +108,7 @@ public class UserTrade extends Trade {
     }
 
     @Override
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(ZonedDateTime timestamp) {
       return (Builder) super.timestamp(timestamp);
     }
 

@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitstampUserTransaction {
 
-  private final Date datetime;
+  private final ZonedDateTime datetime;
   private final long id;
   private final long order_id;
   private final TransactionType type;
@@ -72,7 +72,7 @@ public final class BitstampUserTransaction {
     }
   }
 
-  public Date getDatetime() {
+  public ZonedDateTime getDatetime() {
     return datetime;
   }
 

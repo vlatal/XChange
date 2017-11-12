@@ -2,6 +2,7 @@ package org.knowm.xchange.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -127,6 +128,11 @@ public class DateUtils {
   public static Long toMillisNullSafe(Date time) {
 
     return time == null ? null : time.getTime();
+  }
+
+  public static Long toMillisNullSafe(ZonedDateTime time) {
+
+    return time == null ? null : time.toInstant().toEpochMilli();
   }
 
   /**

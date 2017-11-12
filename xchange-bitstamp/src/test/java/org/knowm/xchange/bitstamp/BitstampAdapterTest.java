@@ -74,9 +74,7 @@ public class BitstampAdapterTest {
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.16248274"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(orderBook.getTimeStamp());
+    String dateString = BitstampUtils.DATE_FORMAT.format(orderBook.getTimeStamp());
     assertThat(dateString).isEqualTo("2013-09-10 12:31:44");
   }
 
@@ -136,9 +134,7 @@ public class BitstampAdapterTest {
     assertThat(ticker.getBid().toString()).isEqualTo("134.89");
     assertThat(ticker.getAsk().toString()).isEqualTo("134.92");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("21982.44926674"));
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(ticker.getTimestamp());
+    String dateString = BitstampUtils.DATE_FORMAT.format(ticker.getTimestamp());
     assertThat(dateString).isEqualTo("2013-10-14 21:45:33");
   }
 
@@ -163,9 +159,7 @@ public class BitstampAdapterTest {
     assertThat(userTradeHistory.getUserTrades().get(1).getType()).isEqualTo(OrderType.ASK);
     assertThat(userTradeHistory.getUserTrades().get(1).getFeeAmount().toString()).isEqualTo("0.06");
 
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());
+    String dateString = BitstampUtils.DATE_FORMAT.format(userTradeHistory.getTrades().get(0).getTimestamp());
     assertThat(dateString).isEqualTo("2013-09-02 13:17:49");
   }
 }

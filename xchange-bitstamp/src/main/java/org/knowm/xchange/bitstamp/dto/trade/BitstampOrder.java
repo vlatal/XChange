@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
@@ -17,7 +17,7 @@ import si.mazi.rescu.ExceptionalReturnContentException;
 public final class BitstampOrder {
 
   private int id;
-  private Date datetime;
+  private ZonedDateTime datetime;
   /**
    * 0 - buy (bid); 1 - sell (ask)
    */
@@ -43,7 +43,7 @@ public final class BitstampOrder {
     this.errorMessage = errorMessage;
   }
 
-  public Date getDatetime() {
+  public ZonedDateTime getDatetime() {
 
     return datetime;
   }

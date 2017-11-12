@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class LimitOrderTest {
     final BigDecimal originalAmount = new BigDecimal("99.401");
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal limitPrice = new BigDecimal("251.64");
-    final Date timestamp = new Date();
+    final ZonedDateTime timestamp = ZonedDateTime.now();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
@@ -48,7 +49,7 @@ public class LimitOrderTest {
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
     final BigDecimal limitPrice = new BigDecimal("250.34");
-    final Date timestamp = new Date();
+    final ZonedDateTime timestamp = ZonedDateTime.now();
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 

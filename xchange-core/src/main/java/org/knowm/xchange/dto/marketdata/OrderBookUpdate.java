@@ -2,7 +2,7 @@ package org.knowm.xchange.dto.marketdata;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -31,7 +31,7 @@ public final class OrderBookUpdate  implements Serializable {
    * @param totalVolume the total new volume of open orders for this price in the order book, in the base currency
    */
   // TODO clarify what should be provided for volume parameter
-  public OrderBookUpdate(OrderType type, BigDecimal volume, CurrencyPair currencyPair, BigDecimal limitPrice, Date timestamp,
+  public OrderBookUpdate(OrderType type, BigDecimal volume, CurrencyPair currencyPair, BigDecimal limitPrice, ZonedDateTime timestamp,
       BigDecimal totalVolume) {
 
     this.limitOrder = new LimitOrder(type, volume, currencyPair, "", timestamp, limitPrice);

@@ -2,7 +2,7 @@ package org.knowm.xchange.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -122,7 +122,7 @@ public abstract class Order implements Serializable {
   /**
    * The timestamp on the order according to the exchange's server, null if not provided
    */
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
 
   /**
    * Any applicable order flags
@@ -136,7 +136,7 @@ public abstract class Order implements Serializable {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    */
-  public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp) {
+  public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp) {
 
     this.type = type;
     this.originalAmount = originalAmount;
@@ -158,7 +158,7 @@ public abstract class Order implements Serializable {
    * @param cumulativeAmount the amount that has been filled
    * @param status the status of the order at the exchange
    */
-  public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
+  public Order(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp, BigDecimal averagePrice,
       BigDecimal cumulativeAmount, OrderStatus status) {
 
     this.type = type;
@@ -232,7 +232,7 @@ public abstract class Order implements Serializable {
     return id;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }
@@ -330,7 +330,7 @@ public abstract class Order implements Serializable {
     protected BigDecimal remainingAmount;
     protected CurrencyPair currencyPair;
     protected String id;
-    protected Date timestamp;
+    protected ZonedDateTime timestamp;
     protected BigDecimal averagePrice;
     protected OrderStatus status;
 
@@ -390,7 +390,7 @@ public abstract class Order implements Serializable {
       return this;
     }
 
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(ZonedDateTime timestamp) {
 
       this.timestamp = timestamp;
       return this;

@@ -1,9 +1,10 @@
 package org.knowm.xchange.bitstamp;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -12,34 +13,45 @@ import org.knowm.xchange.exceptions.ExchangeException;
  */
 public final class BitstampUtils {
 
-  private static final SimpleDateFormat DATE_FORMAT;
-  public static final int MAX_TRANSACTIONS_PER_QUERY = 1000;
+	public static final DateTimeFormatter DATE_FORMAT;
+	public static final DateTimeFormatter DATE_NANO_FORMAT;
+	public static final int MAX_TRANSACTIONS_PER_QUERY = 1000;
 
-  static {
-    DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-  }
+	static {
+		DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DATE_FORMAT.withZone(ZoneOffset.UTC);
+		DATE_NANO_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+		DATE_NANO_FORMAT.withZone(ZoneOffset.UTC);
+	}
 
-  /**
-   * private Constructor
-   */
-  private BitstampUtils() {
+	/**
+	 * private Constructor
+	 */
+	private BitstampUtils() {
 
-  }
+	}
 
-  /**
-   * Format a date String for Bitstamp
-   *
-   * @param dateString A {@code String} whose beginning should be parsed.
-   * @return A {@link Date}
-   */
-  public static Date parseDate(String dateString) {
+	/**
+	 * Format a date String for Bitstamp
+	 *
+	 * @param dateString
+	 * @return
+	 */
+	public static ZonedDateTime parseDate(String dateString) {
+		if (dateString == null) {
+			return null;
+		}
 
-    try {
-      return dateString == null ? null : DATE_FORMAT.parse(dateString);
-    } catch (ParseException e) {
-      throw new ExchangeException("Illegal date/time format", e);
-    }
-  }
-
+		try {
+			LocalDateTime ldt;
+			try {
+				ldt = LocalDateTime.parse(dateString, DATE_FORMAT);
+			} catch (DateTimeParseException e) {
+				ldt = LocalDateTime.parse(dateString, DATE_NANO_FORMAT);
+			}
+			return ZonedDateTime.of(ldt, ZoneOffset.UTC);
+		} catch (DateTimeParseException e) {
+			throw new ExchangeException("Illegal date/time format", e);
+		}
+	}
 }

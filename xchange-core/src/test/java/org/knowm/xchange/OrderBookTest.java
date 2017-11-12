@@ -3,9 +3,11 @@ package org.knowm.xchange;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -28,7 +30,7 @@ public class OrderBookTest {
 
     List<LimitOrder> asks = new ArrayList<>(Arrays.asList(askOrder));
     List<LimitOrder> bids = new ArrayList<>(Arrays.asList(bidOrder));
-    Date timeStamp = new Date(0);
+    ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     orderBook = new OrderBook(timeStamp, asks, bids);
 
   }
@@ -36,7 +38,7 @@ public class OrderBookTest {
   @Test
   public void testUpdateAddOrder() {
 
-    Date timeStamp = new Date(0);
+	ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN.subtract(BigDecimal.ONE),
         timeStamp, BigDecimal.ONE);
     orderBook.update(lowerBidUpdate);
@@ -46,7 +48,7 @@ public class OrderBookTest {
   @Test
   public void testUpdateRemoveOrder() {
 
-    Date timeStamp = new Date(0);
+	ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN, timeStamp,
         BigDecimal.ZERO);
     orderBook.update(lowerBidUpdate);
@@ -56,7 +58,7 @@ public class OrderBookTest {
   @Test
   public void testUpdateAddVolume() {
 
-    Date timeStamp = new Date(0);
+    ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN, timeStamp,
         BigDecimal.TEN);
     orderBook.update(lowerBidUpdate);
@@ -67,10 +69,10 @@ public class OrderBookTest {
   @Test
   public void testDateSame() {
 
-    Date timeStamp = new Date(0);
+	ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
     OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN, timeStamp,
         BigDecimal.TEN);
-    Date oldDate = orderBook.getTimeStamp();
+    ZonedDateTime oldDate = orderBook.getTimeStamp();
     orderBook.update(lowerBidUpdate);
     assertThat(orderBook.getTimeStamp()).isEqualTo(oldDate);
   }
@@ -78,12 +80,12 @@ public class OrderBookTest {
   @Test
   public void testDateOther() {
 
-    Date timeStamp = new Date(10);
+    ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(10), ZoneOffset.UTC);
     OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN, timeStamp,
         BigDecimal.TEN);
-    Date oldDate = orderBook.getTimeStamp();
+    ZonedDateTime oldDate = orderBook.getTimeStamp();
     orderBook.update(lowerBidUpdate);
-    assertThat(orderBook.getTimeStamp()).isAfter(oldDate);
+    assertThat(orderBook.getTimeStamp().isAfter(oldDate)).isTrue();
     assertThat(orderBook.getTimeStamp()).isEqualTo(timeStamp);
 
   }

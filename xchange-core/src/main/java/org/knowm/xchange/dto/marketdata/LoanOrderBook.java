@@ -2,7 +2,7 @@ package org.knowm.xchange.dto.marketdata;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,7 +14,7 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
  */
 public final class LoanOrderBook implements Serializable {
 
-  private Date timestamp;
+  private ZonedDateTime timestamp;
   private final List<FixedRateLoanOrder> fixedRateAsks;
   private final List<FixedRateLoanOrder> fixedRateBids;
   private final List<FloatingRateLoanOrder> floatingRateAsks;
@@ -29,7 +29,7 @@ public final class LoanOrderBook implements Serializable {
    * @param floatingRateAsks
    * @param floatingRateBids
    */
-  public LoanOrderBook(Date timestamp, List<FixedRateLoanOrder> fixedRateAsks, List<FixedRateLoanOrder> fixedRateBids,
+  public LoanOrderBook(ZonedDateTime timestamp, List<FixedRateLoanOrder> fixedRateAsks, List<FixedRateLoanOrder> fixedRateBids,
       List<FloatingRateLoanOrder> floatingRateAsks, List<FloatingRateLoanOrder> floatingRateBids) {
 
     this.timestamp = timestamp;
@@ -39,7 +39,7 @@ public final class LoanOrderBook implements Serializable {
     this.floatingRateBids = floatingRateBids;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }
@@ -160,7 +160,7 @@ public final class LoanOrderBook implements Serializable {
     updateTimestamp(updatedLoanOrder.getTimestamp());
   }
 
-  private void updateTimestamp(Date timestamp) {
+  private void updateTimestamp(ZonedDateTime timestamp) {
 
     this.timestamp = timestamp;
   }

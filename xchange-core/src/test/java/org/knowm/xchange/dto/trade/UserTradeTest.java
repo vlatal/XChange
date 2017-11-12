@@ -3,6 +3,7 @@ package org.knowm.xchange.dto.trade;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class UserTradeTest {
     final BigDecimal originalAmount = new BigDecimal("99.401");
     final CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     final BigDecimal price = new BigDecimal("251.64");
-    final Date timestamp = new Date();
+    final ZonedDateTime timestamp = ZonedDateTime.now();
     final String id = "id";
     final String orderId = "OrderId";
     final BigDecimal feeAmount = new BigDecimal("0.0006");
@@ -44,7 +45,7 @@ public class UserTradeTest {
     final BigDecimal originalAmount = new BigDecimal("100.501");
     final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
     final BigDecimal price = new BigDecimal("250.34");
-    final Date timestamp = new Date();
+    final ZonedDateTime timestamp = ZonedDateTime.now();
     final String id = "id";
     final String orderId = "OrderId";
     final BigDecimal feeAmount = new BigDecimal("0");

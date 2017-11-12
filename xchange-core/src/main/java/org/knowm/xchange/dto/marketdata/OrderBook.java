@@ -2,8 +2,8 @@ package org.knowm.xchange.dto.marketdata;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.currency.CurrencyPair;
@@ -18,7 +18,7 @@ public final class OrderBook implements Serializable {
   /**
    * the timestamp of the orderbook according to the exchange's server, null if not provided
    */
-  private Date timeStamp;
+  private ZonedDateTime timeStamp;
 
   /**
    * the asks
@@ -37,14 +37,14 @@ public final class OrderBook implements Serializable {
    * @param asks The ASK orders
    * @param bids The BID orders
    */
-  public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
+  public OrderBook(ZonedDateTime timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
 
     this.timeStamp = timeStamp;
     this.asks = asks;
     this.bids = bids;
   }
 
-  public Date getTimeStamp() {
+  public ZonedDateTime getTimeStamp() {
 
     return timeStamp;
   }
@@ -119,16 +119,16 @@ public final class OrderBook implements Serializable {
     OrderType type = limitOrder.getType();
     CurrencyPair currencyPair = limitOrder.getCurrencyPair();
     String id = limitOrder.getId();
-    Date date = limitOrder.getTimestamp();
+    ZonedDateTime date = limitOrder.getTimestamp();
     BigDecimal limit = limitOrder.getLimitPrice();
     return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
   }
 
   // Replace timeStamp if the provided date is non-null and in the future
   // TODO should this raise an exception if the order timestamp is in the past?
-  private void updateDate(Date updateDate) {
+  private void updateDate(ZonedDateTime updateDate) {
 
-    if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
+    if (updateDate != null && (timeStamp == null || updateDate.isAfter(timeStamp))) {
       this.timeStamp = updateDate;
     }
   }
@@ -188,7 +188,7 @@ public final class OrderBook implements Serializable {
    * @return
    */
   public boolean ordersEqual(OrderBook ob) {
-    Date timestamp = new Date();
+    ZonedDateTime timestamp = ZonedDateTime.now();
     if (this != null && ob != null) {
       OrderBook thisOb = new OrderBook(timestamp, this.getAsks(), this.getBids());
       OrderBook thatOb = new OrderBook(timestamp, ob.getAsks(), ob.getBids());

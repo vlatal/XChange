@@ -2,7 +2,7 @@ package org.knowm.xchange.dto.marketdata;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.DateUtils;
@@ -29,7 +29,7 @@ public final class Ticker implements Serializable {
   /**
    * the timestamp of the ticker according to the exchange's server, null if not provided
    */
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
 
   /**
    * Constructor
@@ -45,7 +45,7 @@ public final class Ticker implements Serializable {
    * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not provided
    */
   private Ticker(CurrencyPair currencyPair, BigDecimal open, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap,
-      BigDecimal volume, Date timestamp) {
+      BigDecimal volume, ZonedDateTime timestamp) {
     this.open = open;
     this.currencyPair = currencyPair;
     this.last = last;
@@ -103,7 +103,7 @@ public final class Ticker implements Serializable {
     return volume;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }
@@ -135,7 +135,7 @@ public final class Ticker implements Serializable {
     private BigDecimal low;
     private BigDecimal vwap;
     private BigDecimal volume;
-    private Date timestamp;
+    private ZonedDateTime timestamp;
 
     // Prevent repeat builds
     private boolean isBuilt = false;
@@ -212,7 +212,7 @@ public final class Ticker implements Serializable {
       return this;
     }
 
-    public Builder timestamp(Date timestamp) {
+    public Builder timestamp(ZonedDateTime timestamp) {
 
       this.timestamp = timestamp;
       return this;
