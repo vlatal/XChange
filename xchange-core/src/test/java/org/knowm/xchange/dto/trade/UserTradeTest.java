@@ -64,4 +64,44 @@ public class UserTradeTest {
     assertThat(copy.getFeeAmount()).isEqualTo(original.getFeeAmount());
     assertThat(copy.getFeeCurrency()).isEqualTo(original.getFeeCurrency());
   }
+
+  @Test
+  public void returnsEqualsCorrectlyWithEqualUserTrades() {
+    final OrderType type = OrderType.ASK;
+    final BigDecimal originalAmount = new BigDecimal("100.501");
+    final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+    final BigDecimal price = new BigDecimal("250.34");
+    final Date timestamp = new Date();
+    final String id = "id";
+    final String orderId = "OrderId";
+    final BigDecimal feeAmount = new BigDecimal("0");
+    final Currency feeCurrency = Currency.BTC;
+
+    final UserTrade original = new UserTrade(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+    final UserTrade copy = new UserTrade(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+
+    assertEquals(original, copy);
+  }
+
+  @Test
+  public void returnsEqualsCorrectlyWithUnequalUserTradesOfUserTradeAttributes() {
+    final UserTrade original = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
+            new BigDecimal("250.34"), new Date(),"id","FooOrderId", new BigDecimal("0"), Currency.BTC);
+
+    final UserTrade copy = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
+            new BigDecimal("250.34"), new Date(),"id","BarOrderId", new BigDecimal("0.15"), Currency.USD);
+
+    assertFalse(original.equals(copy));
+  }
+
+  @Test
+  public void returnsEqualsCorrectlyWithUnequalUserTradesOfTradeAttributes() {
+    final UserTrade original = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
+            new BigDecimal("250.34"), new Date(),"FooTradeId","OrderId", new BigDecimal("0"), Currency.BTC);
+
+    final UserTrade copy = new UserTrade(OrderType.ASK, new BigDecimal("100.501"), CurrencyPair.BTC_USD,
+            new BigDecimal("250.34"), new Date(),"BarTradeId","OrderId", new BigDecimal("0"), Currency.BTC);
+
+    assertFalse(original.equals(copy));
+  }
 }

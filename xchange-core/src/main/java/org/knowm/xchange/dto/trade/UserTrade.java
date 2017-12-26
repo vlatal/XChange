@@ -75,6 +75,22 @@ public class UserTrade extends Trade {
         + '\'' + "]";
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    UserTrade userTrade = (UserTrade) o;
+    return Objects.equals(orderId, userTrade.orderId) &&
+            Objects.equals(feeAmount, userTrade.feeAmount) &&
+            Objects.equals(feeCurrency, userTrade.feeCurrency);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), orderId, feeAmount, feeCurrency);
+  }
+
   public static class Builder extends Trade.Builder {
 
     protected String orderId;
