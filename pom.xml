@@ -6,7 +6,7 @@
 
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.3.2-vlatal-SNAPSHOT</version>
+    <version>4.3.2-SNAPSHOT.vlatal</version>
     <packaging>pom</packaging>
 
     <name>XChange</name>
