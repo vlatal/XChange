@@ -1,12 +1,11 @@
 package org.knowm.xchange.binance.dto.marketdata;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public final class BinancePrice implements Comparable<BinancePrice> {
 

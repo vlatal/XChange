@@ -1,10 +1,9 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 /**
  * <p>POJO representing the output JSON for the Abucoins

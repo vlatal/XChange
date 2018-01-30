@@ -1,13 +1,12 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import javax.annotation.Generated;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author npinot
@@ -25,7 +24,7 @@ public class BittrexDepositHistory {
   @JsonProperty("Confirmations")
   private Integer confirmations;
   @JsonProperty("LastUpdated")
-  private Date lastUpdated;
+  private ZonedDateTime lastUpdated;
   @JsonProperty("TxId")
   private String txId;
   @JsonProperty("CryptoAddress")
@@ -80,13 +79,13 @@ public class BittrexDepositHistory {
   }
 
   @JsonProperty("LastUpdated")
-  public Date getLastUpdated() {
+  public ZonedDateTime getLastUpdated() {
 
     return lastUpdated;
   }
 
   @JsonProperty("LastUpdated")
-  public void setLastUpdated(Date lastUpdated) {
+  public void setLastUpdated(ZonedDateTime lastUpdated) {
 
     this.lastUpdated = lastUpdated;
   }

@@ -1,9 +1,5 @@
 package org.knowm.xchange.livecoin.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -18,6 +14,11 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Collection;
 
 public class LivecoinTradeService extends LivecoinTradeServiceRaw implements TradeService {
   public LivecoinTradeService(LivecoinExchange livecoinExchange) {
@@ -36,8 +37,8 @@ public class LivecoinTradeService extends LivecoinTradeServiceRaw implements Tra
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    Date start = new Date(0);
-    Date end = new Date();
+    ZonedDateTime start = DateUtils.fromMillisToZonedDateTime(0);
+    ZonedDateTime end = ZonedDateTime.now();
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
       start = tradeHistoryParamsTimeSpan.getStartTime();

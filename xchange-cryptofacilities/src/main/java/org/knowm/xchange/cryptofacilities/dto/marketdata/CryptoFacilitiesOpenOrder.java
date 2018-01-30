@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -15,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesOpenOrder extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-  private final Date receivedTime;
+  private final ZonedDateTime receivedTime;
   private final String status;
   private final String order_id;
   private final String orderType;
@@ -36,7 +35,7 @@ public class CryptoFacilitiesOpenOrder extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.receivedTime = strReceivedTime == null ? null : DATE_FORMAT.parse(strReceivedTime);
+    this.receivedTime = strReceivedTime == null ? null : ZonedDateTime.parse(strReceivedTime, DATE_FORMAT);
     this.status = status;
     this.order_id = order_id;
     this.orderType = orderType;
@@ -48,7 +47,7 @@ public class CryptoFacilitiesOpenOrder extends CryptoFacilitiesResult {
     this.stopPrice = stopPrice;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return receivedTime;
   }
 

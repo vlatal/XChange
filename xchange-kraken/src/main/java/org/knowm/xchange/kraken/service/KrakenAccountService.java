@@ -1,11 +1,5 @@
 package org.knowm.xchange.kraken.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,14 +9,13 @@ import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements AccountService {
 
@@ -70,8 +63,8 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
-    Date startTime = null;
-    Date endTime = null;
+    ZonedDateTime startTime = null;
+    ZonedDateTime endTime = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
       startTime = timeSpanParam.getStartTime();
@@ -113,7 +106,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     private Currency[] currencies;
     private FundingRecord.Type type;
 
-    public KrakenFundingHistoryParams(final Date startTime, final Date endTime, final Long offset, final Currency... currencies) {
+    public KrakenFundingHistoryParams(final ZonedDateTime startTime, final ZonedDateTime endTime, final Long offset, final Currency... currencies) {
       super(startTime, endTime);
       this.offset = offset;
       this.currencies = currencies;

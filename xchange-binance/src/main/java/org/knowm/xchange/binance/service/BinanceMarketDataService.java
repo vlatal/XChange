@@ -1,9 +1,5 @@
 package org.knowm.xchange.binance.service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
@@ -17,6 +13,10 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BinanceMarketDataService extends BinanceMarketDataServiceRaw implements MarketDataService {
 

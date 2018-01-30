@@ -1,14 +1,5 @@
 package org.knowm.xchange.bitmarket.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.powermock.api.mockito.PowerMockito.mock;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,21 +11,11 @@ import org.knowm.xchange.bitmarket.BitMarketExchange;
 import org.knowm.xchange.bitmarket.BitMarketTestSupport;
 import org.knowm.xchange.bitmarket.dto.BitMarketAPILimit;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketCancelResponse;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrder;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketTrade;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
+import org.knowm.xchange.bitmarket.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
@@ -44,9 +25,17 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
 public class BitMarketTradeTest extends BitMarketTestSupport {
@@ -72,7 +61,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
   @Test(expected = NotAvailableFromExchangeException.class)
   public void shouldFailOnPlaceMarketOrder() throws IOException {
     // given
-    MarketOrder marketOrder = new MarketOrder(Order.OrderType.ASK, BigDecimal.TEN, CurrencyPair.BTC_USD, new Date());
+    MarketOrder marketOrder = new MarketOrder(Order.OrderType.ASK, BigDecimal.TEN, CurrencyPair.BTC_USD, ZonedDateTime.now());
 
     // when
     tradeService.placeMarketOrder(marketOrder);

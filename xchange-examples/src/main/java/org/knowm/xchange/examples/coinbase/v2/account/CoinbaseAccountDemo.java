@@ -1,8 +1,5 @@
 package org.knowm.xchange.examples.coinbase.v2.account;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbasePaymentMethodsData.CoinbasePaymentMethod;
@@ -11,6 +8,9 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.coinbase.v2.CoinbaseDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
+
+import java.io.IOException;
+import java.util.List;
 
 public class CoinbaseAccountDemo {
 

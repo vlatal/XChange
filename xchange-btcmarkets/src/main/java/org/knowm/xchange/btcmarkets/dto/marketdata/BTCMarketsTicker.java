@@ -1,16 +1,11 @@
 package org.knowm.xchange.btcmarkets.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.utils.jackson.BtcToSatoshi;
-import org.knowm.xchange.utils.jackson.SatoshiToBtc;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BTCMarketsTicker {
 
@@ -30,11 +25,11 @@ public class BTCMarketsTicker {
 
   private final String instrument;
 
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
 
   public BTCMarketsTicker(@JsonProperty("bestBid") BigDecimal bestBid, @JsonProperty("bestAsk") BigDecimal bestAsk,
       @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("currency") String currency, @JsonProperty("instrument") String instrument,
-      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp) {
+      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) ZonedDateTime timestamp) {
     this.bestBid = bestBid;
     this.bestAsk = bestAsk;
     this.lastPrice = lastPrice;
@@ -63,7 +58,7 @@ public class BTCMarketsTicker {
     return instrument;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

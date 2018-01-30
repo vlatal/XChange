@@ -1,25 +1,21 @@
 package org.knowm.xchange.kuna.dto;
 
-import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Integer.MIN_VALUE;
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.TEN;
-import static java.math.BigDecimal.ZERO;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
-import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-
-import org.assertj.core.api.AbstractDateAssert;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Integer.MIN_VALUE;
+import static java.math.BigDecimal.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
+import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
 
 public class KunaTradeTest {
   private static KunaTrade trade;
@@ -71,9 +67,10 @@ public class KunaTradeTest {
   @Test
   public void test_createdAt() {
     assertThat(KunaTrade.builder().withCreatedAt(null).build().getCreatedAt()).isNull();
-    assertThat(KunaTrade.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
-        .isEqualToIgnoringSeconds(new Date());
-    assertThat(trade.getCreatedAt()).isEqualToIgnoringHours("2018-01-16T14:19:24+02:00");
+    assertThat(KunaTrade.builder().withCreatedAt(KunaUtils.format(ZonedDateTime.now())).build().getCreatedAt())
+        .isEqualToIgnoringSeconds(ZonedDateTime.now());
+    assertThat(trade.getCreatedAt()).isEqualToIgnoringHours(ZonedDateTime.parse("2018-01-16T14:19:24+02:00"));
+
   }
 
   @Test

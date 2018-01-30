@@ -1,20 +1,7 @@
 package org.knowm.xchange.cexio.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
-import org.knowm.xchange.cexio.dto.CexIORequest;
-import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
-import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
-import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
+import org.knowm.xchange.cexio.dto.*;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
@@ -22,13 +9,17 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.utils.DateUtils;
 
-import si.mazi.rescu.HttpStatusIOException;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 public class CexIOTradeServiceRaw extends CexIOBaseService {
 
@@ -197,10 +188,10 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     private final String status;//todo: this should be an enum
 
     public CexIOTradeHistoryParams(CurrencyPair currencyPair) {
-      this(currencyPair, null, (Date) null, null, null, null, null);
+      this(currencyPair, null, (ZonedDateTime) null, null, null, null, null);
     }
 
-    public CexIOTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date dateFrom, Date dateTo, Date lastTxDateFrom, Date lastTxDateTo, String status) {
+    public CexIOTradeHistoryParams(CurrencyPair currencyPair, Integer limit, ZonedDateTime dateFrom, ZonedDateTime dateTo, ZonedDateTime lastTxDateFrom, ZonedDateTime lastTxDateTo, String status) {
       this(currencyPair, limit, toUnixTimeNullSafe(dateFrom), toUnixTimeNullSafe(dateTo), toUnixTimeNullSafe(lastTxDateFrom), toUnixTimeNullSafe(lastTxDateTo), status);
     }
 
@@ -225,23 +216,23 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     }
 
     @Override
-    public void setStartTime(Date startTime) {
-      this.dateFrom = startTime.getTime();
+    public void setStartTime(ZonedDateTime startTime) {
+      this.dateFrom = startTime.toInstant().toEpochMilli();
     }
 
     @Override
-    public Date getStartTime() {
-      return this.dateFrom == null ? null : new Date(this.dateFrom);
+    public ZonedDateTime getStartTime() {
+      return this.dateFrom == null ? null : DateUtils.fromMillisToZonedDateTime(this.dateFrom);
     }
 
     @Override
-    public void setEndTime(Date endTime) {
-      this.dateTo = endTime.getTime();
+    public void setEndTime(ZonedDateTime endTime) {
+      this.dateTo = endTime.toInstant().toEpochMilli();
     }
 
     @Override
-    public Date getEndTime() {
-      return this.dateTo == null ? null : new Date(this.dateTo);
+    public ZonedDateTime getEndTime() {
+      return this.dateTo == null ? null : DateUtils.fromMillisToZonedDateTime(this.dateTo);
     }
 
     @Override

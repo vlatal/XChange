@@ -1,18 +1,17 @@
 package org.knowm.xchange.bitcointoyou;
 
 
-import java.io.IOException;
-import java.util.Map;
+import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
+import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouOrderBook;
+import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouPublicTrade;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouOrderBook;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouPublicTrade;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Bitcointoyou Exchange public end-points.

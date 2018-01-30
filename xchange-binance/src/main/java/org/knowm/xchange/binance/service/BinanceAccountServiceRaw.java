@@ -1,19 +1,14 @@
 package org.knowm.xchange.binance.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.dto.BinanceException;
+import org.knowm.xchange.binance.dto.account.*;
+import org.knowm.xchange.binance.dto.account.DepositList.BinanceDeposit;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
-
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.binance.dto.BinanceException;
-import org.knowm.xchange.binance.dto.account.BinanceAccountInformation;
-import org.knowm.xchange.binance.dto.account.DepositList;
-import org.knowm.xchange.binance.dto.account.DepositList.BinanceDeposit;
-import org.knowm.xchange.binance.dto.account.WapiResponse;
-import org.knowm.xchange.binance.dto.account.WithdrawList;
-import org.knowm.xchange.binance.dto.account.WithdrawRequest;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BinanceAccountServiceRaw extends BinanceBaseService {
 

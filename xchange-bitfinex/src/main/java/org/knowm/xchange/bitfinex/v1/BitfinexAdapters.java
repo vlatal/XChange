@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -86,7 +87,7 @@ public final class BitfinexAdapters {
     OrdersContainer asksOrdersContainer = adaptOrders(btceDepth.getAsks(), currencyPair, OrderType.ASK);
     OrdersContainer bidsOrdersContainer = adaptOrders(btceDepth.getBids(), currencyPair, OrderType.BID);
 
-    return new OrderBook(new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
+    return new OrderBook(DateUtils.fromMillisToZonedDateTime(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
         asksOrdersContainer.getLimitOrders(), bidsOrdersContainer.getLimitOrders());
   }
 
@@ -100,7 +101,7 @@ public final class BitfinexAdapters {
         maxTimestamp = bitfinexLevel.getTimestamp();
       }
 
-      Date timestamp = convertBigDecimalTimestampToDate(bitfinexLevel.getTimestamp());
+      ZonedDateTime timestamp = convertBigDecimalTimestampToDate(bitfinexLevel.getTimestamp());
       limitOrders.add(adaptOrder(bitfinexLevel.getAmount(), bitfinexLevel.getPrice(), currencyPair, orderType, timestamp));
     }
 
@@ -136,7 +137,7 @@ public final class BitfinexAdapters {
     }
   }
 
-  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, ZonedDateTime timestamp) {
 
     return new LimitOrder(orderType, originalAmount, currencyPair, "", timestamp, price);
   }
@@ -202,7 +203,7 @@ public final class BitfinexAdapters {
     OrderType orderType = trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
-    Date date = DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Bitfinex uses Unix timestamps
+    ZonedDateTime date = DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Bitfinex uses Unix timestamps
     final String tradeId = String.valueOf(trade.getTradeId());
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
@@ -230,7 +231,7 @@ public final class BitfinexAdapters {
     BigDecimal low = bitfinexTicker.getLow();
     BigDecimal volume = bitfinexTicker.getVolume();
 
-    Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
+    ZonedDateTime timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -288,7 +289,7 @@ public final class BitfinexAdapters {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       OrderStatus status = adaptOrderStatus(order);
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
-      Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
+      ZonedDateTime timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
 
       limitOrders.add(new LimitOrder(orderType, order.getOriginalAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice(),
           order.getAvgExecutionPrice(), order.getExecutedAmount(), status));
@@ -304,7 +305,7 @@ public final class BitfinexAdapters {
 
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-      Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
+      ZonedDateTime timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
       pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(),
           fee, Currency.getInstance(trade.getFeeCurrency())));
@@ -313,10 +314,10 @@ public final class BitfinexAdapters {
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
 
-  private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
+  private static ZonedDateTime convertBigDecimalTimestampToDate(BigDecimal timestamp) {
 
     BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
-    return new Date(timestampInMillis.longValue());
+    return DateUtils.fromMillisToZonedDateTime(timestampInMillis.longValue());
   }
 
   public static ExchangeMetaData adaptMetaData(List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {

@@ -1,13 +1,13 @@
 package org.knowm.xchange.examples.bitmex.dto.marketdata;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexTicker;
 import org.knowm.xchange.bitmex.service.BitmexMarketDataServiceRaw;
 import org.knowm.xchange.examples.bitmex.BitmexDemoUtils;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BitmexMarketdataDemo {
 

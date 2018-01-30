@@ -1,11 +1,5 @@
 package org.knowm.xchange.livecoin.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -14,12 +8,14 @@ import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.LivecoinDigest;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
 
 public class LivecoinAccountService extends LivecoinAccountServiceRaw implements AccountService {
   public LivecoinAccountService(LivecoinExchange exchange) {
@@ -59,8 +55,8 @@ public class LivecoinAccountService extends LivecoinAccountServiceRaw implements
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
-    Date start = new Date(0);
-    Date end = new Date();
+    ZonedDateTime start = DateUtils.fromMillisToZonedDateTime(0);
+    ZonedDateTime end = ZonedDateTime.now();
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
       start = tradeHistoryParamsTimeSpan.getStartTime();

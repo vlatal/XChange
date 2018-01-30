@@ -1,12 +1,5 @@
 package org.knowm.xchange.btcmarkets.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.powermock.api.mockito.PowerMockito.mock;
-
-import java.io.IOException;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +18,13 @@ import org.mockito.internal.util.reflection.Whitebox;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(BTCMarkets.class)
@@ -73,7 +73,7 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_AUD);
 
     // then
-    assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1442997827000L);
+    assertThat(orderBook.getTimeStamp().toInstant().toEpochMilli()).isEqualTo(1442997827000L);
 
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(3);

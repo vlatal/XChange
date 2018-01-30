@@ -1,11 +1,6 @@
 package org.knowm.xchange.cexio;
 
-import org.knowm.xchange.cexio.dto.ArchivedOrdersRequest;
-import org.knowm.xchange.cexio.dto.CexIORequest;
-import org.knowm.xchange.cexio.dto.CexioCryptoAddressRequest;
-import org.knowm.xchange.cexio.dto.CexioSingleIdRequest;
-import org.knowm.xchange.cexio.dto.CexioSingleOrderIdRequest;
-import org.knowm.xchange.cexio.dto.PlaceOrderRequest;
+import org.knowm.xchange.cexio.dto.*;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
 import org.knowm.xchange.cexio.dto.account.CexIOCryptoAddress;
 import org.knowm.xchange.cexio.dto.account.GHashIOHashrate;
@@ -16,12 +11,7 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import si.mazi.rescu.ParamsDigest;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;

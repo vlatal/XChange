@@ -1,14 +1,5 @@
 package org.knowm.xchange.hitbtc.v2.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -24,6 +15,15 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.security.SecureRandom;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test ignored in default build because it requires production authentication credentials. See {@link BaseAuthenticatedServiceTest}.
@@ -51,13 +51,13 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   @Test
   public void testPlaceLimitOrderRaw() throws IOException {
 
-    Date date = new Date();
+    ZonedDateTime date = ZonedDateTime.now();
     String id = date.toString().replace(" ", "");
     LOGGER.info("Placing order id : " + id);
 
     BigDecimal limitPrice = new BigDecimal("1.00");
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, id, new Date(), limitPrice);
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, id, ZonedDateTime.now(), limitPrice);
 
     exception.expect(HitbtcException.class);
     exception.expectMessage("Insufficient funds");
@@ -67,13 +67,13 @@ public class HitbtcTradeServiceRawIntegration extends BaseAuthenticatedServiceTe
   @Test
   public void testPlaceMarketOrderRaw() throws IOException {
 
-    Date date = new Date();
+    ZonedDateTime date = ZonedDateTime.now();
     String id = date.toString().replace(" ", "");
     LOGGER.info("Placing order id : " + id);
 
     exception.expect(HitbtcException.class);
     exception.expectMessage("Insufficient funds");
-    MarketOrder limitOrder = new MarketOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, id, new Date());
+    MarketOrder limitOrder = new MarketOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, id, ZonedDateTime.now());
 
     service.placeMarketOrderRaw(limitOrder);
   }

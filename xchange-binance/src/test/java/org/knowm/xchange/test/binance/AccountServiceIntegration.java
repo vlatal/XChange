@@ -1,13 +1,6 @@
 package org.knowm.xchange.test.binance;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.binance.BinanceExchange;
@@ -19,6 +12,9 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.StreamUtils;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class AccountServiceIntegration {
 

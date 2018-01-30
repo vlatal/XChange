@@ -1,15 +1,11 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gdax.dto.GDAXException;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
+import org.knowm.xchange.gdax.dto.marketdata.*;
+
+import java.io.IOException;
 
 /**
  * Created by Yingzhe on 4/6/2015.

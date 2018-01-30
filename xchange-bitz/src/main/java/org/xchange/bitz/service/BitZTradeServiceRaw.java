@@ -1,8 +1,5 @@
 package org.xchange.bitz.service;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -10,9 +7,11 @@ import org.xchange.bitz.BitZ;
 import org.xchange.bitz.BitZAuthenticated;
 import org.xchange.bitz.dto.marketdata.BitZPublicOrder;
 import org.xchange.bitz.dto.trade.result.BitZTradeAddResult;
-
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
 
 public class BitZTradeServiceRaw extends BitZBaseService {
 
@@ -46,7 +45,7 @@ public class BitZTradeServiceRaw extends BitZBaseService {
 	}
 	
 	//TODO: Implement Method
-	public BitZTradeAddResult placeBitZTrade(CurrencyPair currencyPair, BitZPublicOrder limitOrder, Date time, boolean sell) throws IOException {
+	public BitZTradeAddResult placeBitZTrade(CurrencyPair currencyPair, BitZPublicOrder limitOrder, ZonedDateTime time, boolean sell) throws IOException {
 	  throw new NotYetImplementedForExchangeException();
 	}
 	

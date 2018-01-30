@@ -1,11 +1,12 @@
 package org.knowm.xchange.kuna.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.OffsetDateTime;
-import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * @author Dat Bui
@@ -24,21 +25,21 @@ public class KunaUtils {
     return currencyPair.base.getCurrencyCode().toLowerCase() + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
-  public static Date toDate(String dateString) {
+  public static ZonedDateTime toDate(String dateString) {
     try {
-      return dateParserNoMillis().parse(dateString);
-    } catch (ParseException e) {
+      return ZonedDateTime.parse(dateString, dateParserNoMillis());
+    } catch (DateTimeParseException e) {
       OffsetDateTime offsetDateTime = OffsetDateTime.parse(dateString);
-      return new Date(offsetDateTime.toInstant().toEpochMilli());
+      return ZonedDateTime.ofInstant(offsetDateTime.toInstant(), ZoneOffset.UTC);
     }
   }
 
-  public static String format(Date date) {
+  public static String format(ZonedDateTime date) {
     return dateParserNoMillis().format(date);
   }
 
-  private static SimpleDateFormat dateParserNoMillis() {
-    SimpleDateFormat dateParserNoMillis = new SimpleDateFormat(DATE_FORMAT_NO_MILLIS);
+  private static DateTimeFormatter dateParserNoMillis() {
+    DateTimeFormatter dateParserNoMillis = DateTimeFormatter.ofPattern(DATE_FORMAT_NO_MILLIS);
     return dateParserNoMillis;
   }
 }

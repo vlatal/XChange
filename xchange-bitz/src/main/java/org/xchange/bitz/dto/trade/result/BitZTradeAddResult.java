@@ -1,9 +1,8 @@
 package org.xchange.bitz.dto.trade.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.xchange.bitz.dto.BitZResult;
 import org.xchange.bitz.dto.trade.BitZTradeAdd;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitZTradeAddResult extends BitZResult<BitZTradeAdd> {
 

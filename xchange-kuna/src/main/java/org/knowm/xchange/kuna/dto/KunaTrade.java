@@ -1,12 +1,11 @@
 package org.knowm.xchange.kuna.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.kuna.dto.enums.KunaSide;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author Dat Bui
@@ -20,7 +19,7 @@ public class KunaTrade {
   private BigDecimal volume;
   private BigDecimal funds;
   private String market;
-  private Date createdAt;
+  private ZonedDateTime createdAt;
   private KunaSide side;
 
   /**
@@ -50,7 +49,7 @@ public class KunaTrade {
   }
 
   @JsonProperty(CREATED_AT)
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
     return createdAt;
   }
 

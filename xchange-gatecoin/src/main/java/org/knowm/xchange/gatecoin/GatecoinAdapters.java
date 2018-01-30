@@ -1,12 +1,5 @@
 package org.knowm.xchange.gatecoin;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -29,6 +22,13 @@ import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinDepthResult;
 import org.knowm.xchange.gatecoin.dto.trade.GatecoinTradeHistory;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Various adapters for converting from Gatecoin DTOs to XChange DTOs
@@ -73,7 +73,7 @@ public final class GatecoinAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, gatecoinDepthResult.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, gatecoinDepthResult.getBids());
-    Date date = new Date();
+    ZonedDateTime date = ZonedDateTime.now();
     return new OrderBook(date, asks, bids);
   }
 
@@ -108,7 +108,7 @@ public final class GatecoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(null, tx.getQuantity(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getTransacationTime() * 1000L),
+      trades.add(new Trade(null, tx.getQuantity(), currencyPair, tx.getPrice(), DateUtils.fromSecondsToZonedDateTime(tx.getTransacationTime()),
           String.valueOf(tradeId)));
     }
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -127,7 +127,7 @@ public final class GatecoinAdapters {
         BigDecimal low = ticker.getLow();
         BigDecimal vwap = ticker.getVwap();
         BigDecimal volume = ticker.getVolume();
-        Date timestamp = new Date(ticker.getTimestamp() * 1000L);
+        ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime (ticker.getTimestamp());
 
         return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
             .timestamp(timestamp).build();
@@ -153,7 +153,7 @@ public final class GatecoinAdapters {
         OrderType orderType = isAsk ? OrderType.ASK : OrderType.BID;
         BigDecimal originalAmount = gatecoinUserTrade.getQuantity();
         BigDecimal price = gatecoinUserTrade.getPrice();
-        Date timestamp = GatecoinUtils.parseUnixTSToDateTime(gatecoinUserTrade.getTransactionTime());
+        ZonedDateTime timestamp = GatecoinUtils.parseDate(gatecoinUserTrade.getTransactionTime());
         long transactionId = gatecoinUserTrade.getTransactionId();
         if (transactionId > lastTradeId) {
           lastTradeId = transactionId;

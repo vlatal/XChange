@@ -1,17 +1,16 @@
 package org.knowm.xchange.taurus.dto.trade;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.knowm.xchange.dto.Order;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
-import org.junit.Test;
-import org.knowm.xchange.dto.Order;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test Transaction[] JSON parsing
@@ -37,8 +36,8 @@ public class OpenOrdersJSONTest {
     assertThat(orders[0].getAmount()).isEqualTo(new BigDecimal("0.01000000"));
     assertThat(orders[0].getType()).isEqualTo(Order.OrderType.ASK);
     assertThat(orders[0].getStatus()).isEqualTo(TaurusOrder.Status.active);
-    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    format.setTimeZone(TimeZone.getTimeZone("Europe/Paris")); // The json date is UTC; Paris is UTC+1.
+    final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    format.withZone(ZoneId.of("Europe/Paris")); // The json date is UTC; Paris is UTC+1.
     assertThat(format.format(orders[0].getDatetime())).isEqualTo("2015-03-25 10:31:36");
   }
 }

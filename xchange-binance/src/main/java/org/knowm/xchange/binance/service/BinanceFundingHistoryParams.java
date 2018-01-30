@@ -1,19 +1,19 @@
 package org.knowm.xchange.binance.service;
 
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
+import java.time.ZonedDateTime;
+
 public class BinanceFundingHistoryParams implements TradeHistoryParamCurrency, TradeHistoryParamsTimeSpan, HistoryParamsFundingType {
 
   private Currency currency;
   private Type type;
-  private Date startTime;
-  private Date endTime;
+  private ZonedDateTime startTime;
+  private ZonedDateTime endTime;
 
   @Override
   public Currency getCurrency() {
@@ -36,22 +36,22 @@ public class BinanceFundingHistoryParams implements TradeHistoryParamCurrency, T
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
     return startTime;
   }
 
   @Override
-  public void setStartTime(Date startTime) {
+  public void setStartTime(ZonedDateTime startTime) {
     this.startTime = startTime;
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
     return endTime;
   }
 
   @Override
-  public void setEndTime(Date endTime) {
+  public void setEndTime(ZonedDateTime endTime) {
     this.endTime = endTime;
   }
 }

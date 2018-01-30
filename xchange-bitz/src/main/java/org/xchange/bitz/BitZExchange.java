@@ -10,7 +10,6 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.xchange.bitz.service.BitZMarketDataService;
 import org.xchange.bitz.service.BitZTradeService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitZExchange extends BaseExchange implements Exchange {

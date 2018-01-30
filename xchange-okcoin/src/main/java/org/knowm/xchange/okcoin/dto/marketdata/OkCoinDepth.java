@@ -1,19 +1,19 @@
 package org.knowm.xchange.okcoin.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 public class OkCoinDepth {
 
   private final BigDecimal[][] asks;
   private final BigDecimal[][] bids;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
 
   public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids,
-      @JsonProperty(required = false, value = "timestamp") Date timestamp) {
+      @JsonProperty(required = false, value = "timestamp") ZonedDateTime timestamp) {
 
     this.asks = asks;
     this.bids = bids;
@@ -30,7 +30,7 @@ public class OkCoinDepth {
     return bids;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

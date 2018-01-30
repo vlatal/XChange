@@ -1,8 +1,9 @@
 package org.knowm.xchange.empoex;
 
-import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.time.ZonedDateTime;
 
 public final class EmpoExUtils {
 
@@ -17,13 +18,13 @@ public final class EmpoExUtils {
     return new CurrencyPair(currencies[0], currencies[1]);
   }
 
-  public static Date toDate(long unix) {
+  public static ZonedDateTime toDate(long unix) {
 
-    return new Date(unix * 1000L);
+    return DateUtils.fromSecondsToZonedDateTime(unix);
   }
 
-  public static Date toDate(String dateString) {
+  public static ZonedDateTime toDate(String dateString) {
 
-    return toDate(Long.parseLong(dateString));
+    return DateUtils.fromSecondsToZonedDateTime(Long.parseLong(dateString));
   }
 }

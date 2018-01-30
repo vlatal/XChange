@@ -1,10 +1,5 @@
 package org.knowm.xchange.lakebtc;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,6 +20,11 @@ import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author kpysniak
@@ -78,7 +78,7 @@ public class LakeBTCAdapters {
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
       trades.add(
-          new Trade(orderType, trade.getAmount(), currencyPair, trade.getTotal(), DateUtils.fromMillisUtc(trade.getAt() * 1000L), trade.getId()));
+          new Trade(orderType, trade.getAmount(), currencyPair, trade.getTotal(), DateUtils.fromSecondsToZonedDateTime(trade.getAt()), trade.getId()));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
@@ -95,7 +95,7 @@ public class LakeBTCAdapters {
   public static Trade adaptTrade(LakeBTCTradeResponse tx, CurrencyPair currencyPair, int timeScale) {
 
     final String tradeId = String.valueOf(tx.getId());
-    Date date = DateUtils.fromMillisUtc(tx.getAt() * timeScale);// polled order
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(tx.getAt() * timeScale);// polled order
     // books provide
     // a timestamp
     // in seconds,
@@ -117,7 +117,7 @@ public class LakeBTCAdapters {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
       BigDecimal originalAmount = trade.getAmount();
       BigDecimal price = trade.getTotal().abs();
-      Date timestamp = DateUtils.fromMillisUtc(trade.getAt() * 1000L);
+      ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(trade.getAt());
 
       final String tradeId = trade.getId();
       final CurrencyPair currencyPair = CurrencyPair.BTC_CNY;

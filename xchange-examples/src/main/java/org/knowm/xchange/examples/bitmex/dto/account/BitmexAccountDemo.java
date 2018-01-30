@@ -1,8 +1,5 @@
 package org.knowm.xchange.examples.bitmex.dto.account;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmex.dto.account.BitmexAccount;
 import org.knowm.xchange.bitmex.dto.account.BitmexMarginAccount;
@@ -12,6 +9,9 @@ import org.knowm.xchange.bitmex.service.BitmexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.examples.bitmex.BitmexDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BitmexAccountDemo {
 

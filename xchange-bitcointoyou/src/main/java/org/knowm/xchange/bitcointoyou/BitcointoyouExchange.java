@@ -7,7 +7,6 @@ import org.knowm.xchange.bitcointoyou.service.polling.BitcointoyouAccountService
 import org.knowm.xchange.bitcointoyou.service.polling.BitcointoyouMarketDataService;
 import org.knowm.xchange.bitcointoyou.service.polling.BitcointoyouTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**

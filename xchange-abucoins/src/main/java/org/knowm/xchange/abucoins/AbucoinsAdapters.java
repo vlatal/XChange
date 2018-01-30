@@ -1,19 +1,7 @@
 package org.knowm.xchange.abucoins;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
-
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateLimitOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCreateMarketOrderRequest;
-import org.knowm.xchange.abucoins.dto.AbucoinsCryptoWithdrawalRequest;
 import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
@@ -35,9 +23,17 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Author: bryant_harris
@@ -46,7 +42,7 @@ import org.slf4j.LoggerFactory;
 public class AbucoinsAdapters {
   private static Logger logger = LoggerFactory.getLogger(AbucoinsAdapters.class);
           
-  protected static Date parseDate(final String rawDate) {
+  protected static ZonedDateTime parseDate(final String rawDate) {
 
     String modified;
     if (rawDate.length() > 23) {
@@ -83,10 +79,11 @@ public class AbucoinsAdapters {
       }
     }
     try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return dateFormat.parse(modified);
-    } catch (ParseException e) {
+//      DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+//      dateFormat.withZone(ZoneOffset.UTC);
+      DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+      return ZonedDateTime.parse(modified, dateFormat);
+    } catch (DateTimeParseException e) {
       logger.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
       return null;
     }
@@ -103,7 +100,7 @@ public class AbucoinsAdapters {
 
     BigDecimal amount = trade.getSize();
     BigDecimal price = trade.getPrice();
-    Date date = parseDate(trade.getTime());
+    ZonedDateTime date = parseDate(trade.getTime());
     OrderType type = trade.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
     return new Trade(type, amount, currencyPair, price, date, trade.getTradeID());
   }
@@ -111,7 +108,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts a AbucoinsTrade[] to a Trades Object
    *
-   * @param cexioTrades  The Abucoins trade data returned by API
+   * @param abucoinsTrades  The Abucoins trade data returned by API
    * @param currencyPair trade currencies
    * @return The trades
    */
@@ -140,7 +137,7 @@ public class AbucoinsAdapters {
     BigDecimal volume = ticker.getVolume();
     if ( ticker.getTime() == null )
       throw new RuntimeException("Null date for: " + ticker); 
-    Date timestamp = parseDate(ticker.getTime());
+    ZonedDateTime timestamp = parseDate(ticker.getTime());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
         .build();
@@ -149,7 +146,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts Cex.IO Depth to OrderBook Object
    *
-   * @param depth        Cex.IO order book
+   * @param abucoinsOrderBook Abucoins order book
    * @param currencyPair The currency pair (e.g. BTC/USD)
    * @return The XChange OrderBook
    */
@@ -158,7 +155,7 @@ public class AbucoinsAdapters {
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, abucoinsOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, abucoinsOrderBook.getBids());
     
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(ZonedDateTime.now(), asks, bids);
   }
   
   public static AccountInfo adaptAccountInfo(AbucoinsAccount[] accounts) {
@@ -172,7 +169,7 @@ public class AbucoinsAdapters {
   /**
    * Adapts AbucoinsBalanceInfo to Wallet
    *
-   * @param cexIOBalanceInfo AbucoinsBalanceInfo balance
+   * @param account AbucoinsBalanceInfo balance
    * @return The account info
    */
   public static Wallet adaptWallet(AbucoinsAccount account) {

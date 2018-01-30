@@ -1,10 +1,10 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Panchen
@@ -12,19 +12,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesCancelStatus {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-  private final Date receivedTime;
+  private final ZonedDateTime receivedTime;
   private final String status;
 
   public CryptoFacilitiesCancelStatus(@JsonProperty("receivedTime") String strReceivedTime,
       @JsonProperty("status") String status) throws ParseException {
 
-    this.receivedTime = strReceivedTime == null ? null : DATE_FORMAT.parse(strReceivedTime);
+    this.receivedTime = strReceivedTime == null ? null : ZonedDateTime.parse(strReceivedTime, DATE_FORMAT);
     this.status = status;
   }
 
-  public Date getReceivedTime() {
+  public ZonedDateTime getReceivedTime() {
     return receivedTime;
   }
 

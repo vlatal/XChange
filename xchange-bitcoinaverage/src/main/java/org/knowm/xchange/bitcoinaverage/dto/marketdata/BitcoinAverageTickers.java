@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitcoinaverage.dto.marketdata;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing List of Tickers from BitcoinAverage
@@ -16,14 +16,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class BitcoinAverageTickers {
 
   private Map<String, BitcoinAverageTicker> tickers = new HashMap<>();
-  private Date timestamp;
+  private ZonedDateTime timestamp;
 
   // Could alternatively add setters, but since these are mandatory
   public BitcoinAverageTickers(@JsonProperty("timestamp") String timestamp) {
 
     try {
-      // Parse the timestamp into a Date object
-      this.timestamp = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
+      // Parse the timestamp into a ZonedDateTime object
+      this.timestamp = ZonedDateTime.parse(timestamp, DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()));
     } catch (Exception e) {
       this.timestamp = null;
     }
@@ -40,7 +40,7 @@ public final class BitcoinAverageTickers {
     return tickers;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }

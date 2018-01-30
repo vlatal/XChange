@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Panchen
@@ -15,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-  private final Date fillTime;
+  private final ZonedDateTime fillTime;
   private final String order_id;
   private final String fill_id;
   private final String symbol;
@@ -32,7 +31,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.fillTime = strfillTime == null ? null : DATE_FORMAT.parse(strfillTime);
+    this.fillTime = strfillTime == null ? null : ZonedDateTime.parse(strfillTime, DATE_FORMAT);
     this.order_id = order_id;
     this.fill_id = fill_id;
     this.symbol = symbol;
@@ -45,7 +44,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
     return symbol;
   }
 
-  public Date getFillTime() {
+  public ZonedDateTime getFillTime() {
     return fillTime;
   }
 

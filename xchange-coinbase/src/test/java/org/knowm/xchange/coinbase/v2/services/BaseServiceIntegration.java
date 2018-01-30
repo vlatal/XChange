@@ -1,16 +1,16 @@
 package org.knowm.xchange.coinbase.v2.services;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinbase.v2.CoinbaseExchange;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData.CoinbaseTime;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseBaseService;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BaseServiceIntegration {
 
@@ -27,7 +27,7 @@ public class BaseServiceIntegration {
   public void currencyFetchTest() throws Exception {
     
     CoinbaseTime coinbaseTime = baseService.getCoinbaseTime();
-    String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    String today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(ZonedDateTime.now());
     assertThat(coinbaseTime.getIso()).startsWith(today);
     assertThat(coinbaseTime.getEpoch()).isNotNull();
   }

@@ -1,8 +1,5 @@
 package org.knowm.xchange.koineks;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -10,6 +7,10 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.koineks.dto.marketdata.BaseKoineksTicker;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksCurrency;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksTicker;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author semihunaldi
@@ -53,7 +54,7 @@ public final class KoineksAdapters {
       BigDecimal high24hr = koineksTicker.getHigh();
       BigDecimal low24hr = koineksTicker.getLow();
       String timestampStr = koineksTicker.getTimestamp();
-      Date timestamp = new Date(Long.valueOf(timestampStr));
+      ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(Long.valueOf(timestampStr));
       return new Ticker.Builder()
           .currencyPair(new CurrencyPair(currency, Currency.TRY))
           .last(last)

@@ -1,14 +1,5 @@
 package org.knowm.xchange.yobit;
 
-import static org.apache.commons.lang3.StringUtils.join;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,14 +14,18 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.utils.DateUtils;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitAsksBidsData;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitPair;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitPairs;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
+import org.knowm.xchange.yobit.dto.marketdata.*;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class YoBitAdapters {
 
@@ -116,8 +111,9 @@ public class YoBitAdapters {
     return new Trades(trades, ctrades.get(lastTrade).getTid(), TradeSortType.SortByID);
   }
 
-  private static Date parseDate(Long rawDateLong) {
-    return new Date(rawDateLong * 1000);
+  private static ZonedDateTime parseDate(Long rawDateLong) {
+    Instant i = Instant.ofEpochSecond(rawDateLong);
+    return ZonedDateTime.ofInstant(i, ZoneOffset.UTC);
   }
 
   public static Ticker adaptTicker(YoBitTicker ticker, CurrencyPair currencyPair) {
@@ -130,7 +126,7 @@ public class YoBitAdapters {
     builder.high(ticker.getHigh());
     builder.low(ticker.getLow());
     builder.volume(ticker.getVolCur());
-    builder.timestamp(new Date(ticker.getUpdated() * 1000L));
+    builder.timestamp(ZonedDateTime.ofInstant(Instant.ofEpochSecond(ticker.getUpdated()), ZoneOffset.UTC));
 
     return builder.build();
   }
@@ -184,7 +180,7 @@ public class YoBitAdapters {
     String timestamp = map.get("timestamp_created").toString();
     String status = map.get("status").toString();//status: 0 - active, 1 - fulfilled and closed, 2 - cancelled, 3 - cancelled after partially fulfilled.
 
-    Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
+    ZonedDateTime time = ZonedDateTime.ofInstant(Instant.ofEpochSecond(Long.valueOf(timestamp)), ZoneOffset.UTC);
 
     Order.OrderStatus orderStatus = adaptOrderStatus(status);
 
@@ -210,7 +206,7 @@ public class YoBitAdapters {
     String pair = tradeData.get("pair").toString();
     String timestamp = tradeData.get("timestamp").toString();
 
-    Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
+    ZonedDateTime time = ZonedDateTime.ofInstant(Instant.ofEpochSecond(Long.valueOf(timestamp)), ZoneOffset.UTC);
 
     return new UserTrade(
         adaptType(type),

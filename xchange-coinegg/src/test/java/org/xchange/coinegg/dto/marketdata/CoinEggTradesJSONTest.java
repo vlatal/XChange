@@ -1,15 +1,13 @@
 package org.xchange.coinegg.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoinEggTradesJSONTest {
 	

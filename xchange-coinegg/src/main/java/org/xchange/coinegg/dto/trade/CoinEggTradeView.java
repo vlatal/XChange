@@ -1,10 +1,9 @@
 package org.xchange.coinegg.dto.trade;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class CoinEggTradeView extends CoinEggTradeList {
 

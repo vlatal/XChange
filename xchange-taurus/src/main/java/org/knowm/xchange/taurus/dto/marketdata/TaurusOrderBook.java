@@ -1,13 +1,12 @@
 package org.knowm.xchange.taurus.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author Matija Mazi
@@ -17,10 +16,10 @@ public class TaurusOrderBook {
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
 
-  private Date timestamp;
+  private ZonedDateTime timestamp;
 
   public TaurusOrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks,
-      @JsonProperty("timestamp") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date timestamp) {
+      @JsonProperty("timestamp") @JsonDeserialize(using = UnixTimestampDeserializer.class) ZonedDateTime timestamp) {
     this.bids = bids;
     this.asks = asks;
     this.timestamp = timestamp;
@@ -40,11 +39,11 @@ public class TaurusOrderBook {
     return asks;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(Date timestamp) {
+  public void setTimestamp(ZonedDateTime timestamp) {
     this.timestamp = timestamp;
   }
 

@@ -1,13 +1,5 @@
 package org.knowm.xchange.gatecoin.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,13 +15,17 @@ import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author sumedha
@@ -63,7 +59,7 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
       BigDecimal price = gatecoinOrder.getPrice();
       CurrencyPair ccyPair = new CurrencyPair(gatecoinOrder.getCode().substring(0, 3), gatecoinOrder.getCode().substring(3, 6));
       limitOrders.add(new LimitOrder(orderType, gatecoinOrder.getRemainingQuantity(), ccyPair, id,
-          DateUtils.fromMillisUtc(Long.valueOf(gatecoinOrder.getDate()) * 1000L), price));
+          DateUtils.fromSecondsToZonedDateTime(Long.valueOf(gatecoinOrder.getDate())), price));
     }
     return new OpenOrders(limitOrders);
   }

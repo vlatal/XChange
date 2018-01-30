@@ -17,7 +17,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
@@ -286,7 +286,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexFundingTradeResponse[] getBitfinexFundingHistory(String symbol, Date until, int limit_trades) throws IOException {
+  public BitfinexFundingTradeResponse[] getBitfinexFundingHistory(String symbol, ZonedDateTime until, int limit_trades) throws IOException {
 
     try {
       BitfinexFundingTradeResponse[] fundingTrades = bitfinex.pastFundingTrades(apiKey, payloadCreator, signatureCreator,

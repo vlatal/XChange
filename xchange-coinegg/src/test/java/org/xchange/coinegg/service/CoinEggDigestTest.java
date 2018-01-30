@@ -1,17 +1,15 @@
 package org.xchange.coinegg.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import si.mazi.rescu.Params;
+import si.mazi.rescu.RestInvocation;
 
+import javax.ws.rs.FormParam;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.FormParam;
-
-import org.junit.Test;
-
-import si.mazi.rescu.Params;
-import si.mazi.rescu.RestInvocation;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoinEggDigestTest {
 

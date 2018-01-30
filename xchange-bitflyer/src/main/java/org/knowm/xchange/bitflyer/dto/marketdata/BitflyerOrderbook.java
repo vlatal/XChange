@@ -3,8 +3,7 @@ package org.knowm.xchange.bitflyer.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.function.BiConsumer;
+import java.util.List;
 
 public class BitflyerOrderbook {
     private final BigDecimal mid_price;

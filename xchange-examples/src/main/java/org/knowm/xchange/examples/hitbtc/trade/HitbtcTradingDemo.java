@@ -1,9 +1,5 @@
 package org.knowm.xchange.examples.hitbtc.trade;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
@@ -11,6 +7,10 @@ import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.v2.service.HitbtcTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class HitbtcTradingDemo {
 

@@ -1,13 +1,6 @@
 package org.knowm.xchange.therock;
 
-import static org.knowm.xchange.dto.Order.OrderType.ASK;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -33,7 +26,13 @@ import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrade;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+import static org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime;
 
 public final class TheRockAdapters {
 
@@ -65,7 +64,7 @@ public final class TheRockAdapters {
     return new OrderBook(theRockOrderBook.getDate(), asks, bids);
   }
 
-  private static LimitOrder adaptBid(CurrencyPair currencyPair, Order.OrderType orderType, TheRockBid theRockBid, Date timestamp) {
+  private static LimitOrder adaptBid(CurrencyPair currencyPair, Order.OrderType orderType, TheRockBid theRockBid, ZonedDateTime timestamp) {
     return new LimitOrder.Builder(orderType, currencyPair).limitPrice(theRockBid.getPrice()).originalAmount(theRockBid.getAmount())
         .timestamp(timestamp).build();
   }
@@ -115,9 +114,9 @@ public final class TheRockAdapters {
   }
 
   public static LimitOrder adaptOrder(TheRockOrder order) {
-    Date timestamp;
+    ZonedDateTime timestamp;
     try {
-      timestamp = order.getDate() == null ? null : fromISODateString(order.getDate());
+      timestamp = order.getDate() == null ? null : fromISODateStringToZonedDateTime(order.getDate());
     } catch (InvalidFormatException e) {
       timestamp = null;
     }
@@ -153,7 +152,7 @@ public final class TheRockAdapters {
    * (TheRockOrderBook.Entry obe : therockOrderBook.getData()) { if (TheRockOrder.Type.Buy.equals(obe.getType())) { bids.add(new
    * LimitOrder(Order.OrderType.BID, obe.getQuantity(), obe.getCurrencyPair(), null, obe.getCreated(), obe.getPrice())); } else { asks.add(new
    * LimitOrder(Order.OrderType.ASK, obe.getQuantity(), obe.getCurrencyPair(), null, obe.getCreated(), obe.getPrice())); } } Collections.sort(bids,
-   * BID_COMPARATOR); Collections.sort(asks, ASK_COMPARATOR); return new OrderBook(new Date(), asks, bids); } public static UserTrades
+   * BID_COMPARATOR); Collections.sort(asks, ASK_COMPARATOR); return new OrderBook(ZonedDateTime.now(), asks, bids); } public static UserTrades
    * adaptTradeHistory(TheRockUserTrade[] therockUserTrades) { List<UserTrade> trades = new ArrayList<UserTrade>(); long lastTradeId = 0; for
    * (TheRockUserTrade therockUserTrade : therockUserTrades) { lastTradeId = Math.max(lastTradeId, therockUserTrade.getTradeId());
    * trades.add(adaptTrade(therockUserTrade)); } return new UserTrades(trades, lastTradeId, TradeSortType.SortByID); } public static UserTrade

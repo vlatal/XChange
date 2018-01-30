@@ -1,15 +1,15 @@
 package org.knowm.xchange.examples.poloniex.marketdata;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 /**
  * @author Zach Holmes
@@ -40,7 +40,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getOrderBook(currencyPair));
 //    System.out.println(dataService.getOrderBook(currencyPair, 3));
 //    System.out.println(dataService.getTrades(currencyPair));
-//    long now = new Date().getTime() / 1000;
+//    long now = ZonedDateTime.now().getTime() / 1000;
 //    System.out.println(dataService.getTrades(currencyPair, now -  60));
   }
 
@@ -56,7 +56,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getPoloniexDepth(currencyPair));
     System.out.println(dataService.getPoloniexDepth(currencyPair, 3));
     System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair)));
-    long now = new Date().getTime() / 1000;
+    long now = ZonedDateTime.now().toEpochSecond();
     System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
   }
 

@@ -4,12 +4,10 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.xchange.coinegg.service.CoinEggAccountService;
 import org.xchange.coinegg.service.CoinEggMarketDataService;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinEggExchange extends BaseExchange implements Exchange {

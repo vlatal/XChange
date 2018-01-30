@@ -1,9 +1,11 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 public class PoloniexWithdrawal {
 
@@ -11,7 +13,7 @@ public class PoloniexWithdrawal {
   private final String currency;
   private final String address;
   private final BigDecimal amount;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final String status;
   private final String ipAddress;
 
@@ -23,7 +25,7 @@ public class PoloniexWithdrawal {
     this.currency = currency;
     this.address = address;
     this.amount = amount;
-    this.timestamp = new Date(timestamp * 1000);
+    this.timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(timestamp), ZoneOffset.UTC);
     this.status = status;
     this.ipAddress = ipAddress;
   }
@@ -44,7 +46,7 @@ public class PoloniexWithdrawal {
     return amount;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

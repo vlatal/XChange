@@ -1,12 +1,5 @@
 package org.knowm.xchange.binance.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceAdapters;
 import org.knowm.xchange.binance.dto.BinanceException;
@@ -23,13 +16,14 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BinanceAccountService extends BinanceAccountServiceRaw implements AccountService {
 
@@ -115,10 +109,10 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan tp = (TradeHistoryParamsTimeSpan) params;
       if (tp.getStartTime() != null) {
-        startTime = tp.getStartTime().getTime();
+        startTime = tp.getStartTime().toInstant().toEpochMilli();
       }
       if (tp.getEndTime() != null) {
-        endTime = tp.getEndTime().getTime();
+        endTime = tp.getEndTime().toInstant().toEpochMilli();
       }
     }
 
@@ -133,13 +127,13 @@ public class BinanceAccountService extends BinanceAccountServiceRaw implements A
     List<FundingRecord> result = new ArrayList<>();
     if (withdrawals) {
       super.withdrawHistory(asset, startTime, endTime, recvWindow, getTimestamp()).forEach(w -> {
-        result.add(new FundingRecord(w.address, new Date(w.applyTime), Currency.getInstance(w.asset), w.amount, w.id, w.txId, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
+        result.add(new FundingRecord(w.address, DateUtils.fromMillisToZonedDateTime(w.applyTime), Currency.getInstance(w.asset), w.amount, w.id, w.txId, Type.WITHDRAWAL, withdrawStatus(w.status), null, null, null));
       });
     }
 
     if (deposits) {
       super.depositHistory(asset, startTime, endTime, recvWindow, getTimestamp()).forEach(d -> {
-        result.add(new FundingRecord(d.address, new Date(d.insertTime), Currency.getInstance(d.asset), d.amount, null, d.txId, Type.DEPOSIT, depositStatus(d.status), null, null, null));
+        result.add(new FundingRecord(d.address, DateUtils.fromMillisToZonedDateTime(d.insertTime), Currency.getInstance(d.asset), d.amount, null, d.txId, Type.DEPOSIT, depositStatus(d.status), null, null, null));
       });
     }
 

@@ -1,10 +1,11 @@
 package org.knowm.xchange.luno.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 public class LunoTrades {
 
@@ -41,8 +42,8 @@ public class LunoTrades {
       this.buy = buy;
     }
 
-    public Date getTimestamp() {
-      return new Date(timestamp);
+    public ZonedDateTime getTimestamp() {
+      return DateUtils.fromMillisToZonedDateTime(timestamp);
     }
 
     @Override

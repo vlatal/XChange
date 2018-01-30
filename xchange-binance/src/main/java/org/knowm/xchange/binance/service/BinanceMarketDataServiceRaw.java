@@ -1,20 +1,14 @@
 package org.knowm.xchange.binance.service;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.binance.BinanceAdapters;
+import org.knowm.xchange.binance.dto.marketdata.*;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.StreamUtils;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.binance.BinanceAdapters;
-import org.knowm.xchange.binance.dto.marketdata.BinanceAggTrades;
-import org.knowm.xchange.binance.dto.marketdata.BinanceKline;
-import org.knowm.xchange.binance.dto.marketdata.BinanceOrderbook;
-import org.knowm.xchange.binance.dto.marketdata.BinancePrice;
-import org.knowm.xchange.binance.dto.marketdata.BinancePriceQuantity;
-import org.knowm.xchange.binance.dto.marketdata.BinanceTicker24h;
-import org.knowm.xchange.binance.dto.marketdata.KlineInterval;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.StreamUtils;
 
 public class BinanceMarketDataServiceRaw extends BinanceBaseService {
 

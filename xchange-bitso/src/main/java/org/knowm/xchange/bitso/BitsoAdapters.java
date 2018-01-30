@@ -1,11 +1,5 @@
 package org.knowm.xchange.bitso;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import org.knowm.xchange.bitso.dto.marketdata.BitsoTicker;
@@ -25,6 +19,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BitsoAdapters {
 
@@ -49,7 +49,7 @@ public final class BitsoAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitsoOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitsoOrderBook.getBids());
-    Date date = new Date(bitsoOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(bitsoOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
     return new OrderBook(date, asks, bids);
   }
 
@@ -119,7 +119,7 @@ public final class BitsoAdapters {
         Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
         BigDecimal originalAmount = bitsoUserTransaction.getBtc();
         BigDecimal price = bitsoUserTransaction.getPrice().abs();
-        Date timestamp = BitsoUtils.parseDate(bitsoUserTransaction.getDatetime());
+        ZonedDateTime timestamp = BitsoUtils.parseDate(bitsoUserTransaction.getDatetime());
         long transactionId = bitsoUserTransaction.getId();
         if (transactionId > lastTradeId) {
           lastTradeId = transactionId;

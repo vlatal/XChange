@@ -1,13 +1,5 @@
 package org.knowm.xchange.mercadobitcoin.service;
 
-import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,14 +16,16 @@ import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -181,8 +175,8 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
     private String startId;
     private String endId;
-    private Date startTime;
-    private Date endTime;
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
 
     public MercadoTradeHistoryParams(CurrencyPair pair) {
       super(pair);
@@ -209,22 +203,22 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     }
 
     @Override
-    public void setStartTime(Date startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
       this.startTime = startTime;
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Date endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
       this.endTime = endTime;
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
       return endTime;
     }
   }

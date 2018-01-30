@@ -1,12 +1,11 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 public class RipplePaymentTransaction implements IRippleTradeTransaction {
 
@@ -208,7 +207,7 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
     private String direction;
 
     @JsonProperty("timestamp")
-    private Date timestamp;
+    private ZonedDateTime timestamp;
 
     private BigDecimal fee;
 
@@ -322,11 +321,11 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
       direction = value;
     }
 
-    public Date getTimestamp() {
+    public ZonedDateTime getTimestamp() {
       return timestamp;
     }
 
-    public void setTimestamp(final Date value) {
+    public void setTimestamp(final ZonedDateTime value) {
       timestamp = value;
     }
 
@@ -399,7 +398,7 @@ public class RipplePaymentTransaction implements IRippleTradeTransaction {
   }
 
   @Override
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return getPayment().getTimestamp();
   }
 }

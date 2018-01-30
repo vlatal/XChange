@@ -1,12 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -14,17 +7,16 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexAccountBalance;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginAccountResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexMarginPostionResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-
+import org.knowm.xchange.poloniex.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Zach Holmes

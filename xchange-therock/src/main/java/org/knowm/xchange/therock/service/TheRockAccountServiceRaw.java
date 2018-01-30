@@ -1,10 +1,5 @@
 package org.knowm.xchange.therock.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.Currency;
@@ -14,8 +9,12 @@ import org.knowm.xchange.therock.dto.account.TheRockBalance;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawal;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.trade.TheRockTransactions;
-
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 public class TheRockAccountServiceRaw extends TheRockBaseService {
 
@@ -56,11 +55,11 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
     return theRockAuthenticated.balances(apiKey, signatureCreator, exchange.getNonceFactory()).getBalances();
   }
 
-  public TheRockTransactions withdrawls(Currency currency, Date after, Date before, Integer page) throws IOException {
+  public TheRockTransactions withdrawls(Currency currency, ZonedDateTime after, ZonedDateTime before, Integer page) throws IOException {
     return theRockAuthenticated.transactions(apiKey, signatureCreator, exchange.getNonceFactory(), "withdraw", after, before, currency == null ? null : currency.getCurrencyCode(), page);
   }
 
-  public TheRockTransactions deposits(Currency currency, Date after, Date before, Integer page) throws IOException {
+  public TheRockTransactions deposits(Currency currency, ZonedDateTime after, ZonedDateTime before, Integer page) throws IOException {
     return theRockAuthenticated.transactions(apiKey, signatureCreator, exchange.getNonceFactory(), "atm_payment", after, before, currency == null ? null : currency.getCurrencyCode(), page);
   }
 }

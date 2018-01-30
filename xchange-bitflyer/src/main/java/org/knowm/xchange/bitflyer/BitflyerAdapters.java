@@ -1,14 +1,5 @@
 package org.knowm.xchange.bitflyer;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarket;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.currency.Currency;
@@ -17,6 +8,15 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BitflyerAdapters {
   private static Pattern CURRENCY_PATTERN = Pattern.compile("[A-Z]{3}");
@@ -53,7 +53,7 @@ public class BitflyerAdapters {
     BigDecimal bid = ticker.getBestBid();
     BigDecimal ask = ticker.getBestAsk();
     BigDecimal volume = ticker.getVolume();
-    Date timestamp = ticker.getTimestamp() != null ? BitflyerUtils.parseDate(ticker.getTimestamp()) : null;
+    ZonedDateTime timestamp = ticker.getTimestamp() != null ? BitflyerUtils.parseDate(ticker.getTimestamp()) : null;
 
     return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).volume(volume).timestamp(timestamp).build();
 

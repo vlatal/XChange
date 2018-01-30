@@ -1,12 +1,6 @@
 package org.knowm.xchange.bitcoinde;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderbookWrapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTradesWrapper;
@@ -15,7 +9,14 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trades;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author matthewdowney
@@ -67,8 +68,7 @@ public class BitcoindeAdapterTest {
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
 
     // Verify that the date is correct
-    Date date = new Date();
-    date.setTime(1500717160L * 1000); // Create the expected date for trade
+    ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochSecond(1500717160L), ZoneOffset.UTC); // Create the expected date for trade
     // 0
     assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(date); // Make
     // sure

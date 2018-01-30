@@ -1,17 +1,17 @@
 package org.knowm.xchange.bitso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * A central place for shared Bitso properties
  */
 public final class BitsoUtils {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   /**
    * private Constructor
@@ -26,11 +26,11 @@ public final class BitsoUtils {
    * @param dateString
    * @return
    */
-  public static Date parseDate(String dateString) {
+  public static ZonedDateTime parseDate(String dateString) {
 
     try {
-      return DATE_FORMAT.parse(dateString);
-    } catch (ParseException e) {
+      return ZonedDateTime.parse(dateString, DATE_FORMAT);
+    } catch (DateTimeParseException e) {
       throw new ExchangeException("Illegal date/time format", e);
     }
   }

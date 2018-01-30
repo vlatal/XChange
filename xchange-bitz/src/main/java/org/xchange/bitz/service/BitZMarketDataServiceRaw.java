@@ -1,13 +1,13 @@
 package org.xchange.bitz.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.xchange.bitz.dto.marketdata.BitZKline;
 import org.xchange.bitz.dto.marketdata.BitZOrders;
 import org.xchange.bitz.dto.marketdata.BitZTicker;
 import org.xchange.bitz.dto.marketdata.BitZTrades;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
+
+import java.io.IOException;
 
 public class BitZMarketDataServiceRaw extends BitZBaseService {
 

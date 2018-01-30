@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -15,14 +14,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final BigDecimal bid;
   private final BigDecimal ask;
   private final BigDecimal last;
   private final BigDecimal askSize;
   private final String symbol;
-  private final Date lastTime;
+  private final ZonedDateTime lastTime;
   private final BigDecimal low24H;
   private final BigDecimal bidSize;
   private final boolean suspended;
@@ -46,7 +45,7 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     this.last = last;
     this.askSize = askSize;
     this.symbol = symbol;
-    this.lastTime = strLastTime == null ? null : DATE_FORMAT.parse(strLastTime);
+    this.lastTime = strLastTime == null ? null : ZonedDateTime.parse(strLastTime, DATE_FORMAT);
     this.low24H = low24H;
     this.bidSize = bidSize;
     this.suspended = suspended;
@@ -77,7 +76,7 @@ public class CryptoFacilitiesTicker extends CryptoFacilitiesResult {
     return symbol;
   }
 
-  public Date getLastTime() {
+  public ZonedDateTime getLastTime() {
     return lastTime;
   }
 

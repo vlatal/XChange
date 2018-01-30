@@ -1,13 +1,5 @@
 package org.xchange.bitz;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -16,12 +8,16 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
-import org.xchange.bitz.dto.marketdata.BitZOrders;
-import org.xchange.bitz.dto.marketdata.BitZPublicOrder;
-import org.xchange.bitz.dto.marketdata.BitZPublicTrade;
-import org.xchange.bitz.dto.marketdata.BitZTicker;
-import org.xchange.bitz.dto.marketdata.BitZTrades;
+import org.xchange.bitz.dto.marketdata.*;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BitZAdapters {
 
@@ -33,7 +29,7 @@ public class BitZAdapters {
 	  BigDecimal high = bitzTicker.getHigh();
 	  BigDecimal low = bitzTicker.getLow();
 	  BigDecimal volume = bitzTicker.getVolume();
-	  Date timestamp = DateUtils.fromMillisUtc(bitzTicker.getTimestamp());
+	  ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(bitzTicker.getTimestamp());
 	    
 	  Ticker ticker = new Ticker.Builder()
 	              .currencyPair(currencyPair)
@@ -64,7 +60,7 @@ public class BitZAdapters {
 	
 	public static OrderBook adaptOrders(BitZOrders bitZOrders, CurrencyPair currencyPair) {
     
-    Date timestamp = DateUtils.fromMillisUtc(bitZOrders.getTimestamp());
+    ZonedDateTime timestamp = DateUtils.fromMillisUtc(bitZOrders.getTimestamp());
     List<LimitOrder> asks = new ArrayList<LimitOrder>();
     List<LimitOrder> bids = new ArrayList<LimitOrder>();
     

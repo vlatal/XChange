@@ -1,17 +1,16 @@
 package org.xchange.coinegg.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.utils.DateUtils;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class CoinEggTradeList {
   
-  private Date datetime;
+  private ZonedDateTime datetime;
  
   private final int id;
   private final Type type;
@@ -31,14 +30,14 @@ public class CoinEggTradeList {
     this.amountOutstanding = amountOutstanding;
     
     try {
-      this.datetime = DateUtils.fromISO8601DateString(datetime);
+      this.datetime = DateUtils.fromISODateStringToZonedDateTime(datetime);
     } catch (InvalidFormatException e) {
       this.datetime = null;
     }
   }
 
   
-  public Date getDateTime() {
+  public ZonedDateTime getDateTime() {
     return datetime;
   }
   

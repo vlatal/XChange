@@ -1,22 +1,9 @@
 package org.knowm.xchange.dsx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.dto.marketdata.DSXDepthJSONTest;
-import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbook;
-import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
-import org.knowm.xchange.dsx.dto.marketdata.DSXTickerJSONTest;
-import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
-import org.knowm.xchange.dsx.dto.marketdata.DSXTradesJSONTest;
-import org.knowm.xchange.dsx.dto.marketdata.DSXTradesWrapper;
+import org.knowm.xchange.dsx.dto.marketdata.*;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryJSONTest;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryReturn;
 import org.knowm.xchange.dto.Order;
@@ -27,7 +14,13 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test for DSXAdapter class
@@ -118,7 +111,7 @@ public class DSXAdapterTest {
     assertThat(lastTrade.getId()).isEqualTo("1000");
     assertThat(lastTrade.getType()).isEqualTo(Order.OrderType.BID);
     assertThat(lastTrade.getPrice().toString()).isEqualTo("300");
-    assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(142123698000L);
+    assertThat(lastTrade.getTimestamp().toInstant().toEpochMilli()).isEqualTo(142123698000L);
     assertThat(DateUtils.toUTCString(lastTrade.getTimestamp())).isEqualTo("1974-07-03 22:48:18 GMT");
     assertThat(lastTrade.getFeeAmount()).isEqualTo("0.001");
   }

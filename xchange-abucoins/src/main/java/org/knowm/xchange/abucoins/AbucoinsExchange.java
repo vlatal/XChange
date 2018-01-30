@@ -7,7 +7,6 @@ import org.knowm.xchange.abucoins.service.AbucoinsAccountService;
 import org.knowm.xchange.abucoins.service.AbucoinsMarketDataService;
 import org.knowm.xchange.abucoins.service.AbucoinsTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class AbucoinsExchange extends BaseExchange implements Exchange {

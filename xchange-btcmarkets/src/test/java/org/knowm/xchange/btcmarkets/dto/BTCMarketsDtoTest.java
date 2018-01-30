@@ -1,29 +1,23 @@
 package org.knowm.xchange.btcmarkets.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.junit.Test;
 import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
+import org.knowm.xchange.btcmarkets.dto.trade.*;
 import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.JsonMappingException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
@@ -144,7 +138,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     // then
     assertThat(response.getCurrency()).isEqualTo("AUD");
     assertThat(response.getInstrument()).isEqualTo("BTC");
-    assertThat(response.getTimestamp().getTime()).isEqualTo(1442997827000L);
+    assertThat(response.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1442997827000L);
 
     List<BigDecimal[]> asks = response.getAsks();
     assertThat(asks).hasSize(3);
@@ -160,7 +154,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     }
 
     assertThat(response.toString())
-        .isEqualTo(String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", new Date(1442997827000L)));
+        .isEqualTo(String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", DateUtils.fromMillisToZonedDateTime(1442997827000L)));
   }
 
   @Test

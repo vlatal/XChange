@@ -1,11 +1,13 @@
 package org.knowm.xchange.luno.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 public class LunoWithdrawals {
 
@@ -65,8 +67,8 @@ public class LunoWithdrawals {
       this.fee = fee;
     }
 
-    public Date getCreatedAt() {
-      return new Date(createdAt);
+    public ZonedDateTime getCreatedAt() {
+      return ZonedDateTime.ofInstant(Instant.ofEpochSecond(createdAt), ZoneOffset.UTC);
     }
 
     @Override

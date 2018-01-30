@@ -1,22 +1,13 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
@@ -52,8 +43,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, Date since, Date until,
-      Integer limit) throws IOException {
+  public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, ZonedDateTime since, ZonedDateTime until,
+                                                                                Integer limit) throws IOException {
     try {
       BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(
           String.valueOf(exchange.getNonceFactory().createValue()), currency, method, since, until, limit);

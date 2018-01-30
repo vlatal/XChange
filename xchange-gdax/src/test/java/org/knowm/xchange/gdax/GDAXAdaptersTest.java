@@ -1,15 +1,6 @@
 package org.knowm.xchange.gdax;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -22,12 +13,19 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.utils.DateUtils;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonObjectMapperFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by Yingzhe on 4/8/2015.
@@ -37,19 +35,19 @@ public class GDAXAdaptersTest {
   @Test
   public void parseDateTest() {
 
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03Z").getTime()).isEqualTo(1493737803000L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1Z").getTime()).isEqualTo(1493737803100L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12Z").getTime()).isEqualTo(1493737803120L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123Z").getTime()).isEqualTo(1493737803123L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1234567Z").getTime()).isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03Z").toInstant().toEpochMilli()).isEqualTo(1493737803000L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1Z").toInstant().toEpochMilli()).isEqualTo(1493737803100L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12Z").toInstant().toEpochMilli()).isEqualTo(1493737803120L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123Z").toInstant().toEpochMilli()).isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1234567Z").toInstant().toEpochMilli()).isEqualTo(1493737803123L);
 
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03").getTime()).isEqualTo(1493737803000L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1").getTime()).isEqualTo(1493737803100L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12").getTime()).isEqualTo(1493737803120L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123").getTime()).isEqualTo(1493737803123L);
-    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123456").getTime()).isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03").toInstant().toEpochMilli()).isEqualTo(1493737803000L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.1").toInstant().toEpochMilli()).isEqualTo(1493737803100L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12").toInstant().toEpochMilli()).isEqualTo(1493737803120L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123").toInstant().toEpochMilli()).isEqualTo(1493737803123L);
+    assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123456").toInstant().toEpochMilli()).isEqualTo(1493737803123L);
 
-    assertThat(GDAXAdapters.parseDate("2017-06-21T04:52:01.996Z").getTime()).isEqualTo(1498020721996L);
+    assertThat(GDAXAdapters.parseDate("2017-06-21T04:52:01.996Z").toInstant().toEpochMilli()).isEqualTo(1498020721996L);
   }
 
   @Test
@@ -72,8 +70,8 @@ public class GDAXAdaptersTest {
     assertThat(ticker.getHigh().toString()).isEqualTo("255.47000000");
     assertThat(ticker.getLow().toString()).isEqualTo("244.29000000");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("4661.70407704"));
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    f.withZone(ZoneOffset.UTC);
     String dateString = f.format(ticker.getTimestamp());
     assertThat(dateString).isEqualTo("2015-04-08 20:49:06");
   }
@@ -98,7 +96,7 @@ public class GDAXAdaptersTest {
     assertThat(trade.getPrice()).isEqualTo("0.05915000");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.01000000");
     assertThat(trade.getOrderId()).isEqualTo("b4b3bbb1-e0e3-4532-9413-23123448ce35");
-    assertThat(trade.getTimestamp().getTime()).isEqualTo(1493623910243L);
+    assertThat(trade.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1493623910243L);
     assertThat(trade.getFeeAmount()).isEqualTo("0.0000017745000000");
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
   }
@@ -122,7 +120,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("1.0").subtract(new BigDecimal("0.01291771")));
     assertThat(MarketOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.BID);
-    assertThat(order.getTimestamp()).isEqualTo(new Date(1481227745508L));
+    assertThat(order.getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1481227745508L));
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("9.9750556620000000").divide(new BigDecimal("0.01291771"), new MathContext(8)));
   }
 
@@ -148,7 +146,7 @@ public class GDAXAdaptersTest {
     assertThat(order.getRemainingAmount()).isEqualTo(new BigDecimal("0.00000000"));
     assertThat(LimitOrder.class.isAssignableFrom(order.getClass())).isTrue();
     assertThat(order.getType()).isEqualTo(OrderType.ASK);
-    assertThat(order.getTimestamp()).isEqualTo(new Date(1515434144454L));
+    assertThat(order.getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1515434144454L));
     assertThat(order.getAveragePrice()).isEqualTo(new BigDecimal("1050.2618069699000000").divide(new BigDecimal("0.07060351"), new MathContext(8)));
 
 

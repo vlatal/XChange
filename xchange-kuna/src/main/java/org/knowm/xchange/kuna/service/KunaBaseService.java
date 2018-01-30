@@ -5,7 +5,6 @@ import org.knowm.xchange.kuna.Kuna;
 import org.knowm.xchange.kuna.KunaAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
 import si.mazi.rescu.RestProxyFactory;
 
 /**

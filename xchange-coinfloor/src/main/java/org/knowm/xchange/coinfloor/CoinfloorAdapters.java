@@ -1,11 +1,5 @@
 package org.knowm.xchange.coinfloor;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorTicker;
@@ -29,6 +23,12 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class CoinfloorAdapters {
 
@@ -71,7 +71,7 @@ public class CoinfloorAdapters {
       }
 
       long msSinceEpoch = tx.getDate() * 1000;
-      Trade trade = new Trade(null /* order type */, tx.getAmount(), pair, tx.getPrice(), DateUtils.fromMillisUtc(msSinceEpoch),
+      Trade trade = new Trade(null /* order type */, tx.getAmount(), pair, tx.getPrice(), DateUtils.fromMillisToZonedDateTime(msSinceEpoch),
           String.valueOf(tradeId));
       trades.add(trade);
     }
@@ -102,7 +102,7 @@ public class CoinfloorAdapters {
         continue;// skip deposits and withdrawals.
       }
 
-      Date timestamp = CoinfloorUtils.parseDate(transaction.getDateTime());
+      ZonedDateTime timestamp = CoinfloorUtils.parseDate(transaction.getDateTime());
 
       long transactionId = transaction.getId();
       if (transactionId > lastTradeId) {

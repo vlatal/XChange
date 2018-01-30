@@ -1,6 +1,13 @@
 package org.knowm.xchange;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Before;
+import org.junit.Test;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -10,13 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
-import org.knowm.xchange.dto.trade.LimitOrder;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class OrderBookTest {
 
@@ -80,7 +81,7 @@ public class OrderBookTest {
   @Test
   public void testDateOther() {
 
-    ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(10), ZoneOffset.UTC);
+    ZonedDateTime timeStamp = DateUtils.fromMillisToZonedDateTime(10L);
     OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN, timeStamp,
         BigDecimal.TEN);
     ZonedDateTime oldDate = orderBook.getTimeStamp();

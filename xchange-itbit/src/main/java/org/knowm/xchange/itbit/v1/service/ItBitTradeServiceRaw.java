@@ -1,8 +1,5 @@
 package org.knowm.xchange.itbit.v1.service;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -12,6 +9,9 @@ import org.knowm.xchange.itbit.v1.dto.ItBitException;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
 
 public class ItBitTradeServiceRaw extends ItBitBaseService {
 
@@ -26,7 +26,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
 
   public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
     CurrencyPair exchangePair = ItBitAdapters.adaptCurrencyPairToExchange(currencyPair);
-    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(),
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, ZonedDateTime.now().toInstant().toEpochMilli(), exchange.getNonceFactory(),
         exchangePair.base.getCurrencyCode() + exchangePair.counter.getCurrencyCode(), "1",
         "1000", "open", walletId);
 
@@ -42,7 +42,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
    */
   public ItBitOrder[] getItBitOrders(String status) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000",
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, ZonedDateTime.now().toInstant().toEpochMilli(), exchange.getNonceFactory(), "XBTUSD", "1", "1000",
         status, walletId);
 
     return orders;
@@ -50,7 +50,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
 
   public ItBitOrder getItBitOrder(String orderId) throws IOException {
 
-    ItBitOrder order = itBitAuthenticated.getOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
+    ItBitOrder order = itBitAuthenticated.getOrder(signatureCreator, ZonedDateTime.now().toInstant().toEpochMilli(), exchange.getNonceFactory(), walletId, orderId);
 
     return order;
   }
@@ -62,7 +62,7 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
     String amount = ItBitAdapters.formatCryptoAmount(limitOrder.getOriginalAmount());
     String price = ItBitAdapters.formatFiatAmount(limitOrder.getLimitPrice());
 
-    ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
+    ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, ZonedDateTime.now().toInstant().toEpochMilli(), exchange.getNonceFactory(), walletId,
         new ItBitPlaceOrderRequest(side, "limit", exchangePair.base.getCurrencyCode(), amount, price,
             exchangePair.base.getCurrencyCode() + exchangePair.counter.getCurrencyCode()));
 
@@ -71,18 +71,18 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
 
   public void cancelItBitOrder(String orderId) throws IOException {
 
-    itBitAuthenticated.cancelOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
+    itBitAuthenticated.cancelOrder(signatureCreator, ZonedDateTime.now().toInstant().toEpochMilli(), exchange.getNonceFactory(), walletId, orderId);
   }
 
   public ItBitOrder[] getItBitOrderHistory(String currency, String pageNum, String pageLen) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currency, pageNum, pageLen,
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, ZonedDateTime.now().toInstant().toEpochMilli(), exchange.getNonceFactory(), currency, pageNum, pageLen,
         "filled", walletId);
     return orders;
   }
 
-  public ItBitTradeHistory getUserTradeHistory(String lastExecutionId, Integer page, Integer perPage, Date rangeStart,
-      Date rangeEnd) throws IOException, ItBitException {
+  public ItBitTradeHistory getUserTradeHistory(String lastExecutionId, Integer page, Integer perPage, ZonedDateTime rangeStart,
+      ZonedDateTime rangeEnd) throws IOException, ItBitException {
     return itBitAuthenticated.getUserTradeHistory(signatureCreator, System.currentTimeMillis(), exchange.getNonceFactory(), walletId, lastExecutionId,
         page, perPage, rangeStart, rangeEnd);
   }

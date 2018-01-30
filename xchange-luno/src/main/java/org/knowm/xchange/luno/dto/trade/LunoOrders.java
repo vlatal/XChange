@@ -1,10 +1,11 @@
 package org.knowm.xchange.luno.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 public class LunoOrders {
 
@@ -70,16 +71,16 @@ public class LunoOrders {
       this.pair = pair;
     }
 
-    public Date getCreationTimestamp() {
-      return new Date(creationTimestamp);
+    public ZonedDateTime getCreationTimestamp() {
+      return DateUtils.fromMillisToZonedDateTime(creationTimestamp);
     }
 
-    public Date getExpirationTimestamp() {
-      return expirationTimestamp == 0 ? null : new Date(expirationTimestamp);
+    public ZonedDateTime getExpirationTimestamp() {
+      return expirationTimestamp == 0 ? null : DateUtils.fromMillisToZonedDateTime(expirationTimestamp);
     }
 
-    public Date getCompletedTimestamp() {
-      return completedTimestamp == 0 ? null : new Date(completedTimestamp);
+    public ZonedDateTime getCompletedTimestamp() {
+      return completedTimestamp == 0 ? null : DateUtils.fromMillisToZonedDateTime(completedTimestamp);
     }
 
     @Override

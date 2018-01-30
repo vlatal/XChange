@@ -1,9 +1,9 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class HitbtcTicker {
 
@@ -14,13 +14,13 @@ public class HitbtcTicker {
   private final BigDecimal high;
   private final BigDecimal open;
   private final String symbol;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final BigDecimal volume;
   private final BigDecimal volumeQuote;
 
   public HitbtcTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last,
       @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
-      @JsonProperty("symbol") String symbol, @JsonProperty("timestamp") Date timestamp, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volumeQuote") BigDecimal volumeQuote) {
+      @JsonProperty("symbol") String symbol, @JsonProperty("timestamp") ZonedDateTime timestamp, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volumeQuote") BigDecimal volumeQuote) {
 
     this.ask = ask;
     this.bid = bid;
@@ -62,7 +62,7 @@ public class HitbtcTicker {
     return symbol;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

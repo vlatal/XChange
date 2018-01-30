@@ -1,15 +1,14 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 import org.knowm.xchange.currency.CurrencyPair;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * @author Panchen
@@ -17,9 +16,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesOrderBook extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-  private final Date serverTime;
+  private final ZonedDateTime serverTime;
   private CurrencyPair currencyPair;
   private final CryptoFacilitiesBidsAsks bidsAsks;
 
@@ -28,7 +27,7 @@ public class CryptoFacilitiesOrderBook extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
+    this.serverTime = strServerTime == null ? null : ZonedDateTime.parse(strServerTime, DATE_FORMAT);
     this.bidsAsks = bidsAsks;
   }
 
@@ -40,7 +39,7 @@ public class CryptoFacilitiesOrderBook extends CryptoFacilitiesResult {
     return bidsAsks.getAsks();
   }
 
-  public Date getServerTime() {
+  public ZonedDateTime getServerTime() {
     return serverTime;
   }
 

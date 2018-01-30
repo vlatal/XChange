@@ -1,10 +1,9 @@
 package org.knowm.xchange.coinbase.v2.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import si.mazi.rescu.HttpStatusExceptionSupport;
+
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class CoinbaseException extends HttpStatusExceptionSupport {

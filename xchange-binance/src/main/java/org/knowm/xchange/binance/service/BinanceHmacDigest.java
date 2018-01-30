@@ -1,18 +1,16 @@
 package org.knowm.xchange.binance.service;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
-
-import javax.crypto.Mac;
-import javax.ws.rs.QueryParam;
-
 import org.knowm.xchange.binance.BinanceAuthenticated;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
+
+import javax.crypto.Mac;
+import javax.ws.rs.QueryParam;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 

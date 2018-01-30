@@ -1,9 +1,5 @@
 package org.knowm.xchange.bitstamp.service;
 
-import java.io.IOException;
-
-import javax.annotation.Nullable;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
@@ -11,8 +7,10 @@ import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
-
 import si.mazi.rescu.RestProxyFactory;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
 
 /**
  * @author gnandiga

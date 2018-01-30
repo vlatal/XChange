@@ -1,11 +1,11 @@
 package org.knowm.xchange.dto.trade;
 
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Set;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param timestamp a ZonedDateTime object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp, BigDecimal limitPrice) {
@@ -44,7 +44,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param cumulativeAmount The cumulative amount
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param timestamp a ZonedDateTime object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal originalAmount, BigDecimal cumulativeAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp,
@@ -59,7 +59,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param timestamp a ZonedDateTime object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param cumulativeAmount the amount that has been filled

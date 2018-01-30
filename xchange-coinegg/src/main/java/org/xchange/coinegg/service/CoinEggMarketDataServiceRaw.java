@@ -1,11 +1,11 @@
 package org.xchange.coinegg.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
 import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
+
+import java.io.IOException;
 
 public class CoinEggMarketDataServiceRaw extends CoinEggBaseService {
 

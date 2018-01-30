@@ -1,8 +1,7 @@
 package org.knowm.xchange.bitcointoyou.service;
 
-import org.knowm.xchange.service.BaseParamsDigest;
-
 import net.iharder.Base64;
+import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 /**

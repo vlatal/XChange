@@ -1,14 +1,5 @@
 package org.knowm.xchange.bitbay;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.acount.BitbayBalance;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
@@ -29,6 +20,15 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author kpysniak
@@ -73,7 +73,7 @@ public class BitbayAdapters {
 
     if (orders != null) {
       for (BigDecimal[] order : orders) {
-        limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+        limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, ZonedDateTime.now(), order[0]));
       }
     }
 
@@ -104,7 +104,7 @@ public class BitbayAdapters {
 
     for (BitbayTrade bitbayTrade : bitbayTrades) {
 
-      Trade trade = new Trade(null, bitbayTrade.getAmount(), currencyPair, bitbayTrade.getPrice(), new Date(bitbayTrade.getDate() * 1000),
+      Trade trade = new Trade(null, bitbayTrade.getAmount(), currencyPair, bitbayTrade.getPrice(), DateUtils.fromMillisToZonedDateTime(bitbayTrade.getDate() * 1000),
           bitbayTrade.getTid());
 
       tradeList.add(trade);
@@ -155,11 +155,11 @@ public class BitbayAdapters {
     CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date date;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    ZonedDateTime date;
     try {
-      date = formatter.parse(bitbayOrder.getDate());
-    } catch (ParseException e) {
+      date = ZonedDateTime.parse(bitbayOrder.getDate(), formatter);
+    } catch (DateTimeParseException e) {
       throw new IllegalArgumentException(e);
     }
 
@@ -171,11 +171,11 @@ public class BitbayAdapters {
     CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
     OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
 
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    Date date;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    ZonedDateTime date;
     try {
-      date = formatter.parse(bitbayOrder.getDate());
-    } catch (ParseException e) {
+      date = ZonedDateTime.parse(bitbayOrder.getDate(), formatter);
+    } catch (DateTimeParseException e) {
       throw new IllegalArgumentException(e);
     }
 
@@ -206,9 +206,9 @@ public class BitbayAdapters {
 
         String[] parts = market.split("-");
         CurrencyPair pair = new CurrencyPair(Currency.getInstance(parts[0]), Currency.getInstance(parts[1]));
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String date = map.get("date").toString();
-        Date timestamp = formatter.parse(date);
+        ZonedDateTime timestamp = ZonedDateTime.parse(date, formatter);
         BigDecimal amount = new BigDecimal(map.get("amount").toString());
         BigDecimal price = new BigDecimal(map.get("rate").toString());
         BigDecimal fee = new BigDecimal(map.get("price").toString());
@@ -227,7 +227,7 @@ public class BitbayAdapters {
             fee,
             null
         ));
-      } catch (ParseException e) {
+      } catch (DateTimeParseException e) {
         throw new IllegalStateException("Cannot parse " + map);
       }
     }

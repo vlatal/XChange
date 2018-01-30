@@ -1,21 +1,15 @@
 package org.knowm.xchange.examples.kraken.trade;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
+import org.knowm.xchange.kraken.dto.trade.*;
+import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
-
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
-import org.knowm.xchange.kraken.dto.trade.KrakenOpenPosition;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderType;
-import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
 
 public class KrakenTradeRawSpecificDemo {
 

@@ -1,12 +1,6 @@
 package org.knowm.xchange.bitcointoyou;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.TimeZone;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,7 +18,12 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * Tests the {@link BitcointoyouAdapters} class.
@@ -98,8 +97,8 @@ public class BitcointoyouAdaptersTest {
     softly.assertThat(ticker.getHigh().toString()).isEqualTo("52990.00");
     softly.assertThat(ticker.getLow().toString()).isEqualTo("47000.00");
     softly.assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("136.99427076"));
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    f.withZone(ZoneOffset.UTC);
     String dateString = f.format(ticker.getTimestamp());
     softly.assertThat(dateString).isEqualTo("2018-01-10 23:11:41");
 

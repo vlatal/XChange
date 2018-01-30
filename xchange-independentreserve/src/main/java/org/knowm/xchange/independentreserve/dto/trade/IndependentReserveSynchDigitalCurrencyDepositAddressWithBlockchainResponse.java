@@ -1,11 +1,9 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.text.ParseException;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.independentreserve.util.Util;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.ZonedDateTime;
 
 public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse {
   /**
@@ -15,11 +13,11 @@ public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainR
   /**
    * UTC timestamp of when this address was last checked against Blockchain
    */
-  private final Date lastChecked;
+  private final ZonedDateTime lastChecked;
   /**
    * UTC timestamp of when this address is scheduled to next be checked against Blockchain
    */
-  private final Date nextUpdate;
+  private final ZonedDateTime nextUpdate;
 
   public IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse(
       @JsonProperty("DepositAddress") String depositAddress
@@ -35,11 +33,11 @@ public class IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainR
     return depositAddress;
   }
 
-  public Date getLastChecked() {
+  public ZonedDateTime getLastChecked() {
     return lastChecked;
   }
 
-  public Date getNextUpdate() {
+  public ZonedDateTime getNextUpdate() {
     return nextUpdate;
   }
 }

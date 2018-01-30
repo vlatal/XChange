@@ -1,12 +1,11 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
-import static org.junit.Assert.*;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test that confirms we can handle array json (success case from REST call)

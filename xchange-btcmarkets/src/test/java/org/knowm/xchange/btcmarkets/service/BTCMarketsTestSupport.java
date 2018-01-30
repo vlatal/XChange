@@ -1,12 +1,5 @@
 package org.knowm.xchange.btcmarkets.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -19,7 +12,15 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.utils.DateUtils;
 import org.powermock.reflect.Whitebox;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Test utilities for btnmarkets tests.
@@ -52,47 +53,47 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   }
 
   protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00")).ask(new BigDecimal("140.00"))
-      .last(new BigDecimal("140.00")).currencyPair(CurrencyPair.BTC_AUD).timestamp(new Date(1378878117000L)).build();
+      .last(new BigDecimal("140.00")).currencyPair(CurrencyPair.BTC_AUD).timestamp(DateUtils.fromMillisToZonedDateTime(1378878117000L)).build();
 
   protected static UserTrade[] expectedUserTrades() {
     return new UserTrade[]{
-        new UserTrade(Order.OrderType.ASK, new BigDecimal("20.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("10.00000000"), new Date(111111111L),
+        new UserTrade(Order.OrderType.ASK, new BigDecimal("20.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("10.00000000"), DateUtils.fromMillisToZonedDateTime(111111111L),
             "1", "null", new BigDecimal("1"), Currency.AUD),
-        new UserTrade(Order.OrderType.ASK, new BigDecimal("40.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("30.00000000"), new Date(222222222L),
+        new UserTrade(Order.OrderType.ASK, new BigDecimal("40.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("30.00000000"), DateUtils.fromMillisToZonedDateTime(222222222L),
             "2", "null", new BigDecimal("2"), Currency.AUD),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("60.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("50.00000000"), new Date(333333333L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("60.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("50.00000000"), DateUtils.fromMillisToZonedDateTime(333333333L),
             "3", "null", new BigDecimal("3"), Currency.AUD),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("80.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("70.00000000"), new Date(444444444L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("80.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("70.00000000"), DateUtils.fromMillisToZonedDateTime(444444444L),
             "4", "null", new BigDecimal("4"), Currency.AUD),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("0"), CurrencyPair.BTC_AUD, new BigDecimal("90.00000000"), new Date(555555555L), "5",
+        new UserTrade(Order.OrderType.BID, new BigDecimal("0"), CurrencyPair.BTC_AUD, new BigDecimal("90.00000000"), DateUtils.fromMillisToZonedDateTime(555555555L), "5",
             "null", new BigDecimal("5"), Currency.AUD)};
   }
 
   protected static final BTCMarketsTicker EXPECTED_BTC_MARKETS_TICKER = new BTCMarketsTicker(new BigDecimal("137.00"),
-      new BigDecimal("140.00"), new BigDecimal("140.00"), "AUD", "BTC", new Date(1378878117000L));
+      new BigDecimal("140.00"), new BigDecimal("140.00"), "AUD", "BTC", DateUtils.fromMillisToZonedDateTime(1378878117000L));
 
   protected static List<BTCMarketsUserTrade> expectedBtcMarketsUserTrades() {
     return Collections.unmodifiableList(Arrays.asList(
         createBTCMarketsUserTrade(1L, "trade 1", new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), new BigDecimal("1"),
-            new Date(111111111L), BTCMarketsOrder.Side.Ask),
+            DateUtils.fromMillisToZonedDateTime(111111111L), BTCMarketsOrder.Side.Ask),
         createBTCMarketsUserTrade(2L, "trade 2", new BigDecimal("30.00000000"), new BigDecimal("40.00000000"), new BigDecimal("2"),
-            new Date(222222222L), BTCMarketsOrder.Side.Ask),
+            DateUtils.fromMillisToZonedDateTime(222222222L), BTCMarketsOrder.Side.Ask),
         createBTCMarketsUserTrade(3L, "trade 3", new BigDecimal("50.00000000"), new BigDecimal("60.00000000"), new BigDecimal("3"),
-            new Date(333333333L), BTCMarketsOrder.Side.Bid),
+            DateUtils.fromMillisToZonedDateTime(333333333L), BTCMarketsOrder.Side.Bid),
         createBTCMarketsUserTrade(4L, "trade 4", new BigDecimal("70.00000000"), new BigDecimal("80.00000000"), new BigDecimal("4"),
-            new Date(444444444L), BTCMarketsOrder.Side.Bid),
-        createBTCMarketsUserTrade(5L, "trade 5", new BigDecimal("90.00000000"), BigDecimal.ZERO, new BigDecimal("5"), new Date(555555555L),
+            DateUtils.fromMillisToZonedDateTime(444444444L), BTCMarketsOrder.Side.Bid),
+        createBTCMarketsUserTrade(5L, "trade 5", new BigDecimal("90.00000000"), BigDecimal.ZERO, new BigDecimal("5"), DateUtils.fromMillisToZonedDateTime(555555555L),
             BTCMarketsOrder.Side.Bid)));
   }
 
   protected static List<BTCMarketsUserTrade> expectedParsedBtcMarketsUserTrades() {
     return Collections.unmodifiableList(Arrays.asList(
         createBTCMarketsUserTrade(45118157L, null, new BigDecimal("330.00000000"), new BigDecimal("0.00100000"), new BigDecimal("0.00280499"),
-            new Date(1442994673684L), BTCMarketsOrder.Side.Bid),
+            DateUtils.fromMillisToZonedDateTime(1442994673684L), BTCMarketsOrder.Side.Bid),
         createBTCMarketsUserTrade(45118095L, null, new BigDecimal("328.33000000"), new BigDecimal("0.00100000"), new BigDecimal("0.00279080"),
-            new Date(1442994664114L), BTCMarketsOrder.Side.Ask),
+            DateUtils.fromMillisToZonedDateTime(1442994664114L), BTCMarketsOrder.Side.Ask),
         createBTCMarketsUserTrade(45117892L, null, new BigDecimal("328.65000000"), new BigDecimal("0.00100000"), new BigDecimal("0.00279352"),
-            new Date(1442994245419L), BTCMarketsOrder.Side.Ask)));
+            DateUtils.fromMillisToZonedDateTime(1442994245419L), BTCMarketsOrder.Side.Ask)));
   }
 
   protected static BTCMarketsOrder[] expectedBtcMarketsOrders() {
@@ -105,13 +106,13 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
 
   protected static BTCMarketsOrder[] expectedParsedBtcMarketsOrders() {
     return new BTCMarketsOrder[]{createBTCMarketsOrder(1003245675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC",
-        BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, null, new Date(1378862733366L), "Placed", null, new BigDecimal("0.10000000"),
+        BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, null, DateUtils.fromMillisToZonedDateTime(1378862733366L), "Placed", null, new BigDecimal("0.10000000"),
         new ArrayList<BTCMarketsUserTrade>()),
 
         createBTCMarketsOrder(4345675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask,
-            BTCMarketsOrder.Type.Limit, null, new Date(1378636912705L), "Fully Matched", null, new BigDecimal("0E-8"),
+            BTCMarketsOrder.Type.Limit, null, DateUtils.fromMillisToZonedDateTime(1378636912705L), "Fully Matched", null, new BigDecimal("0E-8"),
             Arrays.asList(createBTCMarketsUserTrade(5345677L, null, new BigDecimal("130.00000000"), new BigDecimal("0.10000000"),
-                new BigDecimal("0.00100000"), new Date(1378636913151L), null))),};
+                new BigDecimal("0.00100000"), DateUtils.fromMillisToZonedDateTime(1378636913151L), null))),};
   }
 
   protected static BTCMarketsBalance[] expectedBtcMarketsBalances() {
@@ -120,7 +121,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   }
 
   protected static BTCMarketsUserTrade createBTCMarketsUserTrade(Long id, String description, BigDecimal price, BigDecimal volume, BigDecimal fee,
-      Date creationTime, BTCMarketsOrder.Side side) {
+      ZonedDateTime creationTime, BTCMarketsOrder.Side side) {
 
     BTCMarketsUserTrade marketsUserTrade = new BTCMarketsUserTrade();
     Whitebox.setInternalState(marketsUserTrade, "id", id);
@@ -135,7 +136,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   }
 
   protected static BTCMarketsOrder createBTCMarketsOrder(Long id, BigDecimal volume, BigDecimal price, String currency, String instrument,
-      BTCMarketsOrder.Side orderSide, BTCMarketsOrder.Type ordertype, String clientRequestId, Date creationTime, String status, String errorMessage,
+      BTCMarketsOrder.Side orderSide, BTCMarketsOrder.Type ordertype, String clientRequestId, ZonedDateTime creationTime, String status, String errorMessage,
       BigDecimal openVolume, List<BTCMarketsUserTrade> trades) {
     BTCMarketsOrder order = new BTCMarketsOrder(volume, price, currency, instrument, orderSide, ordertype, clientRequestId);
 

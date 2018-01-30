@@ -1,11 +1,11 @@
 package org.knowm.xchange.kuna.dto.enums;
 
+import org.junit.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.knowm.xchange.kuna.dto.enums.KunaOrderType.LIMIT;
 import static org.knowm.xchange.kuna.dto.enums.KunaOrderType.MARKET;
-
-import org.junit.Test;
 
 public class KunaOrderTypeTest {
   @Test

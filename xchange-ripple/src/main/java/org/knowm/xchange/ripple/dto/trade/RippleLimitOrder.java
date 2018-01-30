@@ -1,11 +1,11 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class RippleLimitOrder extends LimitOrder {
 
@@ -13,7 +13,7 @@ public class RippleLimitOrder extends LimitOrder {
   private final String counterCounterparty;
 
   public RippleLimitOrder(final OrderType type, final BigDecimal originalAmount, final CurrencyPair currencyPair, final String id,
-      final Date timestamp, final BigDecimal limitPrice, final String baseCounterparty, final String counterCounterparty) {
+                          final ZonedDateTime timestamp, final BigDecimal limitPrice, final String baseCounterparty, final String counterCounterparty) {
     super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
     this.baseCounterparty = baseCounterparty;
     this.counterCounterparty = counterCounterparty;

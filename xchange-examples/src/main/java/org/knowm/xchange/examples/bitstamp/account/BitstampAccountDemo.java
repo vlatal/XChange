@@ -1,20 +1,16 @@
 package org.knowm.xchange.examples.bitstamp.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
-import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
-import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
-import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
-import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
+import org.knowm.xchange.bitstamp.dto.account.*;
 import org.knowm.xchange.bitstamp.service.BitstampAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.bitstamp.BitstampDemoUtils;
 import org.knowm.xchange.service.account.AccountService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <p>

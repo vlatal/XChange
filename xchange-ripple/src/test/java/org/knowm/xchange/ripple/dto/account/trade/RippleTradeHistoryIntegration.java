@@ -1,10 +1,5 @@
 package org.knowm.xchange.ripple.dto.account.trade;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Calendar;
-import java.util.Date;
-
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -15,6 +10,11 @@ import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RippleTradeHistoryIntegration {
 
@@ -39,9 +39,9 @@ public class RippleTradeHistoryIntegration {
 
     // Only search for trades done in the last day
     final Calendar cal = Calendar.getInstance();
-    cal.setTime(new Date());
-    cal.add(Calendar.DATE, -1);
-    params.setStartTime(cal.getTime());
+    ZonedDateTime datetime = ZonedDateTime.now();
+    datetime.minusDays(1);
+    params.setStartTime(datetime);
 
     final UserTrades trades = tradeService.getTradeHistory(params);
     System.out.println(String.format("Found %d/%d trades with %d/%d API calls", params.getTradeCount(), params.getTradeCountLimit(),

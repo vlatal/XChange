@@ -1,23 +1,6 @@
 package org.knowm.xchange.cryptopia;
 
-import java.text.ParseException;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
-import java.util.Base64;
-
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaCurrency;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaMarketHistory;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrder;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaOrderBook;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTicker;
-import org.knowm.xchange.cryptopia.dto.marketdata.CryptopiaTradePair;
+import org.knowm.xchange.cryptopia.dto.marketdata.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -32,6 +15,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Various adapters for converting from Cryptopia DTOs to XChange DTOs
  */
@@ -41,11 +30,11 @@ public final class CryptopiaAdapters {
   private CryptopiaAdapters() {
   }
 
-  public static Date convertTimestamp(String timestamp)   {
+  public static ZonedDateTime convertTimestamp(String timestamp)   {
 
 
     try {
-      return  org.knowm.xchange.utils.DateUtils.fromISO8601DateString(timestamp);
+      return org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime(timestamp);
     } catch (com.fasterxml.jackson.databind.exc.InvalidFormatException e) {
      throw new Error("Date parse failure:"+timestamp);
     }
@@ -62,7 +51,7 @@ public final class CryptopiaAdapters {
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, cryptopiaOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, cryptopiaOrderBook.getBids());
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(ZonedDateTime.now(), asks, bids);
   }
 
   private static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<CryptopiaOrder> orders) {
@@ -94,7 +83,7 @@ public final class CryptopiaAdapters {
         .high(cryptopiaTicker.getHigh())
         .low(cryptopiaTicker.getLow())
         .volume(cryptopiaTicker.getVolume())
-        .timestamp(new Date())
+        .timestamp(ZonedDateTime.now())
         .build();
   }
 
@@ -118,7 +107,7 @@ public final class CryptopiaAdapters {
   private static Trade adaptTrade(CryptopiaMarketHistory cryptopiaMarketHistory) {
     Order.OrderType orderType = "Buy".equals(cryptopiaMarketHistory.getType()) ? Order.OrderType.BID : Order.OrderType.ASK;
     String tradeTimestamp = String.valueOf(cryptopiaMarketHistory.getTimestamp());
-    Date date = DateUtils.fromMillisUtc(cryptopiaMarketHistory.getTimestamp() * 1000L);
+    ZonedDateTime date = DateUtils.fromSecondsToZonedDateTime(cryptopiaMarketHistory.getTimestamp());
 
     return new Trade(orderType, cryptopiaMarketHistory.getAmount(), CurrencyPairDeserializer.getCurrencyPairFromString(cryptopiaMarketHistory.getLabel()),
         cryptopiaMarketHistory.getPrice(), date, tradeTimestamp);

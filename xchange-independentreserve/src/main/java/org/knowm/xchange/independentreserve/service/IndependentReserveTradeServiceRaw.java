@@ -1,27 +1,17 @@
 package org.knowm.xchange.independentreserve.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.independentreserve.IndependentReserveAuthenticated;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrderRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.trade.*;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction.Type;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
-import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
-
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Author: Kamil Zbikowski Date: 4/13/15
@@ -134,8 +124,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     return trades;
   }
 
-  public IndependentReserveTransactionsResponse getIndependentReserveTransactions(String accountGuid, Date fromTimestampUtc, Date toTimestampUtc,
-      Type[] txTypes, Integer pageNumber) throws IOException {
+  public IndependentReserveTransactionsResponse getIndependentReserveTransactions(String accountGuid, ZonedDateTime fromTimestampUtc, ZonedDateTime toTimestampUtc,
+                                                                                  Type[] txTypes, Integer pageNumber) throws IOException {
     if (pageNumber <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }

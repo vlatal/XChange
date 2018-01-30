@@ -1,11 +1,11 @@
 package org.knowm.xchange.kuna.dto.enums;
 
+import org.junit.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
-
-import org.junit.Test;
 
 public class KunaSideTest {
 

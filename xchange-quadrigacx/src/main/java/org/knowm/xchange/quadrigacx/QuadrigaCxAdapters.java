@@ -1,11 +1,5 @@
 package org.knowm.xchange.quadrigacx;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -25,6 +19,14 @@ import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTicker;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTransaction;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class QuadrigaCxAdapters {
 
@@ -53,7 +55,7 @@ public final class QuadrigaCxAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, quadrigacxOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, quadrigacxOrderBook.getBids());
-    Date date = new Date(quadrigacxOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(quadrigacxOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
     return new OrderBook(date, asks, bids);
   }
 
@@ -100,7 +102,7 @@ public final class QuadrigaCxAdapters {
         lastTradeId = tradeId;
       }
       trades
-          .add(new Trade(type, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+          .add(new Trade(type, tx.getAmount(), currencyPair, tx.getPrice(), ZonedDateTime.ofInstant(Instant.ofEpochSecond(tx.getDate()), ZoneOffset.UTC), String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -132,7 +134,7 @@ public final class QuadrigaCxAdapters {
     Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
     BigDecimal originalAmount = quadrigacxUserTransaction.getCurrencyAmount(currencyPair.base.getCurrencyCode());
     BigDecimal price = quadrigacxUserTransaction.getPrice().abs();
-    Date timestamp = QuadrigaCxUtils.parseDate(quadrigacxUserTransaction.getDatetime());
+    ZonedDateTime timestamp = QuadrigaCxUtils.parseDate(quadrigacxUserTransaction.getDatetime());
     long transactionId = quadrigacxUserTransaction.getId();
 
     final String tradeId = String.valueOf(transactionId);

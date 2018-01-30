@@ -1,14 +1,14 @@
 package org.knowm.xchange.examples.bitfinex.trade;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexFundingTradeResponse;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeServiceRaw;
 import org.knowm.xchange.examples.bitfinex.BitfinexDemoUtils;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 public class BitfinexTradeDemo {
 
@@ -30,7 +30,7 @@ public class BitfinexTradeDemo {
 
     BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getTradeService();
 
-    Date tenDaysAgo = Date.from(LocalDate.now().minusDays(10).atStartOfDay(ZoneId.systemDefault()).toInstant());
+    ZonedDateTime tenDaysAgo = LocalDate.now().minusDays(10).atStartOfDay(ZoneOffset.UTC);
     BitfinexFundingTradeResponse[] fundingTradeResponses = tradeService.getBitfinexFundingHistory("USD", tenDaysAgo, 2000);
   }
 }

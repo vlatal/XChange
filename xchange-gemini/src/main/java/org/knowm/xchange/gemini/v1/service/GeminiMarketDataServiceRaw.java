@@ -1,20 +1,15 @@
 package org.knowm.xchange.gemini.v1.service;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.gemini.v1.GeminiAdapters;
+import org.knowm.xchange.gemini.v1.dto.GeminiException;
+import org.knowm.xchange.gemini.v1.dto.marketdata.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.gemini.v1.GeminiAdapters;
-import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLend;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendDepth;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 
 /**
  * <p>

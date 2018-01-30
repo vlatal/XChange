@@ -1,14 +1,13 @@
 package org.knowm.xchange.bittrex.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bittrex.BittrexUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BittrexChartData {
-  private final Date timeStamp;
+  private final ZonedDateTime timeStamp;
   private final BigDecimal open;
   private final BigDecimal close;
   private final BigDecimal high;
@@ -33,7 +32,7 @@ public class BittrexChartData {
     this.baseVolume = baseVolume;
   }
 
-  public Date getTimeStamp() {
+  public ZonedDateTime getTimeStamp() {
     return timeStamp;
   }
 

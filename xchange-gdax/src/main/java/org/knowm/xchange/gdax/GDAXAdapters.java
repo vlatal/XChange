@@ -17,12 +17,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBookEntry;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
+import org.knowm.xchange.gdax.dto.marketdata.*;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.slf4j.Logger;
@@ -30,13 +25,13 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class GDAXAdapters {
 
@@ -46,7 +41,7 @@ public class GDAXAdapters {
 
   }
 
-  protected static Date parseDate(final String rawDate) {
+  protected static ZonedDateTime parseDate(final String rawDate) {
 
     String modified;
     if (rawDate.length() > 23) {
@@ -83,10 +78,10 @@ public class GDAXAdapters {
       }
     }
     try {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return dateFormat.parse(modified);
-    } catch (ParseException e) {
+      DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+      dateFormat.withZone(ZoneOffset.UTC);
+      return ZonedDateTime.parse(modified, dateFormat);
+    } catch (DateTimeParseException e) {
       logger.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
       return null;
     }
@@ -100,7 +95,7 @@ public class GDAXAdapters {
     BigDecimal buy = ticker.getBid();
     BigDecimal sell = ticker.getAsk();
     BigDecimal volume = ticker.getVolume();
-    Date date = parseDate(ticker.getTime());
+    ZonedDateTime date = parseDate(ticker.getTime());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(buy).ask(sell).volume(volume).timestamp(date).build();
   }
@@ -151,7 +146,7 @@ public class GDAXAdapters {
       OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
 
-      Date createdAt = parseDate(order.getCreatedAt());
+      ZonedDateTime createdAt = parseDate(order.getCreatedAt());
 
       OrderStatus orderStatus = adaptOrderStatus(order);
 
@@ -168,7 +163,7 @@ public class GDAXAdapters {
     OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
     CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
 
-    Date createdAt = parseDate(order.getCreatedAt());
+    ZonedDateTime createdAt = parseDate(order.getCreatedAt());
 
     Order returnValue;
 

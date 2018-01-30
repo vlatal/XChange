@@ -1,12 +1,12 @@
 package org.knowm.xchange.binance.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public final class BinanceTicker24h {
 
@@ -159,12 +159,12 @@ public final class BinanceTicker24h {
     return count;
   }
 
-  public Date getOpenTime() {
-    return new Date(openTime);
+  public ZonedDateTime getOpenTime() {
+    return DateUtils.fromMillisToZonedDateTime(openTime);
   }
 
-  public Date getCloseTime() {
-    return new Date(closeTime);
+  public ZonedDateTime getCloseTime() {
+    return DateUtils.fromMillisToZonedDateTime(closeTime);
   }
   
   public synchronized Ticker toTicker() {

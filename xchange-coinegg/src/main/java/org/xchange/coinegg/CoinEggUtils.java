@@ -1,11 +1,10 @@
 package org.xchange.coinegg;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.knowm.xchange.currency.CurrencyPair;
 
 import javax.xml.bind.DatatypeConverter;
-
-import org.knowm.xchange.currency.CurrencyPair;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class CoinEggUtils {
   

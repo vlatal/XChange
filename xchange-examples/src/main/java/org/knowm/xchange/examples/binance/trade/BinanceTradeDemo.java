@@ -1,7 +1,5 @@
 package org.knowm.xchange.examples.binance.trade;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.binance.BinanceExchange;
 import org.knowm.xchange.binance.service.BinanceTradeService;
@@ -12,6 +10,8 @@ import org.knowm.xchange.examples.binance.BinanceDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.utils.StreamUtils;
+
+import java.io.IOException;
 
 public class BinanceTradeDemo {
 

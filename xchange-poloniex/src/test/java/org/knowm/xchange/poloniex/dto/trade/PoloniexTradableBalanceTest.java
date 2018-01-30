@@ -1,6 +1,9 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.MapLikeType;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,11 +11,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.MapLikeType;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PoloniexTradableBalanceTest {
   @Test

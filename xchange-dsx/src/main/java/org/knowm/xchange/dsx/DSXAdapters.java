@@ -1,15 +1,5 @@
 package org.knowm.xchange.dsx;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
@@ -31,14 +21,20 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Mikhail Wall
@@ -74,7 +70,7 @@ public class DSXAdapters {
     OrderType orderType = dSXTrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = dSXTrade.getAmount();
     BigDecimal price = dSXTrade.getPrice();
-    Date date = DateUtils.fromMillisUtc(dSXTrade.getDate() * 1000L);
+    ZonedDateTime date = DateUtils.fromSecondsToZonedDateTime(dSXTrade.getDate());
 
     final String tradeId = String.valueOf(dSXTrade.getTid());
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
@@ -104,7 +100,7 @@ public class DSXAdapters {
     BigDecimal low = dSXTicker.getLow();
     BigDecimal avg = dSXTicker.getAvg();
     BigDecimal volume = dSXTicker.getVol();
-    Date timestamp = DateUtils.fromMillisUtc(dSXTicker.getUpdated() * 1000L);
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(dSXTicker.getUpdated());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
         .timestamp(timestamp).build();
@@ -147,7 +143,7 @@ public class DSXAdapters {
       OrderType type = result.getType() == DSXTradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = result.getRate();
       BigDecimal originalAmount = result.getAmount();
-      Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
+      ZonedDateTime timeStamp = DateUtils.fromSecondsToZonedDateTime(result.getTimestamp());
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());

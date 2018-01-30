@@ -1,9 +1,5 @@
 package org.knowm.xchange.coinmarketcap.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -11,6 +7,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author allenday
@@ -30,7 +31,7 @@ public final class CoinMarketCapTicker {
   private final BigDecimal pctChange1h;
   private final BigDecimal pctChange24h;
   private final BigDecimal pctChange7d;
-  private final Date lastUpdated;
+  private final ZonedDateTime lastUpdated;
   private final CoinMarketCapCurrency baseCurrency;
 
   private CoinMarketCapTicker(
@@ -46,7 +47,7 @@ public final class CoinMarketCapTicker {
       final BigDecimal pctChange1h,
       final BigDecimal pctChange24h,
       final BigDecimal pctChange7d,
-      final Date lastUpdated
+      final ZonedDateTime lastUpdated
   ) {
     this.id = id;
     this.name = name;
@@ -116,7 +117,7 @@ public final class CoinMarketCapTicker {
     return pctChange7d;
   }
 
-  public Date getLastUpdated() {
+  public ZonedDateTime getLastUpdated() {
     return lastUpdated;
   }
 
@@ -139,7 +140,7 @@ public final class CoinMarketCapTicker {
         String id = node.get("id").asText();
         String name = node.get("name").asText();
         String symbol = node.get("symbol").asText();
-        Date lastUpdated = new Date(node.get("last_updated").asLong() * 1000);
+        ZonedDateTime lastUpdated = DateUtils.fromSecondsToZonedDateTime(node.get("last_updated").asLong());
         BigDecimal rank = new BigDecimal(node.get("rank").asInt());
         BigDecimal priceUSD = new BigDecimal(node.get("price_usd").asDouble());
         BigDecimal priceBTC = new BigDecimal(node.get("price_btc").asDouble());

@@ -1,12 +1,12 @@
 package org.knowm.xchange.dto.account;
 
+import org.knowm.xchange.currency.Currency;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.knowm.xchange.currency.Currency;
 
 /**
  * <p>
@@ -26,7 +26,7 @@ public final class FundingRecord implements Serializable {
   /**
    * Date/Time of transaction
    */
-  private final Date date;
+  private final ZonedDateTime date;
 
   /**
    * The transaction currency
@@ -90,7 +90,7 @@ public final class FundingRecord implements Serializable {
    * @deprecated Use the constructor with enum status parameter.
    */
   @Deprecated
-  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
+  public FundingRecord(final String address, final ZonedDateTime date, final Currency currency, final BigDecimal amount,
       final String internalId, final String externalId,
       final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
       final String description) {
@@ -117,7 +117,7 @@ public final class FundingRecord implements Serializable {
    * @param fee Transaction Fee Amount (always positive)
    * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
-  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
+  public FundingRecord(final String address, final ZonedDateTime date, final Currency currency, final BigDecimal amount,
       final String internalId, final String externalId,
       final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
       final String description) {
@@ -144,7 +144,7 @@ public final class FundingRecord implements Serializable {
   /**
    * @return Date/Time of transaction
    */
-  public Date getDate() {
+  public ZonedDateTime getDate() {
     return date;
   }
 
@@ -220,7 +220,7 @@ public final class FundingRecord implements Serializable {
   public static final class Builder {
 
     private String address;
-    private Date date;
+    private ZonedDateTime date;
     private Currency currency;
     private BigDecimal amount;
     private String internalId;
@@ -236,7 +236,7 @@ public final class FundingRecord implements Serializable {
       return this;
     }
 
-    public Builder setDate(Date date) {
+    public Builder setDate(ZonedDateTime date) {
       this.date = date;
       return this;
     }

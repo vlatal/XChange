@@ -1,8 +1,5 @@
 package org.knowm.xchange.coinbase.v2.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -17,6 +14,9 @@ import org.knowm.xchange.coinbase.v2.service.CoinbaseAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.AuthUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountServiceIntegration {
 

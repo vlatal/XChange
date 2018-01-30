@@ -3,11 +3,7 @@ package org.knowm.xchange.hitbtc.v2.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransferType;
+import org.knowm.xchange.hitbtc.v2.dto.*;
 import si.mazi.rescu.HttpStatusIOException;
 
 import java.io.IOException;

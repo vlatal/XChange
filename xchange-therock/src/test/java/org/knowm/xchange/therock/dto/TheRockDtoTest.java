@@ -1,14 +1,6 @@
 package org.knowm.xchange.therock.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.therock.TheRock;
@@ -19,7 +11,14 @@ import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TheRockDtoTest {
 
@@ -92,8 +91,8 @@ public class TheRockDtoTest {
     assertThat(json.getTransactionId()).isEqualTo(65088485);
   }
 
-  private Date getDate(String dateStr) throws ParseException {
-    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX").parse(dateStr);
+  private ZonedDateTime getDate(String dateStr) throws DateTimeParseException {
+    return ZonedDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX"));
   }
 
   private static <T> T parse(Class<T> theClass) throws IOException {

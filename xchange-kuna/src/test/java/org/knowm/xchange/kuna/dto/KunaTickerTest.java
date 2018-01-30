@@ -1,17 +1,16 @@
 package org.knowm.xchange.kuna.dto;
 
-import static java.lang.Double.MAX_VALUE;
-import static java.lang.Double.MIN_VALUE;
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static java.lang.Double.MAX_VALUE;
+import static java.lang.Double.MIN_VALUE;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class KunaTickerTest {
 

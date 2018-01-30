@@ -1,15 +1,5 @@
 package org.knowm.xchange.coinbase.v2;
 
-import java.io.IOException;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseExchangeRateData;
@@ -17,6 +7,10 @@ import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbasePriceData;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseTimeData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

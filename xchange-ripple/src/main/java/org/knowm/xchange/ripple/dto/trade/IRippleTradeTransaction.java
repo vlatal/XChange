@@ -1,10 +1,10 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.ripple.dto.RippleAmount;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 public interface IRippleTradeTransaction {
   List<RippleAmount> getBalanceChanges();
@@ -15,5 +15,5 @@ public interface IRippleTradeTransaction {
 
   String getHash();
 
-  Date getTimestamp();
+  ZonedDateTime getTimestamp();
 }

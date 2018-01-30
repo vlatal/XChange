@@ -1,14 +1,14 @@
 package org.knowm.xchange.therock.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class TheRockTransaction {
 
   private final long id;
-  private final Date date;
+  private final ZonedDateTime date;
   private final String type;
   private final BigDecimal price;
   private final String currency;
@@ -16,7 +16,7 @@ public class TheRockTransaction {
   private final Long tradeId;
   private final TransferDetail transferDetail;
 
-  public TheRockTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date, @JsonProperty("type") String type,
+  public TheRockTransaction(@JsonProperty("id") long id, @JsonProperty("date") ZonedDateTime date, @JsonProperty("type") String type,
       @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency, @JsonProperty("order_id") Long orderId,
       @JsonProperty("trade_id") Long tradeId, @JsonProperty("transfer_detail") TransferDetail transferDetail) {
     this.id = id;
@@ -33,7 +33,7 @@ public class TheRockTransaction {
     return id;
   }
 
-  public Date getDate() {
+  public ZonedDateTime getDate() {
     return date;
   }
 

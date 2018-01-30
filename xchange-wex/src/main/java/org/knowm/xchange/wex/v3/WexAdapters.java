@@ -1,15 +1,5 @@
 package org.knowm.xchange.wex.v3;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -24,12 +14,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexPairInfo;
@@ -41,6 +26,18 @@ import org.knowm.xchange.wex.v3.dto.trade.WexOrderInfoResult;
 import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Various adapters for converting from Wex DTOs to XChange DTOs
@@ -104,7 +101,7 @@ public final class WexAdapters {
     OrderType orderType = bTCETrade.getTradeType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = bTCETrade.getAmount();
     BigDecimal price = bTCETrade.getPrice();
-    Date date = DateUtils.fromMillisUtc(bTCETrade.getDate() * 1000L);
+    ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochSecond(bTCETrade.getDate()), ZoneOffset.UTC);
 
     final String tradeId = String.valueOf(bTCETrade.getTid());
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
@@ -122,7 +119,7 @@ public final class WexAdapters {
     List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
     for (WexTrade bTCETrade : bTCETrades) {
-      // Date is reversed order. Insert at index 0 instead of appending
+      // ZonedDateTime is reversed order. Insert at index 0 instead of appending
       long tradeId = bTCETrade.getTid();
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
@@ -147,7 +144,7 @@ public final class WexAdapters {
     BigDecimal low = bTCETicker.getLow();
     BigDecimal avg = bTCETicker.getAvg();
     BigDecimal volume = bTCETicker.getVolCur();
-    Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
+    ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(bTCETicker.getUpdated()), ZoneOffset.UTC);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
         .timestamp(timestamp).build();
@@ -177,7 +174,7 @@ public final class WexAdapters {
       WexOrder bTCEOrder = btceOrderMap.get(id);
       OrderType orderType = bTCEOrder.getType() == WexOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = bTCEOrder.getRate();
-      Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
+      ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(bTCEOrder.getTimestampCreated()), ZoneOffset.UTC);
       CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
 
       limitOrders.add(new LimitOrder(orderType, bTCEOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
@@ -193,7 +190,7 @@ public final class WexAdapters {
       OrderType type = result.getType() == WexTradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
       BigDecimal price = result.getRate();
       BigDecimal originalAmount = result.getAmount();
-      Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
+      ZonedDateTime timeStamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(result.getTimestamp()), ZoneOffset.UTC);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
@@ -213,7 +210,7 @@ public final class WexAdapters {
 
     OrderType orderType = orderInfo.getType() == WexOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
     BigDecimal price = orderInfo.getRate();
-    Date timestamp = DateUtils.fromMillisUtc(orderInfo.getTimestampCreated() * 1000L);
+    ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(orderInfo.getTimestampCreated()), ZoneOffset.UTC);
     CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
     OrderStatus orderStatus = null;
     switch (orderInfo.getStatus()) {

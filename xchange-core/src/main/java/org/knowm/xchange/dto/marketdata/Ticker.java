@@ -1,12 +1,12 @@
 package org.knowm.xchange.dto.marketdata;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.Assert;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * <p>

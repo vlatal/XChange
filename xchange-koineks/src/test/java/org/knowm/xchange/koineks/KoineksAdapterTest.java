@@ -1,17 +1,16 @@
 package org.knowm.xchange.koineks;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.koineks.dto.marketdata.KoineksTicker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author semihunaldi
@@ -34,6 +33,6 @@ public class KoineksAdapterTest {
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("24.62"));
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("47500.00"));
     assertThat(ticker.getLow()).isEqualTo(new BigDecimal("46500.00"));
-    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1512481980L);
+    assertThat(ticker.getTimestamp().toInstant().getEpochSecond()).isEqualTo(1512481980L);
   }
 }

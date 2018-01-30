@@ -1,10 +1,10 @@
 package org.knowm.xchange.bitfinex.v1.dto.account;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.ZonedDateTime;
 
 /**
  * http://docs.bitfinex.com/#deposit-withdrawal-history
@@ -50,13 +50,13 @@ public class BitfinexDepositWithdrawalHistoryRequest {
   @JsonInclude(Include.NON_NULL)
   private final Integer limit;
 
-  public BitfinexDepositWithdrawalHistoryRequest(String nonce, String currency, String method, Date since, Date until, Integer limit) {
+  public BitfinexDepositWithdrawalHistoryRequest(String nonce, String currency, String method, ZonedDateTime since, ZonedDateTime until, Integer limit) {
     this.request = "/v1/history/movements";
     this.nonce = String.valueOf(nonce);
     this.currency = currency;
     this.method = method;
-    this.since = since == null ? null : String.valueOf(since.getTime() / 1000);
-    this.until = until == null ? null : String.valueOf(until.getTime() / 1000);
+    this.since = since == null ? null : String.valueOf(since.toInstant().getEpochSecond());
+    this.until = until == null ? null : String.valueOf(until.toInstant().getEpochSecond());
     this.limit = limit;
   }
 }

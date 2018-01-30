@@ -1,14 +1,13 @@
 package org.knowm.xchange.anx.v2.dto.trade;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 
 /**
  * Test ANXOpenOrders JSON parsing
@@ -26,7 +25,7 @@ public class OpenOrdersJSONTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXOpenOrder[] anxOpenOrders = mapper.readValue(is, ANXOpenOrder[].class);
 
-    // System.out.println(new Date(anxOpenOrders[0].getTimestamp()));
+    // System.out.println(DateUtils.fromMillisToZonedDateTime(anxOpenOrders[0].getTimestamp()));
 
     // Verify that the example data was unmarshalled correctly
     Assert.assertEquals("7eecf4b2-5785-4500-a5d4-f3f8c924395c", anxOpenOrders[1].getOid());

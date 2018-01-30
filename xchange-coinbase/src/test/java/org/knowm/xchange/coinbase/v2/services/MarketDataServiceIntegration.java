@@ -1,12 +1,5 @@
 package org.knowm.xchange.coinbase.v2.services;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,6 +11,13 @@ import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.Coinbas
 import org.knowm.xchange.coinbase.v2.service.CoinbaseMarketDataService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author timmolter
@@ -65,7 +65,7 @@ public class MarketDataServiceIntegration {
     money = coinbaseService.getCoinbaseSpotRate(Currency.BTC, Currency.USD);
     assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
 
-    money = coinbaseService.getCoinbaseHistoricalSpotRate(Currency.BTC, Currency.USD, new Date());
+    money = coinbaseService.getCoinbaseHistoricalSpotRate(Currency.BTC, Currency.USD, ZonedDateTime.now());
     assertThat(money).hasFieldOrPropertyWithValue("currency", Currency.USD).hasNoNullFieldsOrProperties();
   }
 }

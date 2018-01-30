@@ -1,19 +1,18 @@
 package org.knowm.xchange.dsx.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXAdapters;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test DSXTicker JSON parsing
@@ -35,8 +34,8 @@ public class DSXTickerJSONTest {
     assertThat(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)).getLow()).isEqualTo(new BigDecimal("91.14"));
     assertThat(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)).getVol()).isEqualTo(new BigDecimal("1632898.2249"));
 
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    f.withZone(ZoneOffset.UTC);
     String dateString = f
         .format(DateUtils.fromMillisUtc(dsxTickerWrapper.getTicker(DSXAdapters.getPair(CurrencyPair.BTC_USD)).getUpdated() * 1000L));
     assertThat(dateString).isEqualTo("2013-06-09 22:18:28");

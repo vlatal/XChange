@@ -1,8 +1,5 @@
 package org.xchange.bitz.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -12,6 +9,9 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.xchange.bitz.BitZAdapters;
 import org.xchange.bitz.BitZUtils;
 import org.xchange.bitz.dto.marketdata.BitZKline;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BitZMarketDataService extends BitZMarketDataServiceRaw implements MarketDataService {
 

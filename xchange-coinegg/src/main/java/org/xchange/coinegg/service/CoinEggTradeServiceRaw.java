@@ -1,17 +1,16 @@
 package org.xchange.coinegg.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.xchange.coinegg.CoinEggAuthenticated;
 import org.xchange.coinegg.dto.trade.CoinEggTradeAdd;
 import org.xchange.coinegg.dto.trade.CoinEggTradeCancel;
 import org.xchange.coinegg.dto.trade.CoinEggTradeView;
-
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class CoinEggTradeServiceRaw extends CoinEggBaseService {
  

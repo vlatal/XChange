@@ -1,10 +1,5 @@
 package org.knowm.xchange.bleutrade;
 
-import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
-
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -13,6 +8,11 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+
+import static org.knowm.xchange.bleutrade.BleutradeUtils.toDate;
 
 public class BleutradeTestData {
 
@@ -32,8 +32,8 @@ public class BleutradeTestData {
   protected static Trade[] expectedTrades() {
     return new Trade[]{
         new Trade(Order.OrderType.BID, new BigDecimal("654971.69417461"), CurrencyPair.BTC_AUD, new BigDecimal("0.00000055"),
-            new Date(1406657280000L), null),
-        new Trade(Order.OrderType.ASK, new BigDecimal("120.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("0.00006600"), new Date(1406657555000L),
+            DateUtils.fromMillisToZonedDateTime(1406657280000L), null),
+        new Trade(Order.OrderType.ASK, new BigDecimal("120.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("0.00006600"), DateUtils.fromMillisToZonedDateTime(1406657555000L),
             null),};
   }
 
@@ -69,7 +69,7 @@ public class BleutradeTestData {
   protected static Ticker expectedTicker() {
     return new Ticker.Builder().currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977")).bid(new BigDecimal("0.00100000"))
         .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000")).vwap(new BigDecimal("0.00103455"))
-        .volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
+        .volume(new BigDecimal("2450.97496015")).timestamp(DateUtils.fromMillisToZonedDateTime(1406632770000L)).build();
   }
 
   protected static CurrencyPairMetaData[] expectedMetaDataList() {

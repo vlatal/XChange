@@ -1,20 +1,10 @@
 package org.knowm.xchange.bitmarket;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTrade;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperation;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryOperations;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
-import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrder;
+import org.knowm.xchange.bitmarket.dto.trade.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -28,6 +18,13 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author kpysniak, kfonal
@@ -86,7 +83,7 @@ public class BitMarketAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (BigDecimal[] order : orders) {
-      limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
+      limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, ZonedDateTime.now(), order[0]));
     }
 
     return limitOrders;
@@ -107,7 +104,7 @@ public class BitMarketAdapters {
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
       Trade trade = new Trade(bitMarketTrade.getType().equals("sell") ? OrderType.ASK : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
-          bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
+          bitMarketTrade.getPrice(), DateUtils.fromMillisToZonedDateTime(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
 
       tradeList.add(trade);
     }

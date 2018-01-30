@@ -1,16 +1,17 @@
 package org.knowm.xchange.bitcoincharts;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs
@@ -41,7 +42,7 @@ public final class BitcoinChartsAdapters {
         BigDecimal high = bitcoinChartsTickers[i].getHigh() != null ? bitcoinChartsTickers[i].getHigh() : null;
         BigDecimal low = bitcoinChartsTickers[i].getLow() != null ? bitcoinChartsTickers[i].getLow() : null;
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
-        Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
+        ZonedDateTime timeStamp = DateUtils.fromSecondsToZonedDateTime(bitcoinChartsTickers[i].getLatestTrade());
 
         return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timeStamp)
             .build();

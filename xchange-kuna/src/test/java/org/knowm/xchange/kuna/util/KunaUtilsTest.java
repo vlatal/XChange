@@ -1,12 +1,13 @@
 package org.knowm.xchange.kuna.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Date;
-
-import org.assertj.core.api.AbstractDateAssert;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.time.ZonedDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class KunaUtilsTest {
 
@@ -20,8 +21,12 @@ public class KunaUtilsTest {
   @Test
   public void test_to_date() {
     String dateString = "2018-01-16T14:19:24+02:00";
-    Date actual = KunaUtils.toDate(dateString);
-    assertThat(actual).isEqualToIgnoringHours(dateString);
+    ZonedDateTime actual = KunaUtils.toDate(dateString);
+    try {
+      assertThat(actual).isEqualToIgnoringHours(DateUtils.fromISODateStringToZonedDateTime(dateString));
+    } catch (InvalidFormatException e) {
+      e.printStackTrace();
+    }
 
     assertThat(KunaUtils.toDate("2018-01-16T09:28:05Z")).isEqualTo("2018-01-16T09:28:05Z");
   }

@@ -1,15 +1,5 @@
 package org.knowm.xchange.mercadobitcoin;
 
-import static org.knowm.xchange.utils.DateUtils.fromUnixTime;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -32,6 +22,16 @@ import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
 import org.knowm.xchange.mercadobitcoin.dto.trade.OperationEntry;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Various adapters for converting from Mercado Bitcoin DTOs to XChange DTOs
@@ -97,7 +97,7 @@ public final class MercadoBitcoinAdapters {
     BigDecimal high = mercadoBitcoinTicker.getTicker().getHigh();
     BigDecimal low = mercadoBitcoinTicker.getTicker().getLow();
     BigDecimal volume = mercadoBitcoinTicker.getTicker().getVol();
-    Date timestamp = new Date(mercadoBitcoinTicker.getTicker().getDate() * 1000L);
+    ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(mercadoBitcoinTicker.getTicker().getDate()), ZoneOffset.UTC);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -120,7 +120,7 @@ public final class MercadoBitcoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(toOrderType(tx.getType()), tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L),
+      trades.add(new Trade(toOrderType(tx.getType()), tx.getAmount(), currencyPair, tx.getPrice(), ZonedDateTime.ofInstant(Instant.ofEpochSecond(tx.getDate()), ZoneOffset.UTC),
           String.valueOf(tradeId)));
     }
 
@@ -167,7 +167,7 @@ public final class MercadoBitcoinAdapters {
     BigDecimal price = userOrdersEntry.getPrice();
     BigDecimal volume = userOrdersEntry.getVolume();
     long time = userOrdersEntry.getCreated() * 1000L;
-    return new LimitOrder(orderType, volume, currencyPair, id, new Date(time), price);
+    return new LimitOrder(orderType, volume, currencyPair, id, DateUtils.fromMillisToZonedDateTime(time), price);
   }
 
   private static OrderType toOrderType(String mercadoType) {
@@ -187,7 +187,7 @@ public final class MercadoBitcoinAdapters {
       for (Map.Entry<String, OperationEntry> f : order.getOperations().entrySet()) {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
-        result.add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated()))
+        result.add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(ZonedDateTime.ofInstant(Instant.ofEpochSecond(op.getCreated()), ZoneOffset.UTC))
             .originalAmount(op.getVolume()).type(type).build());
       }
     }

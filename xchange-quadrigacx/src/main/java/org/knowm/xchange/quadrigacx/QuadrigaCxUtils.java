@@ -1,12 +1,12 @@
 package org.knowm.xchange.quadrigacx;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * A central place for shared QuadrigaCx properties
@@ -15,11 +15,11 @@ public final class QuadrigaCxUtils {
 
   private static final String TIMEZONE = "UTC";
   private static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
-  private static final SimpleDateFormat DATE_FORMAT;
+  private static final DateTimeFormatter DATE_FORMAT;
 
   static {
-    DATE_FORMAT = new SimpleDateFormat(PATTERN);
-    DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+    DATE_FORMAT = DateTimeFormatter.ofPattern(PATTERN);
+    DATE_FORMAT.withZone(ZoneId.of(TIMEZONE));
   }
 
   /**
@@ -35,12 +35,12 @@ public final class QuadrigaCxUtils {
    * @param dateString
    * @return
    */
-  public static Date parseDate(String dateString) {
+  public static ZonedDateTime parseDate(String dateString) {
     try {
-      synchronized (DATE_FORMAT) { // SimpleDateFormat is not thread safe, therefore synchronize it
-        return DATE_FORMAT.parse(dateString);
+      synchronized (DATE_FORMAT) { // DateTimeFormatter is not thread safe, therefore synchronize it
+        return ZonedDateTime.parse(dateString, DATE_FORMAT);
       }
-    } catch (ParseException e) {
+    } catch (DateTimeParseException e) {
       throw new ExchangeException("Illegal date/time format", e);
     }
   }

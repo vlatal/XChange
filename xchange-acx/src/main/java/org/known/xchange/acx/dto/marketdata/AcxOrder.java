@@ -3,7 +3,7 @@ package org.known.xchange.acx.dto.marketdata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class AcxOrder {
     /** Unique order ID */
@@ -24,7 +24,7 @@ public class AcxOrder {
     /** the market the order belongs to, like ‘btcaud’ */
     private final String marker;
     /** Order created time */
-    public final Date createdAt;
+    public final ZonedDateTime createdAt;
     /** Volume to buy/sell */
     public final BigDecimal volume;
     /** remaining_volume is always less or equal than volume */
@@ -41,7 +41,7 @@ public class AcxOrder {
             @JsonProperty("avg_price") BigDecimal avgPrice,
             @JsonProperty("state") String state,
             @JsonProperty("market") String market,
-            @JsonProperty("created_at") Date createdAt,
+            @JsonProperty("created_at") ZonedDateTime createdAt,
             @JsonProperty("volume") BigDecimal volume,
             @JsonProperty("remaining_volume") BigDecimal remainingVolume,
             @JsonProperty("executed_volume") BigDecimal executedVolume,

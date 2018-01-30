@@ -1,10 +1,5 @@
 package org.knowm.xchange.examples.dsx.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
@@ -17,6 +12,11 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.Map;
 
 /**
  * @author Mikhail Wall
@@ -36,7 +36,7 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("900"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, "", ZonedDateTime.now(), new BigDecimal("900"));
 
     String limitOrderReturnValue = null;
     try {

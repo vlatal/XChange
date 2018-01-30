@@ -1,11 +1,5 @@
 package org.knowm.xchange.anx.v2.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
@@ -17,12 +11,13 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -114,13 +109,13 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     private Currency currency;
     private Integer pageNumber;
     private Integer pageLength;//not supported
-    private Date startTime;
-    private Date endTime;
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
 
     public AnxFundingHistoryParams() {
     }
 
-    public AnxFundingHistoryParams(Currency currency, Date startTime, Date endTime) {
+    public AnxFundingHistoryParams(Currency currency, ZonedDateTime startTime, ZonedDateTime endTime) {
       this.currency = currency;
       this.startTime = startTime;
       this.endTime = endTime;
@@ -159,22 +154,22 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
 
     @Override
-    public void setStartTime(Date startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
       this.startTime = startTime;
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Date endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
       this.endTime = endTime;
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
       return endTime;
     }
   }

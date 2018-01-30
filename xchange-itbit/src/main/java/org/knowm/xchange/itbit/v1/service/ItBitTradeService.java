@@ -1,12 +1,5 @@
 package org.knowm.xchange.itbit.v1.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -20,15 +13,16 @@ import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeService {
 
@@ -120,10 +114,10 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
       implements TradeHistoryParamsTimeSpan, TradeHistoryParamTransactionId, TradeHistoryParamPaging {
 
     private String txId;
-    private Date startTime;
-    private Date endTime;
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
 
-    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, String txId, Date startTime, Date endTime) {
+    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, String txId, ZonedDateTime startTime, ZonedDateTime endTime) {
       super(pageLength, pageNumber);
       this.txId = txId;
       this.startTime = startTime;
@@ -141,22 +135,22 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     }
 
     @Override
-    public void setStartTime(Date startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
       this.startTime = startTime;
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Date endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
       this.endTime = endTime;
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
       return endTime;
     }
   }

@@ -1,11 +1,11 @@
 package org.knowm.xchange.dto.trade;
 
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Set;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 
 /**
  * DTO representing a market order
@@ -22,7 +22,7 @@ public class MarketOrder extends Order {
    * @param originalAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param timestamp a ZonedDateTime object representing the order's timestamp according to the exchange's server, null if not provided
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */

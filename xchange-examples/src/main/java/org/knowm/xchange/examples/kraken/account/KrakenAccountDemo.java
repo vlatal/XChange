@@ -1,9 +1,5 @@
 package org.knowm.xchange.examples.kraken.account;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,6 +12,10 @@ import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * <p>
@@ -55,7 +55,7 @@ public class KrakenAccountDemo {
     TradeHistoryParams params = accountService.createFundingHistoryParams();
     if (params instanceof TradeHistoryParamsTimeSpan) {
       final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-      timeSpanParam.setStartTime(new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
+      timeSpanParam.setStartTime(DateUtils.fromMillisToZonedDateTime(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
     }
 
     if (params instanceof HistoryParamsFundingType) {

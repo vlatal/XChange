@@ -1,17 +1,16 @@
 package org.knowm.xchange.itbit.service.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
-import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test Transaction[] JSON parsing
@@ -38,6 +37,6 @@ public class JsonTest {
     assertThat(userTrade.getCurrency1()).isEqualTo("XBT");
     assertThat(userTrade.getCurrency1Amount()).isEqualByComparingTo(new BigDecimal("0.0001"));
     assertThat(userTrade.getRebatesApplied()).isEqualTo(new BigDecimal("-0.000125265"));
-    assertThat(userTrade.getTimestamp()).withDateFormat(new ISO8601DateFormat()).isEqualTo("2015-05-11T14:48:01.987Z");
+    assertThat(userTrade.getTimestamp().format(DateUtils.ISO_DATE_FORMAT_UTC)).isEqualTo("2015-05-11T14:48:01.987Z");
   }
 }

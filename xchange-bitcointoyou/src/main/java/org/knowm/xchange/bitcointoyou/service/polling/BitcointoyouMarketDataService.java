@@ -1,7 +1,5 @@
 package org.knowm.xchange.bitcointoyou.service.polling;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouOrderBook;
@@ -13,6 +11,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
 
 /**
  * {@link MarketDataService} implementation for Bitcointoyou Exchange.

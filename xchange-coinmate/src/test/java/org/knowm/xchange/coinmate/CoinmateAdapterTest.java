@@ -23,20 +23,19 @@
  */
 package org.knowm.xchange.coinmate;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Martin Stachon
@@ -59,8 +58,8 @@ public class CoinmateAdapterTest {
     assertThat(ticker.getBid().toString()).isEqualTo("252.93");
     assertThat(ticker.getAsk().toString()).isEqualTo("254.08");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("42.78294066"));
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    f.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    f.withZone(ZoneOffset.UTC);
     String dateString = f.format(ticker.getTimestamp());
     assertThat(dateString).isEqualTo("2017-01-26 20:12:57");
   }

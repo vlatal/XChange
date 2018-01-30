@@ -1,8 +1,8 @@
 package org.xchange.coinegg.dto.accounts;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class CoinEggBalance {
   

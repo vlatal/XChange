@@ -1,11 +1,5 @@
 package org.knowm.xchange.coinbase;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -24,6 +18,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * jamespedwards42
@@ -63,7 +64,7 @@ public final class CoinbaseAdapters {
     final CoinbaseMoney subTotal = transfer.getSubtotal();
     final String transactionCurrency = subTotal.getCurrency();
     final BigDecimal price = subTotal.getAmount().divide(originalAmount, RoundingMode.HALF_EVEN);
-    final Date timestamp = transfer.getCreatedAt();
+    final ZonedDateTime timestamp = transfer.getCreatedAt();
     final String id = transfer.getTransactionId();
     final String transferId = transfer.getId();
     final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
@@ -84,8 +85,6 @@ public final class CoinbaseAdapters {
     return null;
   }
 
-  private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
-
   public static Ticker adaptTicker(CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice,
       final CoinbaseMoney spotRate, final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
@@ -96,13 +95,13 @@ public final class CoinbaseAdapters {
     if (coinbaseSpotPriceHistory != null) {
       BigDecimal observedHigh = spotRate.getAmount();
       BigDecimal observedLow = spotRate.getAmount();
-      Date twentyFourHoursAgo = null;
+      ZonedDateTime twentyFourHoursAgo = null;
       // The spot price history list is sorted in descending order by timestamp when deserialized.
       for (CoinbaseHistoricalSpotPrice historicalSpotPrice : coinbaseSpotPriceHistory.getSpotPriceHistory()) {
 
         if (twentyFourHoursAgo == null) {
-          twentyFourHoursAgo = new Date(historicalSpotPrice.getTimestamp().getTime() - TWENTY_FOUR_HOURS_IN_MILLIS);
-        } else if (historicalSpotPrice.getTimestamp().before(twentyFourHoursAgo)) {
+          twentyFourHoursAgo = DateUtils.fromMillisToZonedDateTime(historicalSpotPrice.getTimestamp().minusDays(1).toInstant().toEpochMilli());
+        } else if (historicalSpotPrice.getTimestamp().isBefore(twentyFourHoursAgo)) {
           break;
         }
 

@@ -1,19 +1,18 @@
 package org.knowm.xchange.taurus.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.utils.jackson.SqlUtcTimeDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.SqlUtcTimeDeserializer;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author Matija Mazi
  */
 public final class TaurusUserTransaction {
 
-  private final Date datetime;
+  private final ZonedDateTime datetime;
   private final long id;
   private final String orderId;
   private final TransactionType type;
@@ -28,7 +27,7 @@ public final class TaurusUserTransaction {
    */
   private final BigDecimal fee;
 
-  public TaurusUserTransaction(@JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,
+  public TaurusUserTransaction(@JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) ZonedDateTime datetime,
       @JsonProperty("id") long id, @JsonProperty("order_id") String orderId, @JsonProperty("type") TransactionType type,
       @JsonProperty("cad") BigDecimal cad, @JsonProperty("btc") BigDecimal btc, @JsonProperty("rate") BigDecimal price,
       @JsonProperty("fee") BigDecimal fee) {
@@ -42,7 +41,7 @@ public final class TaurusUserTransaction {
     this.fee = fee;
   }
 
-  public Date getDatetime() {
+  public ZonedDateTime getDatetime() {
     return datetime;
   }
 

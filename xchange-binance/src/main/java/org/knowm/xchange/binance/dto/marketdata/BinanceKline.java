@@ -1,9 +1,12 @@
 package org.knowm.xchange.binance.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public final class BinanceKline {
 
@@ -94,7 +97,7 @@ public final class BinanceKline {
   }
   
   public String toString() {
-    String tstamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(openTime);
+    String tstamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(openTime), ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     return String.format("[%s] %s %s O:%.6f A:%.6f C:%.6f", pair, tstamp, interval, open, getAveragePrice(), close);
   }
 }

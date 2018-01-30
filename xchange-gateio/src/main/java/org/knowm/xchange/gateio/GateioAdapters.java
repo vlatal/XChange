@@ -1,15 +1,5 @@
 package org.knowm.xchange.gateio;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -37,6 +27,11 @@ import org.knowm.xchange.gateio.dto.trade.GateioOpenOrder;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
 import org.knowm.xchange.gateio.dto.trade.GateioTrade;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Various adapters for converting from Bter DTOs to XChange DTOs
@@ -121,7 +116,7 @@ public final class GateioAdapters {
   public static Trade adaptTrade(GateioTradeHistory.GateioPublicTrade trade, CurrencyPair currencyPair) {
 
     OrderType orderType = adaptOrderType(trade.getType());
-    Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(trade.getDate());
 
     return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId());
   }
@@ -179,7 +174,7 @@ public final class GateioAdapters {
   public static UserTrade adaptUserTrade(GateioTrade gateioTrade) {
 
     OrderType orderType = adaptOrderType(gateioTrade.getType());
-    Date timestamp = DateUtils.fromMillisUtc(gateioTrade.getTimeUnix() * 1000);
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(gateioTrade.getTimeUnix());
     CurrencyPair currencyPair = adaptCurrencyPair(gateioTrade.getPair());
 
     return new UserTrade(orderType, gateioTrade.getAmount(), currencyPair, gateioTrade.getRate(), timestamp, gateioTrade.getId(), null, null,

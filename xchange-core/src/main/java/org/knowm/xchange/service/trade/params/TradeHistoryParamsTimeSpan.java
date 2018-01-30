@@ -1,20 +1,20 @@
 package org.knowm.xchange.service.trade.params;
 
-import java.util.Date;
-
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.time.ZonedDateTime;
 
 /**
  * Parameters type for {@link TradeService#getTradeHistory(TradeHistoryParams)} with start and end timestamps.
  */
 public interface TradeHistoryParamsTimeSpan extends TradeHistoryParams {
 
-  void setStartTime(Date startTime);
+  void setStartTime(ZonedDateTime startTime);
 
-  Date getStartTime();
+  ZonedDateTime getStartTime();
 
-  void setEndTime(Date endTime);
+  void setEndTime(ZonedDateTime endTime);
 
-  Date getEndTime();
+  ZonedDateTime getEndTime();
 
 }

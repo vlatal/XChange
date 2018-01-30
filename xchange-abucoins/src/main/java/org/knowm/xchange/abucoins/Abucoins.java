@@ -1,20 +1,14 @@
 package org.knowm.xchange.abucoins;
 
-import java.io.IOException;
+import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
+import org.knowm.xchange.abucoins.dto.marketdata.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStats;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
+import java.io.IOException;
 
 /**
  * @author bryant_harris

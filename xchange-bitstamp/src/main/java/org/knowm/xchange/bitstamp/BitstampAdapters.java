@@ -1,17 +1,5 @@
 package org.knowm.xchange.bitstamp;
 
-import static java.math.BigDecimal.ZERO;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
@@ -39,6 +27,17 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static java.math.BigDecimal.ZERO;
 
 /**
  * Various adapters for converting from Bitstamp DTOs to XChange DTOs
@@ -75,7 +74,6 @@ public final class BitstampAdapters {
    * Adapts a org.knowm.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair) {
@@ -140,7 +138,7 @@ public final class BitstampAdapters {
 
     OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = String.valueOf(tx.getTid());
-    ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochMilli(tx.getDate() * timeScale), ZoneOffset.UTC);// polled order books provide a timestamp in seconds, stream in ms
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
     return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
@@ -160,7 +158,7 @@ public final class BitstampAdapters {
     BigDecimal low = bitstampTicker.getLow();
     BigDecimal vwap = bitstampTicker.getVwap();
     BigDecimal volume = bitstampTicker.getVolume();
-    ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(bitstampTicker.getTimestamp() * 1000L), ZoneOffset.UTC);
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(bitstampTicker.getTimestamp() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
         .timestamp(timestamp).build();

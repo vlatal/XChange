@@ -1,15 +1,14 @@
 package org.knowm.xchange.bitcoinaverage;
 
+import org.junit.Assume;
+import org.junit.Test;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.junit.Assume;
-import org.junit.Test;
 
 import static org.knowm.xchange.utils.DigestUtils.bytesToHex;
 

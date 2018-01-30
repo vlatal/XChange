@@ -1,11 +1,10 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bittrex.BittrexUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BittrexOrder {
 
@@ -38,9 +37,9 @@ public class BittrexOrder {
   @JsonProperty("PricePerUnit")
   private BigDecimal pricePerUnit;
   @JsonProperty("Opened")
-  private Date opened;
+  private ZonedDateTime opened;
   @JsonProperty("Closed")
-  private Date closed;
+  private ZonedDateTime closed;
   @JsonProperty("IsOpen")
   private Boolean isOpen;
   @JsonProperty("Sentinel")
@@ -197,7 +196,7 @@ public class BittrexOrder {
   }
 
   @JsonProperty("Opened")
-  public Date getOpened() {
+  public ZonedDateTime getOpened() {
     return opened;
   }
 
@@ -207,7 +206,7 @@ public class BittrexOrder {
   }
 
   @JsonProperty("Closed")
-  public Date getClosed() {
+  public ZonedDateTime getClosed() {
     return closed;
   }
 

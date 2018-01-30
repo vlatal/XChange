@@ -1,15 +1,15 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Author: Kamil Zbikowski Date: 4/15/15
  */
 public class IndependentReservePlaceLimitOrderResponse {
-  private final Date createdTimestampUtc;
+  private final ZonedDateTime createdTimestampUtc;
   private final String orderGuid;
   private final BigDecimal price;
   private final String primaryCurrencyCode;
@@ -20,7 +20,7 @@ public class IndependentReservePlaceLimitOrderResponse {
   private final BigDecimal volumeFilled;
   private final BigDecimal volumeOrdered;
 
-  public IndependentReservePlaceLimitOrderResponse(@JsonProperty("CreatedTimestampUtc") Date createdTimestampUtc,
+  public IndependentReservePlaceLimitOrderResponse(@JsonProperty("CreatedTimestampUtc") ZonedDateTime createdTimestampUtc,
       @JsonProperty("OrderGuid") String orderGuid, @JsonProperty("Price") BigDecimal price,
       @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode, @JsonProperty("ReservedAmount") BigDecimal reservedAmount,
       @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode, @JsonProperty("Status") String status, @JsonProperty("Type") String type,
@@ -38,7 +38,7 @@ public class IndependentReservePlaceLimitOrderResponse {
     this.volumeOrdered = volumeOrdered;
   }
 
-  public Date getCreatedTimestampUtc() {
+  public ZonedDateTime getCreatedTimestampUtc() {
     return createdTimestampUtc;
   }
 

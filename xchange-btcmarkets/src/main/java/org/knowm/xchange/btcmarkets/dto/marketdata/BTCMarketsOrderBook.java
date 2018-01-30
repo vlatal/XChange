@@ -1,12 +1,11 @@
 package org.knowm.xchange.btcmarkets.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 public class BTCMarketsOrderBook {
 
@@ -15,7 +14,7 @@ public class BTCMarketsOrderBook {
   private String instrument;
   @JsonDeserialize(using = UnixTimestampDeserializer.class)
 
-  private Date timestamp;
+  private ZonedDateTime timestamp;
 
   /**
    * (price, amount) pairs in units of 10e-8
@@ -35,7 +34,7 @@ public class BTCMarketsOrderBook {
     return instrument;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

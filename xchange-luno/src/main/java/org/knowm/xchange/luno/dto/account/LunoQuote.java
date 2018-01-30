@@ -1,9 +1,10 @@
 package org.knowm.xchange.luno.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class LunoQuote {
 
@@ -36,12 +37,12 @@ public class LunoQuote {
     this.exercised = exercised;
   }
 
-  public Date getCreatedAt() {
-    return createdAt == 0 ? null : new Date(createdAt);
+  public ZonedDateTime getCreatedAt() {
+    return createdAt == 0 ? null : DateUtils.fromMillisToZonedDateTime(createdAt);
   }
 
-  public Date getExpiresAt() {
-    return expiresAt == 0 ? null : new Date(expiresAt);
+  public ZonedDateTime getExpiresAt() {
+    return expiresAt == 0 ? null : DateUtils.fromMillisToZonedDateTime(expiresAt);
   }
 
   @Override

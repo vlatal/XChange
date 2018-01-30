@@ -1,23 +1,20 @@
 package org.knowm.xchange.okcoin;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class OkCoinUtils {
 
-  public static Long toEpoch(Date dateTime, String timeZone) {
+  public static Long toEpoch(ZonedDateTime dateTime, String timeZone) {
     //Epoch of midnight in local time zone
-    Calendar timeOffset = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
-    timeOffset.set(Calendar.MILLISECOND, 0);
-    timeOffset.set(Calendar.SECOND, 0);
-    timeOffset.set(Calendar.MINUTE, 0);
-    timeOffset.set(Calendar.HOUR_OF_DAY, 0);
+    ZonedDateTime zonedDateTime = ZonedDateTime.now().withZoneSameInstant(ZoneId.of(timeZone));
+    zonedDateTime = zonedDateTime.truncatedTo(ChronoUnit.DAYS);
 
-    long midnightOffSet = timeOffset.getTime().getTime();
-    long localTimestamp = dateTime.getTime();
+    long midnightOffSet = zonedDateTime.toInstant().toEpochMilli();
+    long localTimestamp = dateTime.toInstant().toEpochMilli();
 
-    return timeOffset == null ? null : midnightOffSet + localTimestamp;
+    return zonedDateTime == null ? null : midnightOffSet + localTimestamp;
   }
 
   public static String getErrorMessage(int errorCode) {

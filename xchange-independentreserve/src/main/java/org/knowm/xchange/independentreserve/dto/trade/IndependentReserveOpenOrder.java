@@ -1,12 +1,9 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
-
-
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 
 /**
@@ -14,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class IndependentReserveOpenOrder {
   private final BigDecimal avgPrice;
-  private final Date createdTimestamp;
+  private final ZonedDateTime createdTimestamp;
   private final BigDecimal feePercent;
   private final String orderGuid;
   private final String orderType;
@@ -32,7 +29,7 @@ public class IndependentReserveOpenOrder {
       @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode, @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
       @JsonProperty("Status") String status, @JsonProperty("Value") BigDecimal value, @JsonProperty("Volume") BigDecimal volume) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.avgPrice = avgPrice;
-    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc) ;
+    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime(createdTimestampUtc) ;
     this.feePercent = feePercent;
     this.orderGuid = orderGuid;
     this.orderType = orderType;
@@ -49,7 +46,7 @@ public class IndependentReserveOpenOrder {
     return avgPrice;
   }
 
-  public Date getCreatedTimestamp() {
+  public ZonedDateTime getCreatedTimestamp() {
     return createdTimestamp;
   }
 

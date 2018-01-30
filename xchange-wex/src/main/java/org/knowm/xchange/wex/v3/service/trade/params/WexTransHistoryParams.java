@@ -1,11 +1,11 @@
 package org.knowm.xchange.wex.v3.service.trade.params;
 
-import java.util.Date;
-
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.wex.v3.WexAuthenticated;
+
+import java.time.ZonedDateTime;
 
 /**
  * Transaction History paging params which combine id and time parameters and sort order.
@@ -16,8 +16,8 @@ public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implem
   private WexAuthenticated.SortOrder sortOrder;
   private String startId;
   private String endId;
-  private Date startTime;
-  private Date endTime;
+  private ZonedDateTime startTime;
+  private ZonedDateTime endTime;
 
   @Override
   public void setStartId(String startId) {
@@ -40,22 +40,22 @@ public class WexTransHistoryParams extends DefaultTradeHistoryParamPaging implem
   }
 
   @Override
-  public void setStartTime(Date startTime) {
+  public void setStartTime(ZonedDateTime startTime) {
     this.startTime = startTime;
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
     return startTime;
   }
 
   @Override
-  public void setEndTime(Date endTime) {
+  public void setEndTime(ZonedDateTime endTime) {
     this.endTime = endTime;
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
     return endTime;
   }
 

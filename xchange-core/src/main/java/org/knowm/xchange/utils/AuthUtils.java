@@ -1,13 +1,13 @@
 package org.knowm.xchange.utils;
 
+import org.knowm.xchange.ExchangeSpecification;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Properties;
-
-import org.knowm.xchange.ExchangeSpecification;
 
 public class AuthUtils {
 

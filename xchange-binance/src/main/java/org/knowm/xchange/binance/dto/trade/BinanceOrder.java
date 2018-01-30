@@ -1,9 +1,10 @@
 package org.knowm.xchange.binance.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public final class BinanceOrder {
 
@@ -49,7 +50,7 @@ public final class BinanceOrder {
     this.time = time;
   }
 
-  public Date getTime() {
-    return new Date(time);
+  public ZonedDateTime getTime() {
+    return DateUtils.fromMillisToZonedDateTime(time);
   }
 }

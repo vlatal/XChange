@@ -1,16 +1,15 @@
 package org.knowm.xchange.poloniex.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.poloniex.PoloniexUtils;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.poloniex.PoloniexUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class PoloniexChartData {
-  private Date date;
+  private ZonedDateTime date;
   private BigDecimal high;
   private BigDecimal low;
   private BigDecimal open;
@@ -21,7 +20,7 @@ public class PoloniexChartData {
 
   @JsonCreator
   public PoloniexChartData(
-      @JsonProperty(value = "date", required = true) @JsonDeserialize(using = PoloniexUtils.UnixTimestampDeserializer.class) Date date,
+      @JsonProperty(value = "date", required = true) @JsonDeserialize(using = PoloniexUtils.UnixTimestampDeserializer.class) ZonedDateTime date,
       @JsonProperty(value = "high", required = true) BigDecimal high, @JsonProperty(value = "low", required = true) BigDecimal low,
       @JsonProperty(value = "open", required = true) BigDecimal open, @JsonProperty(value = "close", required = true) BigDecimal close,
       @JsonProperty(value = "volume", required = true) BigDecimal volume,
@@ -37,7 +36,7 @@ public class PoloniexChartData {
     this.weightedAverage = weightedAverage;
   }
 
-  public Date getDate() {
+  public ZonedDateTime getDate() {
     return date;
   }
 

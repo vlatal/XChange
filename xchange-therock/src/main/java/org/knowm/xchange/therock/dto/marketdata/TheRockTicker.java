@@ -1,14 +1,13 @@
 package org.knowm.xchange.therock.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author Matija Mazi
@@ -19,7 +18,7 @@ public class TheRockTicker {
   @JsonDeserialize(using = CurrencyPairDeserializer.class)
   private CurrencyPair fundId;
 
-  private Date date;
+  private ZonedDateTime date;
 
   private BigDecimal bid, ask, last, volume, volumeTraded, open, high, low, close;
 
@@ -27,7 +26,7 @@ public class TheRockTicker {
     return fundId;
   }
 
-  public Date getDate() {
+  public ZonedDateTime getDate() {
     return date;
   }
 

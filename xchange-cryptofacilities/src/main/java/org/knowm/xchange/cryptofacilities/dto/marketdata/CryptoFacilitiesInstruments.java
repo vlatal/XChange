@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * @author Neil Panchen
@@ -15,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesInstruments extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-  private final Date serverTime;
+  private final ZonedDateTime serverTime;
   private final List<CryptoFacilitiesInstrument> instruments;
 
   public CryptoFacilitiesInstruments(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
@@ -25,7 +24,7 @@ public class CryptoFacilitiesInstruments extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.serverTime = DATE_FORMAT.parse(strServerTime);
+    this.serverTime = ZonedDateTime.parse(strServerTime, DATE_FORMAT);
     this.instruments = instruments;
   }
 

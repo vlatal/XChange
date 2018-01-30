@@ -1,11 +1,5 @@
 package org.knowm.xchange.quoine;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -27,7 +21,14 @@ import org.knowm.xchange.quoine.dto.trade.Model;
 import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
-import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QuoineAdapters {
 
@@ -130,7 +131,7 @@ public class QuoineAdapters {
         OrderType orderType = model.getSide().equals("sell") ? OrderType.ASK : OrderType.BID;
 
         // Timestamp
-        Date timestamp = new Date(model.getCreatedAt().longValue() * 1000L);
+        ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(model.getCreatedAt().longValue()), ZoneOffset.UTC);
 
         LimitOrder limitOrder = new LimitOrder(orderType, model.getQuantity(), currencyPair, model.getId(), timestamp, model.getPrice());
 
@@ -167,7 +168,7 @@ public class QuoineAdapters {
           execution.quantity,
           currencyPair,
           execution.price,
-          DateUtils.fromUnixTime(execution.createdAt),
+          ZonedDateTime.ofInstant(Instant.ofEpochSecond(execution.createdAt), ZoneOffset.UTC),
           execution.id,
           execution.orderId,
           null,
@@ -192,7 +193,7 @@ public class QuoineAdapters {
 
     return new FundingRecord(
         null,
-        DateUtils.fromUnixTime(transaction.createdAt),
+        ZonedDateTime.ofInstant(Instant.ofEpochSecond(transaction.createdAt), ZoneOffset.UTC),
         currency,
         transaction.gross_amount,
         transaction.id,

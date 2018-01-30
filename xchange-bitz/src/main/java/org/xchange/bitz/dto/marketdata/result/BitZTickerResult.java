@@ -1,9 +1,8 @@
 package org.xchange.bitz.dto.marketdata.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.xchange.bitz.dto.BitZResult;
 import org.xchange.bitz.dto.marketdata.BitZTicker;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitZTickerResult extends BitZResult<BitZTicker> {
 

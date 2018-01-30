@@ -1,11 +1,11 @@
 package org.knowm.xchange.service.trade.params;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting
@@ -19,8 +19,8 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   private Integer pageNumber;
   private String startId;
   private String endId;
-  private Date startTime;
-  private Date endTime;
+  private ZonedDateTime startTime;
+  private ZonedDateTime endTime;
   private Long offset;
   private CurrencyPair pair;
   private Collection<CurrencyPair> pairs = Collections.emptySet();
@@ -62,25 +62,25 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
-  public void setEndTime(Date to) {
+  public void setEndTime(ZonedDateTime to) {
 
     endTime = to;
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
 
     return endTime;
   }
 
   @Override
-  public void setStartTime(Date startTime) {
+  public void setStartTime(ZonedDateTime startTime) {
 
     this.startTime = startTime;
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
 
     return startTime;
   }

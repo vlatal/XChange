@@ -1,13 +1,5 @@
 package org.knowm.xchange.vircurex;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -18,12 +10,20 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
 import org.knowm.xchange.vircurex.dto.trade.VircurexOpenOrder;
 
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Various adapters for converting from Vircurex DTOs to XChange DTOs
  */
 public final class VircurexAdapters {
 
-  private static SimpleDateFormat vircurexDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  private static DateTimeFormatter vircurexDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
   /**
    * private Constructor
@@ -71,11 +71,11 @@ public final class VircurexAdapters {
 
       OrderType orderType = vircurexOpenOrder.getOrderType().equalsIgnoreCase(VircurexUtils.BID) ? OrderType.BID : OrderType.ASK;
 
-      Date timeStamp;
+      ZonedDateTime timeStamp;
 
       try {
-        timeStamp = vircurexDateFormat.parse(vircurexOpenOrder.getReleaseDate());
-      } catch (ParseException e) {
+        timeStamp = ZonedDateTime.parse(vircurexOpenOrder.getReleaseDate(), vircurexDateFormat);
+      } catch (DateTimeParseException e) {
         timeStamp = null;
       }
 

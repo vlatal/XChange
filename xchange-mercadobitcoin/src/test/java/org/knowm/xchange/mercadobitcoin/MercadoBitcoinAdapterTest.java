@@ -1,15 +1,7 @@
 package org.knowm.xchange.mercadobitcoin;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,9 +17,16 @@ import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the MercadoBitcoinAdapter class
@@ -93,7 +92,7 @@ public class MercadoBitcoinAdapterTest {
     assertThat(ticker.getBid().toString()).isEqualTo("1019.99999");
     assertThat(ticker.getAsk().toString()).isEqualTo("1020");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("6.90157391"));
-    assertThat(ticker.getTimestamp()).isEqualTo(new Date(1417226432L * 1000L));
+    assertThat(ticker.getTimestamp()).isEqualTo(DateUtils.fromSecondsToZonedDateTime(1417226432L));
   }
 
   @Test
@@ -140,7 +139,7 @@ public class MercadoBitcoinAdapterTest {
     }
 
     assertThat(orderById.get("1212").getType()).isEqualTo(OrderType.ASK);
-    assertThat(orderById.get("1212").getTimestamp()).isEqualTo(new Date(1378929161000L));
+    assertThat(orderById.get("1212").getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1378929161000L));
     assertThat(orderById.get("1212").getLimitPrice()).isEqualTo(new BigDecimal("6.00000"));
     assertThat(orderById.get("1212").getOriginalAmount()).isEqualTo(new BigDecimal("165.47309607"));
     assertThat(orderById.get("1212").getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.LTC, Currency.BRL));

@@ -1,10 +1,9 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 
 /**
@@ -12,10 +11,10 @@ import java.util.Date;
  */
 public class IndependentReserveTrade {
   private final String tradeGuid;
-  private final Date tradeTimestamp;
+  private final ZonedDateTime tradeTimestamp;
   private final String orderGuid;
   private final String orderType;
-  private final Date orderTimestamp;
+  private final ZonedDateTime orderTimestamp;
   private final BigDecimal volumeTraded;
   private final BigDecimal price;
   private final String primaryCurrencyCode;
@@ -28,9 +27,9 @@ public class IndependentReserveTrade {
       @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
     this.orderGuid = orderGuid;
     this.tradeGuid = tradeGuid;
-    tradeTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(tradeTimestampUtc);
+    tradeTimestamp = org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime(tradeTimestampUtc);
     this.orderType = orderType;
-    orderTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(orderTimestampUtc);
+    orderTimestamp = org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime(orderTimestampUtc);
     this.volumeTraded = volumeTraded;
     this.price = price;
     this.primaryCurrencyCode = primaryCurrencyCode;
@@ -41,7 +40,7 @@ public class IndependentReserveTrade {
     return orderGuid;
   }
 
-  public Date getOrderTimestampUtc() {
+  public ZonedDateTime getOrderTimestampUtc() {
     return orderTimestamp;
   }
 
@@ -65,7 +64,7 @@ public class IndependentReserveTrade {
     return tradeGuid;
   }
 
-  public Date getTradeTimestamp() {
+  public ZonedDateTime getTradeTimestamp() {
     return tradeTimestamp;
   }
 

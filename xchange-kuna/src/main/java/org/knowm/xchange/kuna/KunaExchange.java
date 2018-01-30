@@ -7,7 +7,6 @@ import org.knowm.xchange.kuna.service.KunaAccountService;
 import org.knowm.xchange.kuna.service.KunaMarketDataService;
 import org.knowm.xchange.kuna.service.KunaTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**

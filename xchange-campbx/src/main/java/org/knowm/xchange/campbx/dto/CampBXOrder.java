@@ -1,13 +1,12 @@
 package org.knowm.xchange.campbx.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
 import si.mazi.rescu.serialization.jackson.serializers.YesNoBooleanDeserializerImpl;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author Matija Mazi
@@ -16,10 +15,10 @@ public class CampBXOrder extends CampBXResponse {
 
   @JsonProperty("Order Entered")
   @JsonDeserialize(using = SqlTimeDeserializer.class)
-  private Date orderEntered;
+  private ZonedDateTime orderEntered;
   @JsonProperty("Order Expiry")
   @JsonDeserialize(using = SqlTimeDeserializer.class)
-  private Date orderExpiry;
+  private ZonedDateTime orderExpiry;
   @JsonProperty("Order Type")
   private String orderType;
   @JsonProperty("Margin Percent")
@@ -40,25 +39,25 @@ public class CampBXOrder extends CampBXResponse {
   private String orderID;
 
   @JsonProperty("Order Entered")
-  public Date getOrderEntered() {
+  public ZonedDateTime getOrderEntered() {
 
     return orderEntered;
   }
 
   @JsonProperty("Order Entered")
-  public void setOrderEntered(Date orderEntered) {
+  public void setOrderEntered(ZonedDateTime orderEntered) {
 
     this.orderEntered = orderEntered;
   }
 
   @JsonProperty("Order Expiry")
-  public Date getOrderExpiry() {
+  public ZonedDateTime getOrderExpiry() {
 
     return orderExpiry;
   }
 
   @JsonProperty("Order Expiry")
-  public void setOrderExpiry(Date orderExpiry) {
+  public void setOrderExpiry(ZonedDateTime orderExpiry) {
 
     this.orderExpiry = orderExpiry;
   }

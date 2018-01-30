@@ -1,10 +1,10 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PoloniexAccountBalance {
 

@@ -1,20 +1,19 @@
 package org.knowm.xchange.taurus.dto.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.taurus.dto.TaurusBaseResponse;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import org.knowm.xchange.utils.jackson.SqlUtcTimeDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author Matija Mazi
@@ -22,14 +21,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public final class TaurusOrder extends TaurusBaseResponse {
 
   private final String id;
-  private final Date datetime;
+  private final ZonedDateTime datetime;
   private final Order.OrderType type;
   private final BigDecimal price;
   private final BigDecimal amount;
   private final Status status;
   private final CurrencyPair book;
 
-  public TaurusOrder(@JsonProperty("id") String id, @JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,
+  public TaurusOrder(@JsonProperty("id") String id, @JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) ZonedDateTime datetime,
       @JsonProperty("type") Order.OrderType type, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("status") Status status, @JsonProperty("error") Object error,
       @JsonProperty("book") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair book) {
@@ -43,7 +42,7 @@ public final class TaurusOrder extends TaurusBaseResponse {
     this.book = book;
   }
 
-  public Date getDatetime() {
+  public ZonedDateTime getDatetime() {
     return datetime;
   }
 

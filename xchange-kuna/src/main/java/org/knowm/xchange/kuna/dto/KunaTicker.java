@@ -1,8 +1,8 @@
 package org.knowm.xchange.kuna.dto;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.math.BigDecimal;
 
 /**
  * Ticker of crypto currency.

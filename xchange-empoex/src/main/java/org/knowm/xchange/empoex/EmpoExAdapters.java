@@ -1,13 +1,5 @@
 package org.knowm.xchange.empoex;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,6 +17,14 @@ import org.knowm.xchange.empoex.dto.marketdata.EmpoExLevel;
 import org.knowm.xchange.empoex.dto.marketdata.EmpoExTicker;
 import org.knowm.xchange.empoex.dto.marketdata.EmpoExTrade;
 import org.knowm.xchange.empoex.dto.trade.EmpoExOpenOrder;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public final class EmpoExAdapters {
 
@@ -49,7 +49,7 @@ public final class EmpoExAdapters {
     for (EmpoExTrade trade : raw) {
 
       OrderType type = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-      Date date = EmpoExUtils.toDate(trade.getDate());
+      ZonedDateTime date = EmpoExUtils.toDate(trade.getDate());
       BigDecimal amount = new BigDecimal(trade.getAmount().replace(",", ""));
       BigDecimal price = new BigDecimal(trade.getPrice().replace(",", ""));
 

@@ -1,9 +1,5 @@
 package org.knowm.xchange.examples.mercadobitcoin.marketdata.btc;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,6 +8,10 @@ import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 
 /**
  * Demonstrate requesting Trades at Mercado Bitcoin
@@ -28,7 +28,7 @@ public class TradesDemo {
     // Interested in the public market data feed (no authentication)
     MarketDataService marketDataService = mercadoBitcoin.getMarketDataService();
 
-    Long now = new Date().getTime();
+    Long now = ZonedDateTime.now().toInstant().toEpochMilli();
 
     generic(now, marketDataService);
     raw(now, (MercadoBitcoinMarketDataServiceRaw) marketDataService);

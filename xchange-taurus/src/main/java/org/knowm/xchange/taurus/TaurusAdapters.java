@@ -1,11 +1,5 @@
 package org.knowm.xchange.taurus;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,6 +19,12 @@ import org.knowm.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
 import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TaurusAdapters {
 
@@ -79,7 +79,7 @@ public final class TaurusAdapters {
 
   public static Trade adaptTrade(TaurusTransaction tx, CurrencyPair currencyPair) {
     final String tradeId = String.valueOf(tx.getTid());
-    Date date = tx.getDate();
+    ZonedDateTime date = tx.getDate();
     return new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
@@ -97,7 +97,7 @@ public final class TaurusAdapters {
         OrderType orderType = taurusUserTransaction.getCad().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal originalAmount = taurusUserTransaction.getBtc();
         BigDecimal price = taurusUserTransaction.getPrice();
-        Date timestamp = taurusUserTransaction.getDatetime();
+        ZonedDateTime timestamp = taurusUserTransaction.getDatetime();
         long transactionId = taurusUserTransaction.getId();
         if (transactionId > lastTradeId) {
           lastTradeId = transactionId;

@@ -1,9 +1,5 @@
 package org.knowm.xchange.bitcointoyou.service.polling;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
@@ -18,12 +14,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Collection;
 
 /**
  * {@link TradeService} implementation for Bitcointoyou Exchange.
@@ -122,25 +118,25 @@ public class BitcointoyouTradeService extends BitcointoyouTradeServiceRaw implem
     }
 
     @Override
-    public void setStartTime(Date value) {
+    public void setStartTime(ZonedDateTime value) {
 
       all.setStartTime(value);
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
 
       return all.getStartTime();
     }
 
     @Override
-    public void setEndTime(Date value) {
+    public void setEndTime(ZonedDateTime value) {
 
       all.setEndTime(value);
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
 
       return all.getEndTime();
     }

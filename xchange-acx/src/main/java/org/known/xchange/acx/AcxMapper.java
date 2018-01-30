@@ -13,15 +13,15 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
 import org.known.xchange.acx.dto.AcxTrade;
 import org.known.xchange.acx.dto.account.AcxAccount;
 import org.known.xchange.acx.dto.account.AcxAccountInfo;
+import org.known.xchange.acx.dto.marketdata.AcxMarket;
 import org.known.xchange.acx.dto.marketdata.AcxOrder;
 import org.known.xchange.acx.dto.marketdata.AcxOrderBook;
 import org.known.xchange.acx.dto.marketdata.AcxTicker;
-import org.known.xchange.acx.dto.marketdata.AcxMarket;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +30,7 @@ public class AcxMapper {
         AcxTicker ticker = tickerData.ticker;
         return new Ticker.Builder()
                 .currencyPair(currencyPair)
-                .timestamp(new Date(tickerData.at * 1000))
+                .timestamp(DateUtils.fromMillisToZonedDateTime(tickerData.at * 1000))
                 .ask(ticker.sell)
                 .bid(ticker.buy)
                 .open(ticker.open)

@@ -1,13 +1,5 @@
 package org.knowm.xchange.bleutrade.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -19,6 +11,15 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BleutradeAccountService extends BleutradeAccountServiceRaw implements AccountService {
 
@@ -67,8 +68,8 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
     List<FundingRecord> fundingRecords = new ArrayList<>();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    dateFormat.withZone(ZoneOffset.UTC);
 
     try {
       for (WithdrawRecord record : withdrawalHistory()) {
@@ -87,7 +88,7 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
 
         fundingRecords.add(new FundingRecord(
             address,
-            dateFormat.parse(record.timestamp),
+                ZonedDateTime.parse(record.timestamp, dateFormat),
             Currency.getInstance(record.coin),
             amount,
             record.id,
@@ -103,7 +104,7 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
       for (DepositRecord record : depositHistory()) {
         fundingRecords.add(new FundingRecord(
             null,
-            dateFormat.parse(record.timestamp),
+                ZonedDateTime.parse(record.timestamp, dateFormat),
             Currency.getInstance(record.coin),
             record.amount,
             record.id,
@@ -115,7 +116,7 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
             record.label
         ));
       }
-    } catch (ParseException e) {
+    } catch (DateTimeParseException e) {
       throw new IllegalStateException("Should not happen", e);
     }
 

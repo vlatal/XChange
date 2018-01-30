@@ -1,15 +1,13 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.io.IOException;
-import java.util.Base64;
-
-import javax.crypto.Mac;
-
 import org.knowm.xchange.abucoins.Abucoins;
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
 import org.knowm.xchange.service.BaseParamsDigest;
-
 import si.mazi.rescu.RestInvocation;
+
+import javax.crypto.Mac;
+import java.io.IOException;
+import java.util.Base64;
 
 /**
  * @author bryant_harris

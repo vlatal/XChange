@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitcurex;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexTrade;
@@ -19,6 +14,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Various adapters for converting from Bitcurex DTOs to XChange DTOs
@@ -80,7 +80,7 @@ public final class BitcurexAdapters {
 
     BigDecimal amount = bitcurexTrade.getAmount();
     BigDecimal price = bitcurexTrade.getPrice();
-    Date date = DateUtils.fromMillisUtc(bitcurexTrade.getDate() * 1000L);
+    ZonedDateTime date = DateUtils.fromSecondsToZonedDateTime(bitcurexTrade.getDate());
     final String tradeId = String.valueOf(bitcurexTrade.getTid());
 
     return new Trade(bitcurexTrade.getType() == 1 ? OrderType.ASK : OrderType.BID, amount, currencyPair, price, date, tradeId);

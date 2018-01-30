@@ -1,13 +1,5 @@
 package org.knowm.xchange.examples.poloniex.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,6 +16,16 @@ import org.knowm.xchange.poloniex.service.PoloniexTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.utils.CertHelper;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Zach Holmes
@@ -59,12 +61,12 @@ public class PoloniexTradeDemo {
     params.setCurrencyPair(currencyPair);
     System.out.println(tradeService.getTradeHistory(params));
 
-    params.setStartTime(new Date());
+    params.setStartTime(ZonedDateTime.now());
     System.out.println(tradeService.getTradeHistory(params));
 
     Calendar endTime = Calendar.getInstance();
     endTime.add(Calendar.HOUR, 4);
-    params.setEndTime(endTime.getTime());
+    params.setEndTime(ZonedDateTime.ofInstant(Instant.ofEpochMilli(endTime.getTime().getTime()), ZoneOffset.UTC));
     System.out.println(tradeService.getTradeHistory(params));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(new BigDecimal(".1")).limitPrice(xmrBuyRate).build();
@@ -86,9 +88,9 @@ public class PoloniexTradeDemo {
   private static void raw(PoloniexTradeServiceRaw tradeService) throws IOException, InterruptedException {
     System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null)));
-    long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
+    long startTime = (ZonedDateTime.now().toEpochSecond()) - 8 * 60 * 60;
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null)));
-    long endTime = new Date().getTime() / 1000;
+    long endTime = ZonedDateTime.now().toEpochSecond();
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).originalAmount(new BigDecimal("1")).limitPrice(xmrBuyRate).build();

@@ -1,17 +1,16 @@
 package org.knowm.xchange.independentreserve.dto.marketdata;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * Author: Kamil Zbikowski Date: 4/9/15
  */
 public class IndependentReserveOrderBook {
-  private final Date createdTimestamp;
+  private final ZonedDateTime createdTimestamp;
   private final List<OrderBookOrder> buyOrders;
   private final List<OrderBookOrder> sellOrders;
 
@@ -23,7 +22,7 @@ public class IndependentReserveOrderBook {
       @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
       @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc) throws com.fasterxml.jackson.databind.exc.InvalidFormatException, ParseException {
     this.buyOrders = buyOrders;
-    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc) ;
+    this.createdTimestamp = org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime(createdTimestampUtc) ;
     this.sellOrders = sellOrders;
     this.primaryCurrencyCode = primaryCurrencyCode;
     this.secondaryCurrencyCode = secondaryCurrencyCode;
@@ -33,7 +32,7 @@ public class IndependentReserveOrderBook {
     return buyOrders;
   }
 
-  public Date getCreatedTimestamp() {
+  public ZonedDateTime getCreatedTimestamp() {
     return createdTimestamp;
   }
 

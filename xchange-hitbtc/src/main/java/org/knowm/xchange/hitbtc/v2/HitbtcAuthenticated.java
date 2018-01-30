@@ -1,30 +1,14 @@
 package org.knowm.xchange.hitbtc.v2;
 
+import org.knowm.xchange.hitbtc.v2.dto.*;
+import si.mazi.rescu.HttpStatusIOException;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.PATCH;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcAddress;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcException;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcInternalTransferResponse;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
-
-import si.mazi.rescu.HttpStatusIOException;
 
 /**
  * Version 2 of HitBtc API. See https://api.hitbtc.com/api/2/explore/

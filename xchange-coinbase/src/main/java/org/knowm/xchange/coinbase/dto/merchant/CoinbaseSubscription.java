@@ -1,13 +1,12 @@
 package org.knowm.xchange.coinbase.dto.merchant;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.ZonedDateTime;
 
 /**
  * @author jamespedwards42
@@ -26,7 +25,7 @@ public class CoinbaseSubscription {
     return subscription.getId();
   }
 
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
 
     return subscription.getCreatedAt();
   }
@@ -55,13 +54,13 @@ public class CoinbaseSubscription {
   private static final class CoinbaseSubscriptionInfo {
 
     private final String id;
-    private final Date createdAt;
+    private final ZonedDateTime createdAt;
     private final CoinbaseRecurringPaymentStatus status;
     private final String custom;
     private final CoinbaseButton button;
 
     private CoinbaseSubscriptionInfo(@JsonProperty("id") final String id,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime createdAt,
         @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("custom") final String custom,
         @JsonProperty("button") final CoinbaseButtonInfo button) {
 
@@ -77,7 +76,7 @@ public class CoinbaseSubscription {
       return id;
     }
 
-    public Date getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
 
       return createdAt;
     }

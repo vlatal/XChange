@@ -1,11 +1,10 @@
 package org.knowm.xchange.coinbase.dto.account;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.ZonedDateTime;
 
 /**
  * @author jamespedwards42
@@ -16,7 +15,7 @@ public interface CoinbaseTransactionInfo {
   String getId();
 
   @JsonIgnore
-  Date getCreatedAt();
+  ZonedDateTime getCreatedAt();
 
   @JsonIgnore
   CoinbaseMoney getAmount();

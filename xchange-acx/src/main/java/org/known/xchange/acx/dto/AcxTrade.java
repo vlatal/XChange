@@ -3,7 +3,7 @@ package org.known.xchange.acx.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 public class AcxTrade {
     /** Unique ID */
@@ -16,7 +16,7 @@ public class AcxTrade {
     /** the market trade belongs to, like ‘btcaud’ */
     public final String market;
     /** trade time */
-    public final Date createdAt;
+    public final ZonedDateTime createdAt;
     public final String trend;
     public final String side;
 
@@ -26,7 +26,7 @@ public class AcxTrade {
             @JsonProperty("volume") BigDecimal volume,
             @JsonProperty("funds") BigDecimal funds,
             @JsonProperty("market") String market,
-            @JsonProperty("created_at") Date createdAt,
+            @JsonProperty("created_at") ZonedDateTime createdAt,
             @JsonProperty("trend") String trend,
             @JsonProperty("side") String side) {
         this.id = id;

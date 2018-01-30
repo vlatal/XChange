@@ -1,13 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
@@ -20,6 +12,13 @@ import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.PoloniexWallet;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.utils.DateUtils;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Zach Holmes
@@ -89,7 +88,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
         .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address, paymentId).getResponse();
   }
 
-  public PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(Date start, Date end) throws IOException {
+  public PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(ZonedDateTime start, ZonedDateTime end) throws IOException {
     return poloniexAuthenticated.returnDepositsWithdrawals(apiKey, signatureCreator, exchange.getNonceFactory(), DateUtils.toUnixTimeNullSafe(start),
         DateUtils.toUnixTimeNullSafe(end));
   }

@@ -1,12 +1,12 @@
 package org.knowm.xchange.dto;
 
+import org.knowm.xchange.currency.CurrencyPair;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * Data object representing an order

@@ -1,16 +1,5 @@
 package org.knowm.xchange.ripple.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -19,16 +8,8 @@ import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.RippleException;
 import org.knowm.xchange.ripple.dto.account.ITransferFeeSource;
-import org.knowm.xchange.ripple.dto.trade.IRippleTradeTransaction;
-import org.knowm.xchange.ripple.dto.trade.RippleAccountOrders;
-import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
-import org.knowm.xchange.ripple.dto.trade.RippleNotifications;
+import org.knowm.xchange.ripple.dto.trade.*;
 import org.knowm.xchange.ripple.dto.trade.RippleNotifications.RippleNotification;
-import org.knowm.xchange.ripple.dto.trade.RippleOrderCancelRequest;
-import org.knowm.xchange.ripple.dto.trade.RippleOrderCancelResponse;
-import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryRequest;
-import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryRequestBody;
-import org.knowm.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryCount;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryHashLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
@@ -37,6 +18,12 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RippleTradeServiceRaw extends RippleBaseService {
 
@@ -181,7 +168,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       }
     }
 
-    final Date startTime, endTime;
+    final ZonedDateTime startTime, endTime;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       final TradeHistoryParamsTimeSpan timeSpanParams = (TradeHistoryParamsTimeSpan) params;
       // return all trades between start time (oldest) and end time (most recent)
@@ -230,11 +217,11 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       }
 
       final RippleNotification notification = iterator.previous();
-      if ((endTime != null) && notification.getTimestamp().after(endTime)) {
+      if ((endTime != null) && notification.getTimestamp().isAfter(endTime)) {
         // this trade is more recent than the end time - ignore it
         continue;
       }
-      if ((startTime != null) && notification.getTimestamp().before(startTime)) {
+      if ((startTime != null) && notification.getTimestamp().isBefore(startTime)) {
         // this trade is older than the start time - stop searching
         return trades;
       }

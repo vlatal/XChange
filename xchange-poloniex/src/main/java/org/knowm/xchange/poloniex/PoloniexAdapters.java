@@ -1,15 +1,5 @@
 package org.knowm.xchange.poloniex;
 
-import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
-import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
@@ -31,17 +21,18 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
+import org.knowm.xchange.poloniex.dto.marketdata.*;
+import org.knowm.xchange.poloniex.dto.trade.*;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
 
 /**
  * @author Zach Holmes
@@ -112,7 +103,7 @@ public class PoloniexAdapters {
   public static Trade adaptPoloniexPublicTrade(PoloniexPublicTrade poloniexTrade, CurrencyPair currencyPair) {
 
     OrderType type = poloniexTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-    Date timestamp = PoloniexUtils.stringToDate(poloniexTrade.getDate());
+    ZonedDateTime timestamp = PoloniexUtils.stringToDate(poloniexTrade.getDate());
 
     Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID());
     return trade;
@@ -138,7 +129,7 @@ public class PoloniexAdapters {
     for (Map.Entry<String, PoloniexLoan[]> item : poloniexLoans.entrySet()) {
       List<LoanOrder> loanOrders = new ArrayList<>();
       for (PoloniexLoan poloniexLoan : item.getValue()) {
-        Date date = PoloniexUtils.stringToDate(poloniexLoan.getDate());
+        ZonedDateTime date = PoloniexUtils.stringToDate(poloniexLoan.getDate());
         loanOrders.add(new FixedRateLoanOrder(OrderType.ASK, poloniexLoan.getCurrency(), poloniexLoan.getAmount(), poloniexLoan.getRange(),
             poloniexLoan.getId(), date, poloniexLoan.getRate())); //TODO
       }
@@ -166,7 +157,7 @@ public class PoloniexAdapters {
   public static LimitOrder adaptPoloniexOpenOrder(PoloniexOpenOrder openOrder, CurrencyPair currencyPair) {
 
     OrderType type = openOrder.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
-    Date timestamp = PoloniexUtils.stringToDate(openOrder.getDate());
+    ZonedDateTime timestamp = PoloniexUtils.stringToDate(openOrder.getDate());
     LimitOrder limitOrder = new LimitOrder.Builder(type, currencyPair).limitPrice(openOrder.getRate()).originalAmount(openOrder.getAmount())
         .id(openOrder.getOrderNumber()).timestamp(timestamp).build();
 
@@ -178,7 +169,7 @@ public class PoloniexAdapters {
     OrderType orderType = userTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = userTrade.getAmount();
     BigDecimal price = userTrade.getRate();
-    Date date = PoloniexUtils.stringToDate(userTrade.getDate());
+    ZonedDateTime date = PoloniexUtils.stringToDate(userTrade.getDate());
     String tradeId = String.valueOf(userTrade.getTradeID());
     String orderId = String.valueOf(userTrade.getOrderNumber());
 

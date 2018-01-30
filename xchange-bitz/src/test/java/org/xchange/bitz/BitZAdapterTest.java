@@ -1,21 +1,20 @@
 package org.xchange.bitz;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
-import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
 import org.xchange.bitz.dto.marketdata.result.BitZTickerResult;
+import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BitZAdapterTest {
 	
@@ -33,7 +32,7 @@ public class BitZAdapterTest {
 	    // TODO: Implement Actual Currency MZC
 	    Ticker ticker = BitZAdapters.adaptTicker(bitZTickerResult.getData(), CurrencyPair.BTC_LTC);
 	    
-	    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1515076017L);
+	    assertThat(ticker.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1515076017L);
 	    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("0.00098657"));
 	    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("0.00092992"));
 	    assertThat(ticker.getBid()).isEqualTo(new BigDecimal("0.00098657"));
@@ -60,7 +59,7 @@ public class BitZAdapterTest {
 		assertThat(book).isNotNull();
 		assertThat(book.getAsks()).isNotEmpty();
 		assertThat(book.getBids()).isNotEmpty();
-		assertThat(book.getTimeStamp().getTime()).isEqualTo(1515076082L);
+		assertThat(book.getTimeStamp().toInstant().toEpochMilli()).isEqualTo(1515076082L);
 
 		// TODO: Deeper Test Cases
 	}

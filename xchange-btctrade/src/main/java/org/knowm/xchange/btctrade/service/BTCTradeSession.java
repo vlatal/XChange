@@ -1,12 +1,11 @@
 package org.knowm.xchange.btctrade.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.BTCTradeSecretData;
-
 import si.mazi.rescu.ParamsDigest;
+
+import java.io.IOException;
 
 /**
  * Represents an API key status.
@@ -66,7 +65,7 @@ public class BTCTradeSession {
   private void refresh() throws IOException {
 
     secretData = secretDataService.getSecretData();
-    secretExpiresTime = BTCTradeAdapters.adaptDatetime(secretData.getExpires()).getTime();
+    secretExpiresTime = BTCTradeAdapters.adaptDatetime(secretData.getExpires()).toInstant().toEpochMilli();
 
     signatureCreator = BTCTradeDigest.createInstance(secretData.getSecret());
   }

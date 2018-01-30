@@ -1,15 +1,8 @@
 package org.knowm.xchange.kraken;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,21 +20,23 @@ import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
+import org.knowm.xchange.kraken.dto.marketdata.results.*;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class KrakenAdaptersTest {
 
@@ -119,7 +114,7 @@ public class KrakenAdaptersTest {
     Assert.assertEquals(14, trades.getTrades().size());
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo("1023.82219");
     assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(new Date(1385579841777L));
+    assertThat(trades.getTrades().get(0).getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1385579841777L));
     assertThat(trades.getTrades().get(1).getOriginalAmount()).isEqualTo("0.01500000");
     assertThat(trades.getlastID()).isEqualTo(1385579841881785998L);
 
@@ -146,7 +141,7 @@ public class KrakenAdaptersTest {
     LimitOrder order = asks.get(0);
     assertThat(order.getLimitPrice()).isEqualTo(new BigDecimal("530.75513"));
     assertThat(order.getOriginalAmount()).isEqualTo("0.248");
-    assertThat(order.getTimestamp()).isEqualTo(new Date(1391825343000L));
+    assertThat(order.getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1391825343000L));
   }
 
   @Test

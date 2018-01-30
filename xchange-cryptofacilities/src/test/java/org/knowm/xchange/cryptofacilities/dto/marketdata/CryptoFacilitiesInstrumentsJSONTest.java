@@ -1,18 +1,17 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Neil Panchen
@@ -47,7 +46,7 @@ public class CryptoFacilitiesInstrumentsJSONTest {
     assertThat(ct.getTickSize()).isEqualTo(new BigDecimal("0.01"));
 
     //2016-04-29 17:00:00
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+    DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
     assertThat(ct.getLastTradingTime()).isEqualTo(DATE_FORMAT.parse("2016-04-29T16:00:00.000Z"));
 
   }

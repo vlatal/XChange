@@ -1,14 +1,8 @@
 package org.knowm.xchange.gateio;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
@@ -25,10 +19,15 @@ import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
 import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
 import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
 import org.knowm.xchange.gateio.dto.trade.GateioOpenOrders;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class GateioAdapterTest {
 
@@ -89,7 +88,7 @@ public class GateioAdapterTest {
     assertThat(trade.getOriginalAmount()).isEqualTo("0.0129");
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CNY);
     assertThat(trade.getPrice()).isEqualTo("3942");
-    assertThat(trade.getTimestamp()).isEqualTo(new Date(1393908191000L));
+    assertThat(trade.getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1393908191000L));
     assertThat(trade.getId()).isEqualTo("5600118");
   }
 

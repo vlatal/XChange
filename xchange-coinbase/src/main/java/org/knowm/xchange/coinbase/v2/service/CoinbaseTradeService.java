@@ -1,8 +1,5 @@
 package org.knowm.xchange.coinbase.v2.service;
 
-import java.io.IOException;
-import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -17,6 +14,9 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.Collection;
 
 public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implements TradeService {
 

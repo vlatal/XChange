@@ -1,10 +1,10 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Poloniex order response contains details of any trades that have just executed in the order entry return value. If a LimitOrder of this type is
@@ -14,7 +14,7 @@ public class PoloniexLimitOrder extends LimitOrder {
 
   private PoloniexTradeResponse response = null;
 
-  public PoloniexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
+  public PoloniexLimitOrder(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, String id, ZonedDateTime timestamp, BigDecimal limitPrice) {
     super(type, originalAmount, currencyPair, id, timestamp, limitPrice);
   }
 

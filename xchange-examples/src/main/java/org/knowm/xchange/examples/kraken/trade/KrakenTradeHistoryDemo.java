@@ -1,14 +1,14 @@
 package org.knowm.xchange.examples.kraken.trade;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class KrakenTradeHistoryDemo {
 

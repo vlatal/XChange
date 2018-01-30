@@ -1,13 +1,12 @@
 package org.knowm.xchange.coinbase.dto.account;
 
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author jamespedwards42
@@ -17,9 +16,9 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
   private final String address;
   private final String callbackUrl;
   private final String label;
-  private final Date createdAt;
+  private final ZonedDateTime createdAt;
 
-  CoinbaseAddress(String address, final String callbackUrl, final String label, final Date createdAt) {
+  CoinbaseAddress(String address, final String callbackUrl, final String label, final ZonedDateTime createdAt) {
 
     super(true, null);
     this.address = address;
@@ -30,7 +29,7 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
 
   private CoinbaseAddress(@JsonProperty("address") final String address, @JsonProperty("callback_url") final String callbackUrl,
       @JsonProperty("label") final String label,
-      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime createdAt,
       @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
@@ -55,7 +54,7 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
     return label;
   }
 
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
 
     return createdAt;
   }

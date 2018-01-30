@@ -1,14 +1,5 @@
 package org.knowm.xchange.gemini.v1;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -27,16 +18,17 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
+import org.knowm.xchange.gemini.v1.dto.marketdata.*;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.Map.Entry;
 
 public final class GeminiAdapters {
 
@@ -72,7 +64,7 @@ public final class GeminiAdapters {
     OrdersContainer asksOrdersContainer = adaptOrders(btceDepth.getAsks(), currencyPair, OrderType.ASK);
     OrdersContainer bidsOrdersContainer = adaptOrders(btceDepth.getBids(), currencyPair, OrderType.BID);
 
-    return new OrderBook(new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
+    return new OrderBook(DateUtils.fromSecondsToZonedDateTime(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
         asksOrdersContainer.getLimitOrders(), bidsOrdersContainer.getLimitOrders());
   }
 
@@ -86,7 +78,7 @@ public final class GeminiAdapters {
         maxTimestamp = GeminiLevel.getTimestamp();
       }
 
-      Date timestamp = convertBigDecimalTimestampToDate(GeminiLevel.getTimestamp());
+      ZonedDateTime timestamp = convertBigDecimalTimestampToDate(GeminiLevel.getTimestamp());
       limitOrders.add(adaptOrder(GeminiLevel.getAmount(), GeminiLevel.getPrice(), currencyPair, orderType, timestamp));
     }
 
@@ -103,7 +95,7 @@ public final class GeminiAdapters {
     BigDecimal originalAmount = geminiOrderStatusResponse.getOriginalAmount();
     OrderType orderType = (geminiOrderStatusResponse.getSide().equals("buy")) ? OrderType.BID : OrderType.ASK;
     OrderStatus orderStatus = adaptOrderstatus(geminiOrderStatusResponse);
-    Date timestamp = new Date(geminiOrderStatusResponse.getTimestampms()/1000);
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(geminiOrderStatusResponse.getTimestampms());
 
     if(geminiOrderStatusResponse.getType().contains("limit")) {
 
@@ -183,7 +175,7 @@ public final class GeminiAdapters {
     }
   }
 
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, OrderType orderType, ZonedDateTime timestamp) {
 
     return new LimitOrder(orderType, amount, currencyPair, "", timestamp, price);
   }
@@ -249,7 +241,7 @@ public final class GeminiAdapters {
     OrderType orderType = trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
-    Date date = DateUtils.fromMillisUtc(trade.getTimestamp() * 1000L); // Gemini uses Unix timestamps
+    ZonedDateTime date = DateUtils.fromSecondsToZonedDateTime(trade.getTimestamp()); // Gemini uses Unix timestamps
     final String tradeId = String.valueOf(trade.getTradeId());
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
@@ -275,7 +267,7 @@ public final class GeminiAdapters {
     BigDecimal ask = GeminiTicker.getAsk();
     BigDecimal volume = GeminiTicker.getVolume().getBaseVolume(currencyPair);
 
-    Date timestamp = DateUtils.fromMillisUtc(GeminiTicker.getVolume().getTimestampMS());
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(GeminiTicker.getVolume().getTimestampMS());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
         .build();
@@ -318,7 +310,7 @@ public final class GeminiAdapters {
     for (GeminiOrderStatusResponse order : activeOrders) {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
-      Date timestamp = convertBigDecimalTimestampToDate(new BigDecimal(order.getTimestamp()));
+      ZonedDateTime timestamp = convertBigDecimalTimestampToDate(new BigDecimal(order.getTimestamp()));
 
       OrderStatus status = OrderStatus.NEW;
 
@@ -346,7 +338,7 @@ public final class GeminiAdapters {
 
     for (GeminiTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-      Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
+      ZonedDateTime timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
       pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(),
           fee, Currency.getInstance(trade.getFeeCurrency())));
@@ -355,9 +347,9 @@ public final class GeminiAdapters {
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
 
-  private static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
+  private static ZonedDateTime convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
 
-    return new Date((long) Math.floor(timestampInSeconds.doubleValue() * 1000));
+    return DateUtils.fromSecondsToZonedDateTime((long) Math.floor(timestampInSeconds.doubleValue()));
   }
 
   public static ExchangeMetaData adaptMetaData(List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {

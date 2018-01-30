@@ -1,15 +1,6 @@
 package org.knowm.xchange.wex.v3;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -20,20 +11,18 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexDepth;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthJSONTest;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexDepthWrapper;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexTickerJSONTest;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexTickerWrapper;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexTradesJSONTest;
-import org.knowm.xchange.wex.v3.dto.marketdata.WexTradesWrapper;
-import org.knowm.xchange.wex.v3.dto.trade.WexOrderInfoResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexOrderInfoReturn;
-import org.knowm.xchange.wex.v3.dto.trade.WexTradeDataJSONTest;
-import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryJSONTest;
-import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryReturn;
+import org.knowm.xchange.wex.v3.dto.marketdata.*;
+import org.knowm.xchange.wex.v3.dto.trade.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the BTCEAdapter class
@@ -133,7 +122,7 @@ public class WexAdapterTest {
     assertThat(lastTrade.getId()).isEqualTo("7258275");
     assertThat(lastTrade.getType()).isEqualTo(OrderType.ASK);
     assertThat(lastTrade.getPrice().toString()).isEqualTo("125.75");
-    assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574000L);
+    assertThat(lastTrade.getTimestamp().toEpochSecond() * 1000).isEqualTo(1378194574000L);
     assertThat(DateUtils.toUTCString(lastTrade.getTimestamp())).isEqualTo("2013-09-03 07:49:34 GMT");
     assertThat(lastTrade.getFeeAmount()).isNull();
 
@@ -162,6 +151,6 @@ public class WexAdapterTest {
     assertEquals(new BigDecimal("2.00000000"), order.getOriginalAmount());
     assertEquals(new BigDecimal("1.00000000"), order.getCumulativeAmount());
     assertEquals(OrderStatus.PARTIALLY_FILLED, order.getStatus());
-    assertThat(order.getTimestamp().getTime()).isEqualTo(1342448420000L);
+    assertThat(order.getTimestamp().toEpochSecond() * 1000).isEqualTo(1342448420000L);
   }
 }

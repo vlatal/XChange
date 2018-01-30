@@ -1,11 +1,12 @@
 package org.knowm.xchange.btcc;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.btcc.dto.marketdata.BTCCTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BTCCAdapters {
 
@@ -17,7 +18,7 @@ public class BTCCAdapters {
     BigDecimal ask = btccTicker.getAskPrice();
     BigDecimal bid = btccTicker.getBidPrice();
     BigDecimal volume = btccTicker.getVolume();
-    Date timestamp = new Date(btccTicker.getTimestamp());
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(btccTicker.getTimestamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).volume(volume).ask(ask).bid(bid).timestamp(timestamp).build();
   }

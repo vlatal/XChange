@@ -1,11 +1,5 @@
 package org.knowm.xchange.kuna.service;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -14,13 +8,16 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.kuna.dto.KunaAskBid;
-import org.knowm.xchange.kuna.dto.KunaOrder;
-import org.knowm.xchange.kuna.dto.KunaTicker;
-import org.knowm.xchange.kuna.dto.KunaTimeTicker;
-import org.knowm.xchange.kuna.dto.KunaTrade;
+import org.knowm.xchange.kuna.dto.*;
 import org.knowm.xchange.kuna.dto.enums.KunaOrderType;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Dat Bui
@@ -51,7 +48,7 @@ public class KunaMarketDataService extends KunaMarketDataServiceRaw implements M
     List<LimitOrder> bids = Arrays.stream(kunaAskBid.getBids())
         .map(kunaOrder -> mapKunaOrder2LimitOrder(kunaOrder, currencyPair))
         .collect(Collectors.toList());
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(ZonedDateTime.now(), asks, bids);
   }
 
   @Override
@@ -62,7 +59,7 @@ public class KunaMarketDataService extends KunaMarketDataServiceRaw implements M
 
   protected Ticker mapKunaTicker2Ticker(KunaTimeTicker kunaTimeTicker, CurrencyPair currencyPair) {
     KunaTicker kunaTicker = kunaTimeTicker.getTicker();
-    Date timestamp = new Date(kunaTimeTicker.getTimestamp());
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(kunaTimeTicker.getTimestamp());
     Ticker.Builder builder = new Ticker.Builder()
         .currencyPair(currencyPair)
         .timestamp(timestamp)

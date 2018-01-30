@@ -1,28 +1,17 @@
 package org.knowm.xchange.bitstamp;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bitstamp.dto.BitstampException;
-import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
-import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
-import org.knowm.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
-import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
-import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
-import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
+import org.knowm.xchange.bitstamp.dto.account.*;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @author Benedikt Bünz See https://www.bitstamp.net/api/ for up-to-date docs.

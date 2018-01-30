@@ -1,11 +1,11 @@
 package org.knowm.xchange.bleutrade;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public final class BleutradeUtils {
 
@@ -20,22 +20,22 @@ public final class BleutradeUtils {
     return new CurrencyPair(currencies[0], currencies[1]);
   }
 
-  public static Date toDate(String timeStamp) {
+  public static ZonedDateTime toDate(String timeStamp) {
 
     try {
 
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss'.'SSS");
-      sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return sdf.parse(timeStamp);
+      DateTimeFormatter sdf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss'.'SSS");
+      sdf.withZone(ZoneOffset.UTC);
+      return ZonedDateTime.parse(timeStamp, sdf);
 
-    } catch (ParseException e) {
+    } catch (DateTimeParseException e) {
 
       try {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return sdf.parse(timeStamp);
+        DateTimeFormatter sdf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        sdf.withZone(ZoneOffset.UTC);
+        return ZonedDateTime.parse(timeStamp, sdf);
 
-      } catch (ParseException e1) {
+      } catch (DateTimeParseException e1) {
 
         return null;
       }

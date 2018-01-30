@@ -1,7 +1,5 @@
 package org.knowm.xchange.kuna;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.kuna.service.KunaAccountService;
@@ -10,6 +8,8 @@ import org.knowm.xchange.kuna.service.KunaTradeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.service.trade.TradeService;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class KunaExchangeTestIntegration extends BaseKunaTest {
 

@@ -1,31 +1,17 @@
 package org.knowm.xchange.abucoins;
 
-import java.io.IOException;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.abucoins.dto.AbucoinsBaseCreateOrderRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCryptoDepositRequest;
 import org.knowm.xchange.abucoins.dto.AbucoinsCryptoWithdrawalRequest;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsAccount;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsAccounts;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoDeposit;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsCryptoWithdrawal;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsFills;
-import org.knowm.xchange.abucoins.dto.account.AbucoinsPaymentMethods;
+import org.knowm.xchange.abucoins.dto.account.*;
 import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsCreateOrderResponse;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrders;
-
 import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

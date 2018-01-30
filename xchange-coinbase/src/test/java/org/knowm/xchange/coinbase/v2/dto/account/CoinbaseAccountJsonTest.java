@@ -1,16 +1,15 @@
 package org.knowm.xchange.coinbase.v2.dto.account;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
+import org.junit.Test;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData.CoinbaseAccount;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinbaseAccountJsonTest {
 

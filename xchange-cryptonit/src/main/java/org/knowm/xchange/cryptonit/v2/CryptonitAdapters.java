@@ -1,15 +1,5 @@
 package org.knowm.xchange.cryptonit.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrder;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitRate;
@@ -22,6 +12,10 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 /**
  * Various adapters for converting from Cryptonit DTOs to XChange DTOs
@@ -45,7 +39,7 @@ public final class CryptonitAdapters {
    * @param id
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, Date date, String id) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderTypeString, ZonedDateTime date, String id) {
 
     // place a limit order
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -70,10 +64,10 @@ public final class CryptonitAdapters {
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
       if (orderType.equalsIgnoreCase("bid")) {
         limitOrders.add(adaptOrder(trade.getValue().getAskAmount(), trade.getValue().getAskRate(), currencyPair, orderType,
-            DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String.valueOf(trade.getKey())));
+            DateUtils.fromSecondsToZonedDateTime(trade.getValue().getCreated()), String.valueOf(trade.getKey())));
       } else {
         limitOrders.add(adaptOrder(trade.getValue().getBidAmount(), trade.getValue().getBidRate(), currencyPair, orderType,
-            DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String.valueOf(trade.getKey())));
+            DateUtils.fromSecondsToZonedDateTime(trade.getValue().getCreated()), String.valueOf(trade.getKey())));
       }
     }
     Collections.sort(limitOrders);
@@ -92,7 +86,7 @@ public final class CryptonitAdapters {
     BigDecimal amount = cryptonitTrade.getBidAmount();
     BigDecimal price = cryptonitTrade.getBidRate();
 
-    return new Trade(null, amount, currencyPair, price, DateUtils.fromMillisUtc(cryptonitTrade.getFilled() * 1000L), tradeId);
+    return new Trade(null, amount, currencyPair, price, DateUtils.fromSecondsToZonedDateTime(cryptonitTrade.getFilled()), tradeId);
   }
 
   /**

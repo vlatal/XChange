@@ -1,14 +1,10 @@
 package org.knowm.xchange.dsx.service.trade.params;
 
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
+
+import java.time.ZonedDateTime;
 
 public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrency, TradeHistoryParamsSorted, TradeHistoryParamLimit {
 
@@ -16,8 +12,8 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   private DSXTransHistoryResult.Type type;
   private String startId;
   private String endId;
-  private Date startTime;
-  private Date endTime;
+  private ZonedDateTime startTime;
+  private ZonedDateTime endTime;
   private Currency currency;
   private Order order;
   private Integer limit;
@@ -69,22 +65,22 @@ public class DSXTransHistoryParams implements TradeHistoryParamsIdSpan, TradeHis
   }
 
   @Override
-  public void setStartTime(Date startTime) {
+  public void setStartTime(ZonedDateTime startTime) {
     this.startTime = startTime;
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
     return startTime;
   }
 
   @Override
-  public void setEndTime(Date endTime) {
+  public void setEndTime(ZonedDateTime endTime) {
     this.endTime = endTime;
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
     return endTime;
   }
 

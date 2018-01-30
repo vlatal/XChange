@@ -1,12 +1,5 @@
 package org.knowm.xchange.livecoin.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
@@ -16,6 +9,13 @@ import org.knowm.xchange.livecoin.LivecoinAdapters;
 import org.knowm.xchange.livecoin.LivecoinDigest;
 import org.knowm.xchange.livecoin.LivecoinExchange;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
   public LivecoinAccountServiceRaw(LivecoinExchange exchange) {
@@ -46,7 +46,7 @@ public class LivecoinAccountServiceRaw extends LivecoinBaseService<Livecoin> {
     return response.get("wallet").toString();
   }
 
-  public List<FundingRecord> funding(Date start, Date end, Integer limit, Long offset) throws IOException {
+  public List<FundingRecord> funding(ZonedDateTime start, ZonedDateTime end, Integer limit, Long offset) throws IOException {
     List<Map> response = service.transactions(apiKey, signatureCreator,
         String.valueOf(DateUtils.toMillisNullSafe(start)),
         String.valueOf(DateUtils.toMillisNullSafe(end)),

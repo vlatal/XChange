@@ -2,11 +2,7 @@ package org.knowm.xchange.itbit.v1;
 
 import org.knowm.xchange.itbit.v1.dto.ItBitException;
 import org.knowm.xchange.itbit.v1.dto.ItBitFundingHistoryResponse;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitDepositRequest;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitDepositResponse;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitWithdrawalRequest;
-import org.knowm.xchange.itbit.v1.dto.account.ItBitWithdrawalResponse;
+import org.knowm.xchange.itbit.v1.dto.account.*;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
@@ -14,18 +10,10 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Path("v1")
@@ -97,7 +85,7 @@ public interface ItBitAuthenticated {
   ItBitTradeHistory getUserTradeHistory(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
                                         @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
                                         @QueryParam("lastExecutionId") String lastExecutionId, @QueryParam("page") Integer page, @QueryParam("perPage") Integer perPage,
-                                        @QueryParam("rangeStart") Date rangeStart, @QueryParam("rangeEnd") Date rangeEnd) throws IOException, ItBitException;
+                                        @QueryParam("rangeStart") ZonedDateTime rangeStart, @QueryParam("rangeEnd") ZonedDateTime rangeEnd) throws IOException, ItBitException;
 
   @GET
   @Path("wallets")

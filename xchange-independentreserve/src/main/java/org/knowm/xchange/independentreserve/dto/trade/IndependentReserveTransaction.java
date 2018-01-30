@@ -1,10 +1,9 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 
 public class IndependentReserveTransaction {
@@ -13,11 +12,11 @@ public class IndependentReserveTransaction {
   private final String bitcoinTransactionId;
   private final String bitcoinTransactionOutputIndex;
   private final String comment;
-  private final Date createdTimestamp;
+  private final ZonedDateTime createdTimestamp;
   private final BigDecimal credit;
   private final String currencyCode;
   private final BigDecimal debit;
-  private final Date settleTimestamp;
+  private final ZonedDateTime settleTimestamp;
   private final String status;
   private final Type type;
 
@@ -56,7 +55,7 @@ public class IndependentReserveTransaction {
     return comment;
   }
 
-  public Date getCreatedTimestamp() {
+  public ZonedDateTime getCreatedTimestamp() {
     return createdTimestamp;
   }
 
@@ -72,7 +71,7 @@ public class IndependentReserveTransaction {
     return debit;
   }
 
-  public Date getSettleTimestamp() {
+  public ZonedDateTime getSettleTimestamp() {
     return settleTimestamp;
   }
 

@@ -1,9 +1,5 @@
 package org.knowm.xchange.examples.itbit.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -16,6 +12,10 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.service.ItBitTradeServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.TradeService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class ItBitTradesDemo {
 
@@ -32,9 +32,9 @@ public class ItBitTradesDemo {
     printOpenOrders(tradeService);
 
     String placeLimitOrderXBT = tradeService.placeLimitOrder(
-        new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.001), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(300)));
+        new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.001), new CurrencyPair("XBT", "USD"), "0", ZonedDateTime.now(), BigDecimal.valueOf(300)));
     String placeLimitOrderBTC = tradeService.placeLimitOrder(
-        new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.001), new CurrencyPair("BTC", "USD"), "0", new Date(), BigDecimal.valueOf(360)));
+        new LimitOrder(OrderType.BID, BigDecimal.valueOf(0.001), new CurrencyPair("BTC", "USD"), "0", ZonedDateTime.now(), BigDecimal.valueOf(360)));
 
     System.out.println("limit order id " + placeLimitOrderXBT);
     System.out.println("limit order id " + placeLimitOrderBTC);

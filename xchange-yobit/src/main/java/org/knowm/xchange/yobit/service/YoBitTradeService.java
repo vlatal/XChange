@@ -1,34 +1,22 @@
 package org.knowm.xchange.yobit.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.YoBitExchange;
 import org.knowm.xchange.yobit.dto.BaseYoBitResponse;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class YoBitTradeService extends YoBitTradeServiceRaw {
   public YoBitTradeService(YoBitExchange exchange) {
@@ -124,11 +112,11 @@ public class YoBitTradeService extends YoBitTradeServiceRaw {
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
 
-      Date startTime = tradeHistoryParamsTimeSpan.getStartTime();
+      ZonedDateTime startTime = tradeHistoryParamsTimeSpan.getStartTime();
       if (startTime != null)
         fromTimestamp = DateUtils.toUnixTimeNullSafe(startTime);
 
-      Date endTime = tradeHistoryParamsTimeSpan.getEndTime();
+      ZonedDateTime endTime = tradeHistoryParamsTimeSpan.getEndTime();
       if (endTime != null)
         toTimestamp = DateUtils.toUnixTimeNullSafe(endTime);
     }

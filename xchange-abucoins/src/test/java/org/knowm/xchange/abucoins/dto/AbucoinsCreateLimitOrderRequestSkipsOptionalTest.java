@@ -1,18 +1,17 @@
 package org.knowm.xchange.abucoins.dto;
 
-import static org.junit.Assert.*;
-
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.abucoins.AbucoinsAdapters;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import java.math.BigDecimal;
+
+import static org.junit.Assert.*;
 
 public class AbucoinsCreateLimitOrderRequestSkipsOptionalTest {
   AbucoinsCreateLimitOrderRequest request;

@@ -1,12 +1,11 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleCommon;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RippleNotifications extends RippleCommon {
 
@@ -39,7 +38,7 @@ public class RippleNotifications extends RippleCommon {
     private String result;
 
     @JsonProperty("timestamp")
-    private Date timestamp;
+    private ZonedDateTime timestamp;
 
     @JsonProperty("transaction_url")
     private String transactionURL;
@@ -88,11 +87,11 @@ public class RippleNotifications extends RippleCommon {
       this.result = result;
     }
 
-    public Date getTimestamp() {
+    public ZonedDateTime getTimestamp() {
       return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(ZonedDateTime timestamp) {
       this.timestamp = timestamp;
     }
 

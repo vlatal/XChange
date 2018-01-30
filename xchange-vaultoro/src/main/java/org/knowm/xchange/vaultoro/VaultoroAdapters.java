@@ -1,11 +1,5 @@
 package org.knowm.xchange.vaultoro;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -24,6 +18,12 @@ import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrder;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroOrderBook;
 import org.knowm.xchange.vaultoro.dto.marketdata.VaultoroTrade;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroOpenOrder;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Various adapters for converting from Vaultoro DTOs to XChange DTOs
@@ -62,7 +62,7 @@ public final class VaultoroAdapters {
     List<Trade> trades = new ArrayList<>();
 
     for (VaultoroTrade vaultoroTrade : vaultoroTransactions) {
-      Date date = VaultoroUtils.parseDate(vaultoroTrade.getTime());
+      ZonedDateTime date = VaultoroUtils.parseDate(vaultoroTrade.getTime());
       trades.add(new Trade.Builder().timestamp(date).currencyPair(currencyPair).price(vaultoroTrade.getGoldPrice())
           .originalAmount(vaultoroTrade.getGoldAmount()).build());
     }

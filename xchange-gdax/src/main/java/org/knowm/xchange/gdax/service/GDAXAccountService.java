@@ -149,7 +149,7 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
           fundingHistory.add(new FundingRecord(
               null,
-              DateUtils.fromISO8601DateString(map.get("created_at").toString()),
+              DateUtils.fromISODateStringToZonedDateTime(map.get("created_at").toString()),
               currency,
               new BigDecimal(map.get("amount").toString()),
               transferId == null ? null : transferId.toString(),

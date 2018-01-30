@@ -1,26 +1,25 @@
 package org.knowm.xchange.therock.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.therock.dto.marketdata.TheRockTrade.Side;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.therock.dto.marketdata.TheRockTrade.Side;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class TheRockUserTrade {
 
   private final long id;
   private final String fundId;
   private final BigDecimal amount;
-  private final Date date;
+  private final ZonedDateTime date;
   private final BigDecimal price;
   private final Side side;
   private final long orderId;
   private final TheRockUserTradeTransaction feeTransaction;
 
   public TheRockUserTrade(@JsonProperty("id") long id, @JsonProperty("fund_id") String fundId, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("date") Date date, @JsonProperty("side") Side tradeSide,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("date") ZonedDateTime date, @JsonProperty("side") Side tradeSide,
       @JsonProperty("order_id") long orderId, @JsonProperty("transactions") TheRockUserTradeTransaction[] transactions) {
     this.id = id;
     this.fundId = fundId;
@@ -58,7 +57,7 @@ public class TheRockUserTrade {
     return price;
   }
 
-  public Date getDate() {
+  public ZonedDateTime getDate() {
     return date;
   }
 
@@ -85,12 +84,12 @@ public class TheRockUserTrade {
 
   private static class TheRockUserTradeTransaction {
     private final long id;
-    private final Date date;
+    private final ZonedDateTime date;
     private final TransactionType type;
     private final BigDecimal price;
     private final String currency;
 
-    public TheRockUserTradeTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date, @JsonProperty("type") TransactionType type,
+    public TheRockUserTradeTransaction(@JsonProperty("id") long id, @JsonProperty("date") ZonedDateTime date, @JsonProperty("type") TransactionType type,
         @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency) {
       super();
       this.id = id;

@@ -1,16 +1,5 @@
 package org.knowm.xchange.bleutrade.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.powermock.api.mockito.PowerMockito.mock;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,15 +7,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bleutrade.BleutradeAssert;
 import org.knowm.xchange.bleutrade.BleutradeAuthenticated;
 import org.knowm.xchange.bleutrade.BleutradeExchange;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeOrderBookReturn;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
-import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTrade;
+import org.knowm.xchange.bleutrade.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -34,9 +15,20 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.DateUtils;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
 public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestSupport {
@@ -45,7 +37,7 @@ public class BleutradeMarketDataServiceIntegration extends BleutradeServiceTestS
 
   private static final Ticker TICKER = new Ticker.Builder().currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977"))
       .bid(new BigDecimal("0.00100000")).ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
-      .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
+      .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(DateUtils.fromMillisToZonedDateTime(1406632770000L)).build();
 
   @Before
   public void setUp() {

@@ -5,11 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.utils.DateUtils;
 import org.known.xchange.acx.AcxApi;
 import org.known.xchange.acx.AcxMapper;
 import org.known.xchange.acx.dto.AcxTrade;
@@ -19,7 +19,6 @@ import org.known.xchange.acx.service.marketdata.AcxMarketDataService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -52,7 +51,7 @@ public class AcxMarketDataServiceTest {
 
         assertEquals(new BigDecimal("576.3302"), ticker.getVolume());
         assertEquals(new BigDecimal("1119.33"), ticker.getBid());
-        assertEquals(new Date(1513687641000L), ticker.getTimestamp());
+        assertEquals(DateUtils.fromMillisToZonedDateTime(1513687641000L), ticker.getTimestamp());
     }
 
     @Test

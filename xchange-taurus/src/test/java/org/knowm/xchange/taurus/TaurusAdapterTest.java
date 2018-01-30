@@ -1,13 +1,6 @@
 package org.knowm.xchange.taurus;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.TimeZone;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,7 +17,13 @@ import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
 import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the TaurusAdapter class
@@ -65,7 +64,7 @@ public class TaurusAdapterTest {
     TaurusOrderBook taurusOrderBook = mapper.readValue(is, TaurusOrderBook.class);
 
     OrderBook orderBook = TaurusAdapters.adaptOrderBook(taurusOrderBook, CurrencyPair.BTC_CAD);
-    assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1427275444000L);
+    assertThat(orderBook.getTimeStamp().toEpochSecond() * 1000).isEqualTo(1427275444000L);
 
     assertThat(orderBook.getBids().size()).isEqualTo(7);
     assertThat(orderBook.getAsks().size()).isEqualTo(4);
@@ -103,7 +102,7 @@ public class TaurusAdapterTest {
     assertThat(trade.getOriginalAmount()).isEqualTo(new BigDecimal("0.01000000"));
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_CAD);
     assertThat(trade.getId()).isEqualTo("132");
-    assertThat(trade.getTimestamp().getTime()).isEqualTo(1427270265000L);
+    assertThat(trade.getTimestamp().toEpochSecond() * 1000).isEqualTo(1427270265000L);
   }
 
   @Test
@@ -127,7 +126,7 @@ public class TaurusAdapterTest {
     assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("317.39"));
 
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("2.59493463"));
-    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1427273414000L);
+    assertThat(ticker.getTimestamp().toEpochSecond() * 1000).isEqualTo(1427273414000L);
   }
 
   @Test
@@ -149,8 +148,8 @@ public class TaurusAdapterTest {
     assertThat(t0.getFeeAmount()).isEqualTo(new BigDecimal("0.02"));
     assertThat(t0.getId()).isEqualTo("132");
     assertThat(t0.getOrderId()).isEqualTo("e1mdwidxa4u9174l6keon1lj0er3zwrdxdrtw5r6amgbtkx05bptdbcdq4hp083y");
-    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    format.setTimeZone(TimeZone.getTimeZone("Europe/Paris")); // The json date is UTC; Paris is UTC+1.
+    final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    format.withZone(ZoneId.of("Europe/Paris")); // The json date is UTC; Paris is UTC+1.
     assertThat(format.format(t0.getTimestamp())).isEqualTo("2015-03-25 08:57:45");
 
     // {"cad":"3.08","btc":"-0.01000000","datetime":"2015-03-25 06:36:33","fee":"0.02","id":131,"order_id":"kf20f4xw16wqv75gvomk7invftavb4rwkuxzyuv01sqxzwdvkzfsh3nxwys83k4n","rate":"310.00","type":2}

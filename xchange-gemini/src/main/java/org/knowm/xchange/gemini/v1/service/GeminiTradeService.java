@@ -1,10 +1,5 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -14,22 +9,20 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiLimitOrder;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeService {
 
@@ -112,7 +105,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
     final long timestamp;
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      ZonedDateTime startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       timestamp = DateUtils.toUnixTime(startTime);
     } else {
       timestamp = 0;
@@ -138,7 +131,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new GeminiTradeHistoryParams(CurrencyPair.BTC_USD, 500, new Date(0));
+    return new GeminiTradeHistoryParams(CurrencyPair.BTC_USD, 500, DateUtils.fromMillisToZonedDateTime(0));
   }
 
   @Override
@@ -162,9 +155,9 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   public static class GeminiTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamLimit, TradeHistoryParamsTimeSpan {
     private CurrencyPair currencyPair;
     private Integer limit;
-    private Date startTime;
+    private ZonedDateTime startTime;
 
-    public GeminiTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date startTime) {
+    public GeminiTradeHistoryParams(CurrencyPair currencyPair, Integer limit, ZonedDateTime startTime) {
       this.currencyPair = currencyPair;
       this.limit = limit;
       this.startTime = startTime;
@@ -194,22 +187,22 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     }
 
     @Override
-    public void setStartTime(Date startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
       this.startTime = startTime;
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Date endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
       //ignored
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
       return null;
     }
   }

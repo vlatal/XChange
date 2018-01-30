@@ -1,12 +1,5 @@
 package org.knowm.xchange.wex.v3.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -16,10 +9,18 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
-import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.wex.v3.WexAdapters;
 import org.knowm.xchange.wex.v3.dto.account.WexAccountInfo;
 import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Matija Mazi
@@ -95,7 +96,7 @@ public class WexAccountService extends WexAccountServiceRaw implements AccountSe
       else
         continue;
 
-      Date date = DateUtils.fromUnixTime(result.getTimestamp());
+      ZonedDateTime date = ZonedDateTime.ofInstant(Instant.ofEpochSecond(result.getTimestamp()), ZoneOffset.UTC);
       fundingRecords.add(new FundingRecord(
           null,
           date,

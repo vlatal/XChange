@@ -1,15 +1,5 @@
 package org.knowm.xchange.kuna.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.knowm.xchange.currency.CurrencyPair.BCH_UAH;
-import static org.knowm.xchange.currency.CurrencyPair.BTC_UAH;
-import static org.knowm.xchange.currency.CurrencyPair.ETH_UAH;
-import static org.knowm.xchange.kuna.util.KunaUtils.toPairString;
-
-import java.io.IOException;
-import java.time.Instant;
-import java.util.Map;
-
 import org.assertj.core.data.Offset;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,6 +7,14 @@ import org.knowm.xchange.kuna.BaseKunaTest;
 import org.knowm.xchange.kuna.dto.KunaAskBid;
 import org.knowm.xchange.kuna.dto.KunaTimeTicker;
 import org.knowm.xchange.kuna.dto.KunaTrade;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.knowm.xchange.currency.CurrencyPair.*;
+import static org.knowm.xchange.kuna.util.KunaUtils.toPairString;
 
 public class KunaMarketDataServiceRawTestIntegration extends BaseKunaTest {
 

@@ -1,7 +1,7 @@
 package org.knowm.xchange.coinbase.dto.account;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat;
@@ -9,8 +9,7 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.ZonedDateTime;
 
 /**
  * @author jamespedwards42
@@ -39,7 +38,7 @@ public class CoinbaseRecurringPayment {
     return recurringPayment.getStatus();
   }
 
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
 
     return recurringPayment.getCreatedAt();
   }
@@ -74,12 +73,12 @@ public class CoinbaseRecurringPayment {
     return recurringPayment.getRepeat();
   }
 
-  public Date getLastRun() {
+  public ZonedDateTime getLastRun() {
 
     return recurringPayment.getLastRun();
   }
 
-  public Date getNextRun() {
+  public ZonedDateTime getNextRun() {
 
     return recurringPayment.getNextRun();
   }
@@ -110,26 +109,26 @@ public class CoinbaseRecurringPayment {
     private final String id;
     private final CoinbaseRecurringPaymentType type;
     private final CoinbaseRecurringPaymentStatus status;
-    private final Date createdAt;
+    private final ZonedDateTime createdAt;
     private final String to;
     private final String from;
     private final String startType;
     private final int times;
     private final int timesRun;
     private final CoinbaseRepeat repeat;
-    private final Date lastRun;
-    private final Date nextRun;
+    private final ZonedDateTime lastRun;
+    private final ZonedDateTime nextRun;
     private final String notes;
     private final String description;
     private final CoinbaseMoney amount;
 
     private CoinbaseRecurringPaymentInfo(@JsonProperty("id") final String id, @JsonProperty("type") final CoinbaseRecurringPaymentType type,
         @JsonProperty("status") final CoinbaseRecurringPaymentStatus status,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("to") final String to,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime createdAt, @JsonProperty("to") final String to,
         @JsonProperty("from") final String from, @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times,
         @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat,
-        @JsonProperty("last_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date lastRun,
-        @JsonProperty("next_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date nextRun,
+        @JsonProperty("last_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime lastRun,
+        @JsonProperty("next_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime nextRun,
         @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
         @JsonProperty("amount") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney amount) {
 
@@ -165,7 +164,7 @@ public class CoinbaseRecurringPayment {
       return status;
     }
 
-    public Date getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
 
       return createdAt;
     }
@@ -200,12 +199,12 @@ public class CoinbaseRecurringPayment {
       return repeat;
     }
 
-    public Date getLastRun() {
+    public ZonedDateTime getLastRun() {
 
       return lastRun;
     }
 
-    public Date getNextRun() {
+    public ZonedDateTime getNextRun() {
 
       return nextRun;
     }

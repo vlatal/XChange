@@ -1,7 +1,5 @@
 package org.xchange.coinegg.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -10,6 +8,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.xchange.coinegg.CoinEggAdapters;
 import org.xchange.coinegg.CoinEggUtils;
+
+import java.io.IOException;
 
 public class CoinEggMarketDataService extends CoinEggMarketDataServiceRaw implements MarketDataService {
 

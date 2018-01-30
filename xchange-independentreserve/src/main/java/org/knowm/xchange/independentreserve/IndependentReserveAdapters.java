@@ -1,10 +1,5 @@
 package org.knowm.xchange.independentreserve;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -27,6 +22,11 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrde
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTrade;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author: Kamil Zbikowski Date: 4/10/15
  */
@@ -48,7 +48,7 @@ public class IndependentReserveAdapters {
 
     List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
     List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
-    Date timestamp = independentReserveOrderBook.getCreatedTimestamp();
+    ZonedDateTime timestamp = independentReserveOrderBook.getCreatedTimestamp();
 
     return new OrderBook(timestamp, asks, bids);
   }
@@ -69,7 +69,7 @@ public class IndependentReserveAdapters {
     BigDecimal low = independentReserveTicker.getLow();
     BigDecimal vwap = independentReserveTicker.getVwap();
     BigDecimal volume = independentReserveTicker.getVolume();
-    Date timestamp = independentReserveTicker.getTimestamp();
+    ZonedDateTime timestamp = independentReserveTicker.getTimestamp();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
         .timestamp(timestamp).build();

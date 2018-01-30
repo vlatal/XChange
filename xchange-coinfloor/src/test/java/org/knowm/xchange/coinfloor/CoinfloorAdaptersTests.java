@@ -1,11 +1,8 @@
 package org.knowm.xchange.coinfloor;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.coinfloor.dto.account.CoinfloorBalance;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
@@ -28,9 +25,11 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoinfloorAdaptersTests {
 
@@ -79,7 +78,7 @@ public class CoinfloorAdaptersTests {
 
     Trade trade = trades.getTrades().get(2);
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_GBP);
-    assertThat(trade.getTimestamp().getTime()).isEqualTo(1489938696000L);
+    assertThat(trade.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1489938696000L);
     assertThat(trade.getId()).isEqualTo("1489938696270805");
     assertThat(trade.getPrice()).isEqualTo("827.00");
     assertThat(trade.getOriginalAmount()).isEqualTo("0.2028");
@@ -130,7 +129,7 @@ public class CoinfloorAdaptersTests {
     assertThat(trades.getTradeSortType()).isEqualTo(TradeSortType.SortByID);
 
     UserTrade trade0 = (UserTrade) trades.getTrades().get(0);
-    assertThat(trade0.getTimestamp().getTime()).isEqualTo(1489284172000L);
+    assertThat(trade0.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1489284172000L);
     assertThat(trade0.getId()).isEqualTo("2489586572518170");
     assertThat(trade0.getOriginalAmount()).isEqualTo("0.1660");
     assertThat(trade0.getPrice()).isEqualTo("1020.00");
@@ -140,7 +139,7 @@ public class CoinfloorAdaptersTests {
     assertThat(trade0.getOrderId()).isEqualTo("66574450");
 
     UserTrade trade1 = (UserTrade) trades.getTrades().get(1);
-    assertThat(trade1.getTimestamp().getTime()).isEqualTo(1491184972000L);
+    assertThat(trade1.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1491184972000L);
     assertThat(trade1.getId()).isEqualTo("2489586572518770");
     assertThat(trade1.getOriginalAmount()).isEqualTo("1.8340");
     assertThat(trade1.getPrice()).isEqualTo("1027.00");
@@ -160,14 +159,14 @@ public class CoinfloorAdaptersTests {
 
     LimitOrder order0 = orders.getOpenOrders().get(0);
     assertThat(order0.getId()).isEqualTo("66688608");
-    assertThat(order0.getTimestamp().getTime()).isEqualTo(1490009484000L);
+    assertThat(order0.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1490009484000L);
     assertThat(order0.getType()).isEqualTo(OrderType.ASK);
     assertThat(order0.getLimitPrice()).isEqualTo("2301.00");
     assertThat(order0.getOriginalAmount()).isEqualTo("0.0001");
 
     LimitOrder order1 = orders.getOpenOrders().get(1);
     assertThat(order1.getId()).isEqualTo("66688691");
-    assertThat(order1.getTimestamp().getTime()).isEqualTo(1491392044000L);
+    assertThat(order1.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1491392044000L);
     assertThat(order1.getType()).isEqualTo(OrderType.BID);
     assertThat(order1.getLimitPrice()).isEqualTo("2303.00");
     assertThat(order1.getOriginalAmount()).isEqualTo("1.0001");

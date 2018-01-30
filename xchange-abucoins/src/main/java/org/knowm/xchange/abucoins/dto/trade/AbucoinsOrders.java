@@ -1,10 +1,9 @@
 package org.knowm.xchange.abucoins.dto.trade;
 
-import java.util.Arrays;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Arrays;
 
 /**
  * <p>POJO representing the output JSON for the Abucoins

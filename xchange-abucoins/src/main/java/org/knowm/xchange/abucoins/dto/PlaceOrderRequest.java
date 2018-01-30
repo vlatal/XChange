@@ -1,8 +1,8 @@
 package org.knowm.xchange.abucoins.dto;
 
-import java.math.BigDecimal;
-
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
+
+import java.math.BigDecimal;
 
 public class PlaceOrderRequest extends AbucoinsRequest {
   public final AbucoinsOrder.Type type;

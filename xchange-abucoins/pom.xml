@@ -5,7 +5,7 @@
 
     <parent>
         <artifactId>xchange-parent</artifactId>
-        <groupId>org.knowm.xchange</groupId>
+        <groupId>us.futurio.xchange</groupId>
         <version>4.3.3-SNAPSHOT</version>
     </parent>
 
@@ -25,9 +25,9 @@
     <dependencies>
 
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.3-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

@@ -20,9 +20,9 @@ import org.knowm.xchange.utils.DateUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
@@ -171,7 +171,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
+    return new BitfinexTradeHistoryParams(DateUtils.fromMillisToZonedDateTime(0), 50, CurrencyPair.BTC_USD);
   }
 
   @Override
@@ -186,7 +186,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     private CurrencyPair pair;
     private Integer pageNumber;
 
-    public BitfinexTradeHistoryParams(Date startTime, int count, CurrencyPair pair) {
+    public BitfinexTradeHistoryParams(ZonedDateTime startTime, int count, CurrencyPair pair) {
 
       super(startTime);
 

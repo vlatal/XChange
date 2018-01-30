@@ -1,14 +1,14 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 
 /**
  * <p>For several of the Abucoins APIs a JSON array is returned.  If there is an error however, the json is

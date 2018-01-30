@@ -1,12 +1,5 @@
 package org.knowm.xchange.bittrex;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.bittrex.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.dto.account.BittrexDepositHistory;
 import org.knowm.xchange.bittrex.dto.account.BittrexOrder;
@@ -36,6 +29,13 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 public final class BittrexAdapters {
 
@@ -144,7 +144,7 @@ public final class BittrexAdapters {
     OrderType orderType = trade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity();
     BigDecimal price = trade.getPrice();
-    Date date = BittrexUtils.toDate(trade.getTimeStamp());
+    ZonedDateTime date = BittrexUtils.toDate(trade.getTimeStamp());
     final String tradeId = String.valueOf(trade.getId());
     return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
@@ -172,7 +172,7 @@ public final class BittrexAdapters {
     BigDecimal low = marketSummary.getLow();
     BigDecimal volume = marketSummary.getVolume();
 
-    Date timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
+    ZonedDateTime timestamp = BittrexUtils.toDate(marketSummary.getTimeStamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -214,7 +214,7 @@ public final class BittrexAdapters {
 
     OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
-    Date date = BittrexUtils.toDate(trade.getClosed());
+    ZonedDateTime date = BittrexUtils.toDate(trade.getClosed());
     String orderId = String.valueOf(trade.getOrderUuid());
 
     BigDecimal price = trade.getPricePerUnit();

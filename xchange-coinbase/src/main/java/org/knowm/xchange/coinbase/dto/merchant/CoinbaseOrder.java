@@ -1,17 +1,5 @@
 package org.knowm.xchange.coinbase.dto.merchant;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
-import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,6 +9,17 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author jamespedwards42
@@ -42,7 +41,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     return order.getId();
   }
 
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
 
     return order.getCreatedAt();
   }
@@ -113,7 +112,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
   private static class CoinbaseOrderInfo {
 
     private final String id;
-    private final Date createdAt;
+    private final ZonedDateTime createdAt;
     private final CoinbaseOrderStatus status;
     private final CoinbaseMoney totalBTC;
     private final CoinbaseMoney totalNative;
@@ -123,7 +122,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     private final CoinbaseOrderTransaction transaction;
 
     private CoinbaseOrderInfo(@JsonProperty("id") final String id,
-        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime createdAt,
         @JsonProperty("status") final CoinbaseOrderStatus status,
         @JsonProperty("total_btc") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalBTC,
         @JsonProperty("total_native") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalNative,
@@ -146,7 +145,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
       return id;
     }
 
-    public Date getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
 
       return createdAt;
     }

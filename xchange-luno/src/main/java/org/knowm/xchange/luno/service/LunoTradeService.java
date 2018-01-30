@@ -1,23 +1,12 @@
 package org.knowm.xchange.luno.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -27,13 +16,15 @@ import org.knowm.xchange.luno.dto.trade.LunoPostOrder;
 import org.knowm.xchange.luno.dto.trade.LunoUserTrades;
 import org.knowm.xchange.luno.dto.trade.State;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class LunoTradeService extends LunoBaseService implements TradeService {
 
@@ -127,7 +118,7 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     Long since = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      since = ((TradeHistoryParamsTimeSpan) params).getStartTime().getTime();
+      since = ((TradeHistoryParamsTimeSpan) params).getStartTime().toInstant().toEpochMilli();
     }
     Integer limit = null;
     if (params instanceof TradeHistoryParamLimit) {
@@ -164,8 +155,8 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
       , TradeHistoryParamLimit {
 
     CurrencyPair pair;
-    private Date startTime;
-    private Date endTime;
+    private ZonedDateTime startTime;
+    private ZonedDateTime endTime;
     private Integer limit;
 
     @Override
@@ -179,22 +170,22 @@ public class LunoTradeService extends LunoBaseService implements TradeService {
     }
 
     @Override
-    public void setStartTime(Date startTime) {
+    public void setStartTime(ZonedDateTime startTime) {
       this.startTime = startTime;
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Date endTime) {
+    public void setEndTime(ZonedDateTime endTime) {
       this.endTime = endTime;
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
       return endTime;
     }
 

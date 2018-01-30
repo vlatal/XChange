@@ -1,11 +1,5 @@
 package org.knowm.xchange.paymium;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -17,6 +11,14 @@ import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketOrder;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
 import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class PaymiumAdapters {
 
@@ -42,7 +44,7 @@ public class PaymiumAdapters {
     BigDecimal low = PaymiumTicker.getLow();
     BigDecimal last = PaymiumTicker.getPrice();
     BigDecimal volume = PaymiumTicker.getVolume();
-    Date timestamp = new Date(PaymiumTicker.getAt() * 1000L);
+    ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(PaymiumTicker.getAt()), ZoneOffset.UTC);
 
     return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).volume(volume).timestamp(timestamp)
         .build();
@@ -74,7 +76,7 @@ public class PaymiumAdapters {
 
     for (PaymiumMarketOrder PaymiumMarketOrder : PaymiumMarketOrders) {
       LimitOrder limitOrder = new LimitOrder(orderType, PaymiumMarketOrder.getAmount(), currencyPair, null,
-          new Date(PaymiumMarketOrder.getTimestamp()), PaymiumMarketOrder.getPrice());
+          ZonedDateTime.ofInstant(Instant.ofEpochSecond(PaymiumMarketOrder.getTimestamp()), ZoneOffset.UTC), PaymiumMarketOrder.getPrice());
       orders.add(limitOrder);
     }
 
@@ -86,7 +88,7 @@ public class PaymiumAdapters {
     List<Trade> trades = new ArrayList<>();
 
     for (PaymiumTrade PaymiumTrade : PaymiumTrades) {
-      Trade trade = new Trade(null, PaymiumTrade.getTraded_btc(), currencyPair, PaymiumTrade.getPrice(), new Date(PaymiumTrade.getCreated_at_int()),
+      Trade trade = new Trade(null, PaymiumTrade.getTraded_btc(), currencyPair, PaymiumTrade.getPrice(), ZonedDateTime.ofInstant(Instant.ofEpochSecond(PaymiumTrade.getCreated_at_int()), ZoneOffset.UTC),
           PaymiumTrade.getUuid().toString());
 
       trades.add(trade);

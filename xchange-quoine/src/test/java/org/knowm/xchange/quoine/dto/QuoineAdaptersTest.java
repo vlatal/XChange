@@ -1,12 +1,6 @@
 package org.knowm.xchange.quoine.dto;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -23,8 +17,13 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineTickerJSONTest;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersListJSONTest;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class QuoineAdaptersTest {
 
@@ -62,7 +61,7 @@ public class QuoineAdaptersTest {
     assertThat(openOrders.getOpenOrders().size()).isEqualTo(6);
     assertThat(openOrders.getOpenOrders().get(0).getId()).isEqualTo("52362");
     assertThat(openOrders.getOpenOrders().get(0).getLimitPrice()).isEqualTo(new BigDecimal("250.0"));
-    assertThat(openOrders.getOpenOrders().get(0).getTimestamp()).isEqualTo(new Date(1429953404000L));
+    assertThat(openOrders.getOpenOrders().get(0).getTimestamp()).isEqualTo(DateUtils.fromMillisToZonedDateTime(1429953404000L));
   }
 
   @Test

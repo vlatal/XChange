@@ -1,22 +1,22 @@
 package org.knowm.xchange.coinmarketcap.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * @author allenday
  */
 public class CoinMarketCapHistoricalSpotPrice implements Comparable<CoinMarketCapHistoricalSpotPrice> {
 
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final BigDecimal spotRate;
 
-  CoinMarketCapHistoricalSpotPrice(Date timestamp, final BigDecimal spotRate) {
+  CoinMarketCapHistoricalSpotPrice(ZonedDateTime timestamp, final BigDecimal spotRate) {
     this.timestamp = timestamp;
     this.spotRate = spotRate;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

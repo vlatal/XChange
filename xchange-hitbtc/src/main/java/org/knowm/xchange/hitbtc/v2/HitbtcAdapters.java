@@ -19,25 +19,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcBalance;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrder;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOrderLimit;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcOwnTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcSide;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTicker;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTrade;
-import org.knowm.xchange.hitbtc.v2.dto.HitbtcTransaction;
+import org.knowm.xchange.hitbtc.v2.dto.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 public class HitbtcAdapters {
 
@@ -65,7 +51,7 @@ public class HitbtcAdapters {
     BigDecimal low = hitbtcTicker.getLow();
     BigDecimal last = hitbtcTicker.getLast();
     BigDecimal volume = hitbtcTicker.getVolume();
-    Date timestamp = hitbtcTicker.getTimestamp();
+    ZonedDateTime timestamp = hitbtcTicker.getTimestamp();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -122,7 +108,7 @@ public class HitbtcAdapters {
     for (int i = 0; i < allHitbtcTrades.size(); i++) {
       HitbtcTrade hitbtcTrade = allHitbtcTrades.get(i);
 
-      Date timestamp = hitbtcTrade.getTimestamp();
+      ZonedDateTime timestamp = hitbtcTrade.getTimestamp();
       BigDecimal price = hitbtcTrade.getPrice();
       BigDecimal amount = hitbtcTrade.getQuantity();
       String tid = hitbtcTrade.getId();
@@ -184,7 +170,7 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(hitbtcOwnTrade.symbol);
 
       BigDecimal originalAmount = hitbtcOwnTrade.getQuantity();
-      Date timestamp = hitbtcOwnTrade.getTimestamp();
+      ZonedDateTime timestamp = hitbtcOwnTrade.getTimestamp();
 
       String id = Long.toString(hitbtcOwnTrade.getId());
 

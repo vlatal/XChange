@@ -1,18 +1,17 @@
 package org.knowm.xchange.btcmarkets.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.utils.jackson.BtcToSatoshi;
-import org.knowm.xchange.utils.jackson.MillisecTimestampDeserializer;
-import org.knowm.xchange.utils.jackson.SatoshiToBtc;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.knowm.xchange.utils.jackson.BtcToSatoshi;
+import org.knowm.xchange.utils.jackson.MillisecTimestampDeserializer;
+import org.knowm.xchange.utils.jackson.SatoshiToBtc;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 @JsonPropertyOrder({"currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId"})
 //@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -39,7 +38,7 @@ public class BTCMarketsOrder {
   private Long id;
 
   @JsonDeserialize(using = MillisecTimestampDeserializer.class)
-  private Date creationTime;
+  private ZonedDateTime creationTime;
 
   private String status;
 
@@ -104,13 +103,13 @@ public class BTCMarketsOrder {
   }
 
   @JsonIgnore(true)
-  public Date getCreationTime() {
+  public ZonedDateTime getCreationTime() {
     return creationTime;
   }
 
   @JsonProperty
   @JsonIgnore(false)
-  protected void setCreationTime(Date creationTime) {
+  protected void setCreationTime(ZonedDateTime creationTime) {
     this.creationTime = creationTime;
   }
 

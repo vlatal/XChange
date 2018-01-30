@@ -2,13 +2,7 @@ package org.knowm.xchange.okcoin;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.okcoin.service.OkCoinAccountService;
-import org.knowm.xchange.okcoin.service.OkCoinFuturesAccountService;
-import org.knowm.xchange.okcoin.service.OkCoinFuturesMarketDataService;
-import org.knowm.xchange.okcoin.service.OkCoinFuturesTradeService;
-import org.knowm.xchange.okcoin.service.OkCoinMarketDataService;
-import org.knowm.xchange.okcoin.service.OkCoinTradeService;
-
+import org.knowm.xchange.okcoin.service.*;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class OkCoinExchange extends BaseExchange {

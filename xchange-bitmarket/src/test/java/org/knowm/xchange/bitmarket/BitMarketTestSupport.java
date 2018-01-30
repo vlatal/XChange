@@ -1,13 +1,5 @@
 package org.knowm.xchange.bitmarket;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
@@ -24,6 +16,14 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BitMarketTestSupport extends BitMarketDtoTestSupport {
 
@@ -64,11 +64,11 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
 
   public static Trade[] expectedTrades() {
     return new Trade[]{
-        new Trade(Order.OrderType.BID, new BigDecimal("0.10560487"), CurrencyPair.BTC_AUD, new BigDecimal("14.4105"), new Date(1450303414000L),
+        new Trade(Order.OrderType.BID, new BigDecimal("0.10560487"), CurrencyPair.BTC_AUD, new BigDecimal("14.4105"), DateUtils.fromMillisToZonedDateTime(1450303414000L),
             "78453"),
-        new Trade(Order.OrderType.BID, new BigDecimal("5.22284399"), CurrencyPair.BTC_AUD, new BigDecimal("14.4105"), new Date(1450343831000L),
+        new Trade(Order.OrderType.BID, new BigDecimal("5.22284399"), CurrencyPair.BTC_AUD, new BigDecimal("14.4105"), DateUtils.fromMillisToZonedDateTime(1450343831000L),
             "78454"),
-        new Trade(Order.OrderType.BID, new BigDecimal("27.24579867"), CurrencyPair.BTC_AUD, new BigDecimal("14.6900"), new Date(1450344119000L),
+        new Trade(Order.OrderType.BID, new BigDecimal("27.24579867"), CurrencyPair.BTC_AUD, new BigDecimal("14.6900"), DateUtils.fromMillisToZonedDateTime(1450344119000L),
             "78455")};
   }
 
@@ -90,36 +90,36 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
 
   public static LimitOrder[] expectedOrders() {
     return new LimitOrder[]{
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("0.20000000"), CurrencyPair.BTC_PLN, "31393", new Date(1432661682000L),
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("0.20000000"), CurrencyPair.BTC_PLN, "31393", DateUtils.fromMillisToZonedDateTime(1432661682000L),
             new BigDecimal("3000.0000")),
-        new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.08000000"), CurrencyPair.BTC_PLN, "31391", new Date(1432551696000L),
+        new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.08000000"), CurrencyPair.BTC_PLN, "31391", DateUtils.fromMillisToZonedDateTime(1432551696000L),
             new BigDecimal("4140.0000"))};
   }
 
   public static UserTrade[] expectedUserTrades() {
     return new UserTrade[]{
-        new UserTrade(Order.OrderType.BID, new BigDecimal("0.01000000"), CurrencyPair.BTC_PLN, new BigDecimal("875.9898"), new Date(1429901376000L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("0.01000000"), CurrencyPair.BTC_PLN, new BigDecimal("875.9898"), DateUtils.fromMillisToZonedDateTime(1429901376000L),
             "386637", null, null, Currency.BTC),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("0.49000000"), CurrencyPair.BTC_PLN, new BigDecimal("875.9898"), new Date(1429901383000L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("0.49000000"), CurrencyPair.BTC_PLN, new BigDecimal("875.9898"), DateUtils.fromMillisToZonedDateTime(1429901383000L),
             "386638", null, null, Currency.BTC),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("0.50000000"), CurrencyPair.BTC_PLN, new BigDecimal("869.9900"), new Date(1429911236000L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("0.50000000"), CurrencyPair.BTC_PLN, new BigDecimal("869.9900"), DateUtils.fromMillisToZonedDateTime(1429911236000L),
             "386651", null, null, Currency.BTC),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("0.03120150"), CurrencyPair.BTC_PLN, new BigDecimal("865.6667"), new Date(1429965622000L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("0.03120150"), CurrencyPair.BTC_PLN, new BigDecimal("865.6667"), DateUtils.fromMillisToZonedDateTime(1429965622000L),
             "386750", null, null, Currency.BTC),
-        new UserTrade(Order.OrderType.ASK, new BigDecimal("1.08260046"), CurrencyPair.BTC_PLN, new BigDecimal("877.0000"), new Date(1430687948000L),
+        new UserTrade(Order.OrderType.ASK, new BigDecimal("1.08260046"), CurrencyPair.BTC_PLN, new BigDecimal("877.0000"), DateUtils.fromMillisToZonedDateTime(1430687948000L),
             "389406", "11852566", new BigDecimal("0.30312011"), Currency.PLN)};
   }
 
   public static UserTrade[] expectedCpUserTrades() {
     return new UserTrade[]{
-        new UserTrade(Order.OrderType.ASK, new BigDecimal("2.140000000"), CurrencyPair.BTC_EUR, new BigDecimal("110.0000"), new Date(1234567890000L),
+        new UserTrade(Order.OrderType.ASK, new BigDecimal("2.140000000"), CurrencyPair.BTC_EUR, new BigDecimal("110.0000"), DateUtils.fromMillisToZonedDateTime(1234567890000L),
             "389406", null, null, Currency.EUR),
-        new UserTrade(Order.OrderType.BID, new BigDecimal("0.05555555"), CurrencyPair.BTC_EUR, new BigDecimal("115.5555"), new Date(1400000000000L),
+        new UserTrade(Order.OrderType.BID, new BigDecimal("0.05555555"), CurrencyPair.BTC_EUR, new BigDecimal("115.5555"), DateUtils.fromMillisToZonedDateTime(1400000000000L),
             "386750", null, null, Currency.BTC),};
   }
 
   public static final UserTrade EXPECTED_BM_USER_TRADES = new UserTrade(Order.OrderType.BID, new BigDecimal("0.08888888"), CurrencyPair.BTC_EUR,
-      new BigDecimal("210.3333"), new Date(1444444444000L), "386775", null, null, Currency.BTC);
+      new BigDecimal("210.3333"), DateUtils.fromMillisToZonedDateTime(1444444444000L), "386775", null, null, Currency.BTC);
 
   public static final Ticker TICKER = new Ticker.Builder().bid(new BigDecimal("1789.2301")).ask(new BigDecimal("1794.5000"))
       .last(new BigDecimal("1789.2001")).low(new BigDecimal("1756.5000")).high(new BigDecimal("1813.5000")).currencyPair(CurrencyPair.BTC_AUD)

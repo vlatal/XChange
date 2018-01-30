@@ -23,18 +23,9 @@
  */
 package org.knowm.xchange.coinmate;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalanceData;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactions;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
+import org.knowm.xchange.coinmate.dto.marketdata.*;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
@@ -53,6 +44,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Martin Stachon
@@ -74,7 +71,7 @@ public class CoinmateAdapters {
     BigDecimal high = coinmateTicker.getData().getHigh();
     BigDecimal low = coinmateTicker.getData().getLow();
     BigDecimal volume = coinmateTicker.getData().getAmount();
-    Date timestamp = new Date(coinmateTicker.getData().getTimestamp() * 1000L);
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(coinmateTicker.getData().getTimestamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
 
@@ -110,7 +107,7 @@ public class CoinmateAdapters {
 
   public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
     return new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
-        new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+        DateUtils.fromMillisToZonedDateTime(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
   }
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
@@ -149,7 +146,7 @@ public class CoinmateAdapters {
       }
 
       UserTrade trade = new UserTrade(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
-          entry.getPrice(), new Date(entry.getTimestamp()), Long.toString(entry.getTransactionId()), Long.toString(entry.getOrderId()),
+          entry.getPrice(), DateUtils.fromMillisToZonedDateTime(entry.getTimestamp()), Long.toString(entry.getTransactionId()), Long.toString(entry.getOrderId()),
           entry.getFee(), Currency.getInstance(entry.getFeeCurrency()));
       trades.add(trade);
 
@@ -195,7 +192,7 @@ public class CoinmateAdapters {
       String transactionId = Long.toString(entry.getTransactionId());
 
       FundingRecord funding = new FundingRecord(null,
-          new Date(entry.getTimestamp()), Currency.getInstance(entry.getAmountCurrency()), entry.getAmount(),
+          DateUtils.fromMillisToZonedDateTime(entry.getTimestamp()), Currency.getInstance(entry.getAmountCurrency()), entry.getAmount(),
           transactionId, transactionId , type, status, null, entry.getFee(), entry.getDescription());
 
       fundings.add(funding);
@@ -221,7 +218,7 @@ public class CoinmateAdapters {
       }
 
       LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getCurrencyPair()),
-          Long.toString(entry.getId()), new Date(entry.getTimestamp()), entry.getPrice());
+          Long.toString(entry.getId()), DateUtils.fromMillisToZonedDateTime(entry.getTimestamp()), entry.getPrice());
 
       ordersList.add(limitOrder);
     }

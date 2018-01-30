@@ -1,9 +1,8 @@
 package org.knowm.xchange.vircurex;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A central place for shared Vircurex properties
@@ -27,9 +26,9 @@ public final class VircurexUtils {
 
   public static String getUtcTimestamp() {
 
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    format.setTimeZone(TimeZone.getTimeZone("GMT"));
-    return format.format(new Date());
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    format.withZone(ZoneOffset.UTC);
+    return format.format(ZonedDateTime.now());
   }
 
 }

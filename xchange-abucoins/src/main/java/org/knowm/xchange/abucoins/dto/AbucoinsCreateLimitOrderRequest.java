@@ -1,14 +1,12 @@
 package org.knowm.xchange.abucoins.dto;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Side;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.TimeInForce;
-import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Type;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public class AbucoinsCreateLimitOrderRequest extends AbucoinsBaseCreateOrderRequest {
   /** price per one asset */

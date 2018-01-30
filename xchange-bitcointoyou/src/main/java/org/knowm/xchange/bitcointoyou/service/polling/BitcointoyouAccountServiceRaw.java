@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitcointoyou.service.polling;
 
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdapters;
 import org.knowm.xchange.bitcointoyou.BitcointoyouException;
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalance;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.util.List;
 
 /**
  * AccountService raw implementation for Bitcointoyou Exchange.

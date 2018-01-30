@@ -4,8 +4,8 @@
 
     <parent>
         <artifactId>xchange-parent</artifactId>
-        <groupId>org.knowm.xchange</groupId>
-        <version>4.3.3-SNAPSHOT.vlatal</version>
+        <groupId>us.futurio.xchange</groupId>
+        <version>4.3.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>xchange-binance</artifactId>
@@ -23,9 +23,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.knowm.xchange</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>xchange-core</artifactId>
-            <version>4.3.3-SNAPSHOT.vlatal</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

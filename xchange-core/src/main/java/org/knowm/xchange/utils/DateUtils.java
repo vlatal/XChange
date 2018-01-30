@@ -1,13 +1,14 @@
 package org.knowm.xchange.utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+
+import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * <p>
@@ -18,7 +19,8 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
  * </ul>
  */
 public class DateUtils {
-
+  public static final DateTimeFormatter ISO_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  public static final DateTimeFormatter ISO_DATE_FORMAT_UTC = ISO_DATE_FORMAT.withZone(ZoneOffset.UTC);
   /**
    * private Constructor
    */
@@ -30,93 +32,149 @@ public class DateUtils {
    * Creates a date from a long representing milliseconds from epoch
    *
    * @param millisecondsFromEpoch
-   * @return the Date object
+   * @return the ZonedDateTime object
    */
-  public static Date fromMillisUtc(long millisecondsFromEpoch) {
+  @Deprecated
+  public static ZonedDateTime fromMillisUtc(long millisecondsFromEpoch) {
 
-    return new Date(millisecondsFromEpoch);
+    return DateUtils.fromMillisToZonedDateTime(millisecondsFromEpoch);
   }
 
   /**
-   * Converts a date to a UTC String representation
+   * Creates a ZonedDateTime from a long representing milliseconds from epoch
+   *
+   * @param millisecondsFromEpoch
+   * @return the ZonedDateTime object
+   */
+  public static ZonedDateTime fromMillisToZonedDateTime(long millisecondsFromEpoch) {
+    return ZonedDateTime.ofInstant(Instant.ofEpochMilli(millisecondsFromEpoch), ZoneOffset.UTC);
+  }
+
+  /**
+   * Creates a ZonedDateTime from a long representing milliseconds from epoch
+   *
+   * @param secondsFromEpoch
+   * @return the ZonedDateTime object
+   */
+  public static ZonedDateTime fromSecondsToZonedDateTime(long secondsFromEpoch) {
+    return ZonedDateTime.ofInstant(Instant.ofEpochSecond(secondsFromEpoch), ZoneOffset.UTC);
+  }
+
+  /**
+   * Converts a ZonedDateTime to a UTC String representation
    *
    * @param date
    * @return the formatted date
    */
-  public static String toUTCString(Date date) {
+  public static String toUTCString(ZonedDateTime date) {
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+    dateFormat.withZone(ZoneOffset.UTC);
 
-    SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-    sd.setTimeZone(TimeZone.getTimeZone("GMT"));
-    return sd.format(date);
+    return date.format(dateFormat);
   }
 
   /**
-   * Converts an ISO formatted Date String to a Java Date ISO format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+   * Converts an ISO formatted ZonedDateTime String to a Java ZonedDateTime ISO format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
    *
    * @param isoFormattedDate
-   * @return Date
+   * @return ZonedDateTime
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromISODateString(String isoFormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  @Deprecated
+  public static ZonedDateTime fromISODateString(String isoFormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
-    SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    DateTimeFormatter isoDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     // set UTC time zone - 'Z' indicates it
-    isoDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    isoDateFormat.withZone(ZoneOffset.UTC);
     try {
-      return isoDateFormat.parse(isoFormattedDate);
-    } catch (ParseException e) {
+      return ZonedDateTime.parse(isoFormattedDate, isoDateFormat);
+    } catch (DateTimeParseException e) {
       throw new InvalidFormatException("Error parsing as date", isoFormattedDate, Date.class);
     }
   }
 
   /**
-   * Converts an ISO 8601 formatted Date String to a Java Date ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
+   * Converts an ISO formatted ZonedDateTime String to a Java ZonedDateTime ISO format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
    *
-   * @param iso8601FormattedDate
-   * @return Date
+   * @param isoFormattedDate
+   * @return ZonedDateTime
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromISO8601DateString(String iso8601FormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static ZonedDateTime fromISODateStringToZonedDateTime(String isoFormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
-    SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     try {
-      return iso8601Format.parse(iso8601FormattedDate);
-    } catch (ParseException e) {
+      return ZonedDateTime.parse(isoFormattedDate, ISO_DATE_FORMAT_UTC);
+    } catch (DateTimeParseException e) {
+      throw new InvalidFormatException("Error parsing as date", isoFormattedDate, ZonedDateTime.class);
+    }
+  }
+
+  /**
+   * Converts an ISO 8601 formatted ZonedDateTime String to a Java ZonedDateTime ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
+   *
+   * @param iso8601FormattedDate
+   * @return ZonedDateTime
+   * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
+   */
+  @Deprecated
+  public static ZonedDateTime fromISO8601DateString(String iso8601FormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+
+    DateTimeFormatter iso8601Format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    try {
+      return ZonedDateTime.parse(iso8601FormattedDate, iso8601Format);
+    } catch (DateTimeParseException e) {
       throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, Date.class);
     }
   }
 
   /**
-   * Converts an rfc1123 formatted Date String to a Java Date rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz
+   * Converts an ISO 8601 formatted ZonedDateTime String to a Java ZonedDateTime ISO 8601 format: yyyy-MM-dd'T'HH:mm:ss
    *
-   * @param rfc1123FormattedDate
-   * @return Date
+   * @param iso8601FormattedDate
+   * @return ZonedDateTime
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date fromRfc1123DateString(String rfc1123FormattedDate, Locale locale) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+  public static ZonedDateTime fromISO8601DateStringToZonedDateTime(String iso8601FormattedDate) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
 
-    SimpleDateFormat rfc1123DateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
+    DateTimeFormatter iso8601Format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     try {
-      return rfc1123DateFormat.parse(rfc1123FormattedDate);
-    } catch (ParseException e) {
+      return ZonedDateTime.parse(iso8601FormattedDate, iso8601Format);
+    } catch (DateTimeParseException e) {
+      throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, Date.class);
+    }
+  }
+
+  /**
+   * Converts an rfc1123 formatted ZonedDateTime String to a Java ZonedDateTime rfc1123 format: EEE, dd MMM yyyy HH:mm:ss zzz
+   *
+   * @param rfc1123FormattedDate
+   * @return ZonedDateTime
+   * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
+   */
+  public static ZonedDateTime fromRfc1123DateString(String rfc1123FormattedDate, Locale locale) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
+
+    DateTimeFormatter rfc1123DateFormat = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss zzz", locale);
+    try {
+      return ZonedDateTime.parse(rfc1123FormattedDate, rfc1123DateFormat);
+    } catch (DateTimeParseException e) {
       throw new InvalidFormatException("Error parsing as date", rfc1123FormattedDate, Date.class);
     }
   }
 
   /**
-   * Converts an RFC3339 formatted Date String to a Java Date RFC3339 format: yyyy-MM-dd HH:mm:ss
+   * Converts an RFC3339 formatted ZonedDateTime String to a Java ZonedDateTime RFC3339 format: yyyy-MM-dd HH:mm:ss
    *
-   * @param rfc3339FormattedDate RFC3339 formatted Date
+   * @param rfc3339FormattedDate RFC3339 formatted ZonedDateTime
    * @return an {@link Date} object
-   * @throws InvalidFormatException the RFC3339 formatted Date is invalid or cannot be parsed.
+   * @throws InvalidFormatException the RFC3339 formatted ZonedDateTime is invalid or cannot be parsed.
    * @see <a href="https://tools.ietf.org/html/rfc3339">The Internet Society - RFC 3339</a>
    */
-  public static Date fromRfc3339DateString(String rfc3339FormattedDate) throws InvalidFormatException {
+  public static ZonedDateTime fromRfc3339DateString(String rfc3339FormattedDate) throws InvalidFormatException {
 
-    SimpleDateFormat rfc3339DateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter rfc3339DateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     try {
-      return rfc3339DateFormat.parse(rfc3339FormattedDate);
-    } catch (ParseException e) {
+      return ZonedDateTime.parse(rfc3339FormattedDate, rfc3339DateFormat);
+    } catch (DateTimeParseException e) {
       throw new InvalidFormatException("Error parsing as date", rfc3339FormattedDate, Date.class);
     }
   }
@@ -131,21 +189,16 @@ public class DateUtils {
   /**
    * Convert java time to unix time long, simply by dividing by the time 1000
    */
-  public static long toUnixTime(Date time) {
-    return time.getTime() / 1000;
+  public static long toUnixTime(ZonedDateTime time) {
+    return time.toInstant().getEpochSecond();
   }
 
   /**
    * Convert java time to unix time long, simply by dividing by the time 1000. Null safe
    */
-  public static Long toUnixTimeNullSafe(Date time) {
+  public static Long toUnixTimeNullSafe(ZonedDateTime time) {
 
-    return time == null ? null : time.getTime() / 1000;
-  }
-
-  public static Long toMillisNullSafe(Date time) {
-
-    return time == null ? null : time.getTime();
+    return time == null ? null : time.toInstant().getEpochSecond();
   }
 
   public static Long toMillisNullSafe(ZonedDateTime time) {
@@ -154,10 +207,10 @@ public class DateUtils {
   }
 
   /**
-   * Convert unix time to Java Date
+   * Convert unix time (seconds) to Java ZonedDateTime
    */
-  public static Date fromUnixTime(long unix) {
-    return new Date(unix * 1000);
+  public static ZonedDateTime fromUnixTime(long unix) {
+    return ZonedDateTime.ofInstant(Instant.ofEpochSecond(unix), ZoneOffset.UTC);
   }
 
 }

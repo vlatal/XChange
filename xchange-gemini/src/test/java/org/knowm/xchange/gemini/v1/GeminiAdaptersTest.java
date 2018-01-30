@@ -1,13 +1,6 @@
 package org.knowm.xchange.gemini.v1;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -17,7 +10,6 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
@@ -25,7 +17,12 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 public class GeminiAdaptersTest {
 
@@ -65,7 +62,7 @@ public class GeminiAdaptersTest {
       long expectedTimestampMillis = levels[i].getTimestamp().multiply(new BigDecimal(1000L)).longValue();
 
       assertEquals(levels[i].getAmount(), order.getOriginalAmount());
-      assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
+      assertEquals(expectedTimestampMillis, order.getTimestamp().toInstant().toEpochMilli());
       assertEquals(levels[i].getPrice(), order.getLimitPrice());
     }
   }
@@ -108,7 +105,7 @@ public class GeminiAdaptersTest {
       assertEquals(responses[i].getExecutedAmount(), order.getOriginalAmount().subtract(order.getRemainingAmount()));
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
-      assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
+      assertEquals(expectedTimestampMillis, order.getTimestamp().toInstant().toEpochMilli());
       assertEquals(responses[i].getPrice(), order.getLimitPrice());
     }
   }
@@ -157,7 +154,7 @@ public class GeminiAdaptersTest {
       assertEquals(responses[i].getPrice(), trade.getPrice());
       assertEquals(responses[i].getAmount(), trade.getOriginalAmount());
       assertEquals(GeminiAdapters.adaptCurrencyPair(SYMBOL), trade.getCurrencyPair());
-      assertEquals(expectedTimestampMillis, trade.getTimestamp().getTime());
+      assertEquals(expectedTimestampMillis, trade.getTimestamp().toInstant().toEpochMilli());
       assertEquals(expectedOrderType, trade.getType());
       assertEquals(responses[i].getTradeId(), trade.getId());
     }

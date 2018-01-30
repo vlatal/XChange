@@ -1,11 +1,5 @@
 package org.knowm.xchange.btcturk;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTrade;
@@ -17,6 +11,12 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author semihunaldi
@@ -37,7 +37,7 @@ public final class BTCTurkAdapters {
     BTCTurk.Pair pair = btcTurkTicker.getPair();
     BigDecimal high = btcTurkTicker.getHigh();
     BigDecimal last = btcTurkTicker.getLast();
-    Date timestamp = new Date(btcTurkTicker.getTimestamp());
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(btcTurkTicker.getTimestamp());
     BigDecimal bid = btcTurkTicker.getBid();
     BigDecimal volume = btcTurkTicker.getVolume();
     BigDecimal low = btcTurkTicker.getLow();
@@ -88,7 +88,7 @@ public final class BTCTurkAdapters {
   public static Trade adaptTrade(BTCTurkTrade btcTurkTrade, CurrencyPair currencyPair, int timeScale) {
 
     final String tradeId = String.valueOf(btcTurkTrade.getTid());
-    Date date = DateUtils.fromMillisUtc(btcTurkTrade.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(btcTurkTrade.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
     return new Trade(null, btcTurkTrade.getAmount(), currencyPair, btcTurkTrade.getPrice(), date, tradeId);
   }
 

@@ -1,12 +1,5 @@
 package org.knowm.xchange.examples.coinbase.v2.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinbase.v2.CoinbaseExchange;
@@ -14,6 +7,14 @@ import org.knowm.xchange.coinbase.v2.dto.CoinbasePrice;
 import org.knowm.xchange.coinbase.v2.dto.marketdata.CoinbaseCurrencyData.CoinbaseCurrency;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseMarketDataService;
 import org.knowm.xchange.currency.Currency;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 public class CoinbaseMarketDataDemo {
 
@@ -37,8 +38,8 @@ public class CoinbaseMarketDataDemo {
     CoinbasePrice spotRate = marketDataService.getCoinbaseSpotRate(Currency.BTC, Currency.USD);
     System.out.println("Spot Rate: " + spotRate);
 
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    CoinbasePrice historicalSpotRate = marketDataService.getCoinbaseHistoricalSpotRate(Currency.BTC, Currency.USD, format.parse("2016-12-01"));
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    CoinbasePrice historicalSpotRate = marketDataService.getCoinbaseHistoricalSpotRate(Currency.BTC, Currency.USD, ZonedDateTime.parse("2016-12-01", format));
     System.out.println("Historical Spot Rate 2016-12-01: " + historicalSpotRate);
   }
 }

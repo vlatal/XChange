@@ -1,13 +1,5 @@
 package org.knowm.xchange.liqui;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -28,15 +20,21 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.liqui.dto.LiquiTradeType;
 import org.knowm.xchange.liqui.dto.account.LiquiAccountInfo;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiDepth;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiPairInfo;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicAsk;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicBid;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiPublicTrade;
-import org.knowm.xchange.liqui.dto.marketdata.LiquiTicker;
+import org.knowm.xchange.liqui.dto.marketdata.*;
 import org.knowm.xchange.liqui.dto.trade.LiquiOrderInfo;
 import org.knowm.xchange.liqui.dto.trade.LiquiTrade;
 import org.knowm.xchange.liqui.dto.trade.LiquiUserTrade;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LiquiAdapters {
 
@@ -49,7 +47,7 @@ public class LiquiAdapters {
     builder.last(ticker.getLast());
     builder.volume(ticker.getVol());
     builder.currencyPair(currencyPair);
-    final Date timestamp = new Date(ticker.getUpdated());
+    final ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(ticker.getUpdated());
     builder.timestamp(timestamp);
 
     return builder.build();
@@ -89,7 +87,7 @@ public class LiquiAdapters {
   public static Trade adaptTrade(final LiquiPublicTrade trade, final CurrencyPair currencyPair) {
     final OrderType type = adaptOrderType(trade.getType());
     final BigDecimal originalAmount = trade.getAmount();
-    final Date timestamp = new Date((long) (trade.getTimestamp() * 1000L));
+    final ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(trade.getTimestamp()), ZoneOffset.UTC);
     final BigDecimal price = trade.getPrice();
     final long tradeId = trade.getTradeId();
 
@@ -123,7 +121,7 @@ public class LiquiAdapters {
     final BigDecimal originalAmount = orderInfo.getStartAmount();
     final BigDecimal filledAmount = orderInfo.getStartAmount().subtract(orderInfo.getAmount());
     final CurrencyPair pair = orderInfo.getPair();
-    final Date timestamp = new Date(orderInfo.getTimestampCreated() * 1000L);
+    final ZonedDateTime timestamp = ZonedDateTime.ofInstant(Instant.ofEpochSecond(orderInfo.getTimestampCreated()), ZoneOffset.UTC);
 
     final Order.OrderStatus status = adaptOrderStatus(orderInfo.getStatus());
 
@@ -158,7 +156,7 @@ public class LiquiAdapters {
     final OrderType orderType = adaptOrderType(liquiTrade.getType());
     final BigDecimal originalAmount = liquiTrade.getAmount();
     final CurrencyPair pair = liquiTrade.getPair();
-    final Date timestamp = new Date((long) (liquiTrade.getTimestamp() * 1000L));
+    final ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(liquiTrade.getTimestamp());
     final BigDecimal price = liquiTrade.getRate();
 
     return new UserTrade(orderType, originalAmount, pair, price, timestamp, String.valueOf(tradeId),
@@ -171,7 +169,7 @@ public class LiquiAdapters {
     final BigDecimal amount = info.getAmount();
     final BigDecimal startAmount = info.getStartAmount();
     final BigDecimal rate = info.getRate();
-    final Date timestamp = new Date((long) (info.getTimestampCreated() * 1000L));
+    final ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(info.getTimestampCreated());
 
     return new LimitOrder(orderType, startAmount, amount, pair, "", timestamp, rate);
   }

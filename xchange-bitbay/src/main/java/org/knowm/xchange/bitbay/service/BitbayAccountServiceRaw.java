@@ -1,18 +1,19 @@
 package org.knowm.xchange.bitbay.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Z. Dolezal
@@ -33,8 +34,8 @@ public class BitbayAccountServiceRaw extends BitbayBaseService {
   public List<FundingRecord> history(Currency currency, int limit) {
     List<Map> history = bitbayAuthenticated.history(apiKey, sign, exchange.getNonceFactory(), currency.getCurrencyCode(), limit);
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    dateFormat.withZone(ZoneOffset.UTC);
 
     List<FundingRecord> res = new ArrayList<>();
     for (Map map : history) {
@@ -49,7 +50,7 @@ public class BitbayAccountServiceRaw extends BitbayBaseService {
 
         res.add(new FundingRecord(
             null,
-            dateFormat.parse(map.get("time").toString()),
+            ZonedDateTime.parse(map.get("time").toString(), dateFormat),
             Currency.getInstance(map.get("currency").toString()),
             new BigDecimal(map.get("amount").toString()),
             map.get("id").toString(),
@@ -60,7 +61,7 @@ public class BitbayAccountServiceRaw extends BitbayBaseService {
             null,
             map.get("comment").toString()
         ));
-      } catch (ParseException e) {
+      } catch (DateTimeParseException e) {
         throw new IllegalStateException("Should not happen", e);
       }
     }

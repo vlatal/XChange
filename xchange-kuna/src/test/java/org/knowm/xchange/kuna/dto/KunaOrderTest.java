@@ -1,26 +1,23 @@
 package org.knowm.xchange.kuna.dto;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.knowm.xchange.kuna.util.KunaUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Integer.MIN_VALUE;
-import static java.math.BigDecimal.ONE;
-import static java.math.BigDecimal.TEN;
-import static java.math.BigDecimal.ZERO;
+import static java.math.BigDecimal.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.knowm.xchange.kuna.dto.enums.KunaOrderType.LIMIT;
 import static org.knowm.xchange.kuna.dto.enums.KunaOrderType.MARKET;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.BUY;
 import static org.knowm.xchange.kuna.dto.enums.KunaSide.SELL;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.knowm.xchange.kuna.util.KunaUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KunaOrderTest {
 
@@ -101,8 +98,8 @@ public class KunaOrderTest {
   @Test
   public void test_createdAt() {
     assertThat(KunaOrder.builder().withCreatedAt(null).build().getCreatedAt()).isNull();
-    assertThat(KunaOrder.builder().withCreatedAt(KunaUtils.format(new Date())).build().getCreatedAt())
-        .isEqualToIgnoringSeconds(new Date());
+    assertThat(KunaOrder.builder().withCreatedAt(KunaUtils.format(ZonedDateTime.now())).build().getCreatedAt())
+        .isEqualToIgnoringSeconds(ZonedDateTime.now());
 
     assertThat(order.getCreatedAt()).isEqualTo("2018-01-16T09:28:05Z");
   }

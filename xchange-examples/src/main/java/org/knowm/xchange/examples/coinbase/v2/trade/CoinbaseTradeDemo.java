@@ -1,8 +1,5 @@
 package org.knowm.xchange.examples.coinbase.v2.trade;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData.CoinbaseSell;
 import org.knowm.xchange.coinbase.v2.service.CoinbaseAccountService;
@@ -12,6 +9,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.coinbase.v2.CoinbaseDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class CoinbaseTradeDemo {
 

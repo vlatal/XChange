@@ -1,8 +1,8 @@
 package org.knowm.xchange.kuna.dto;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.util.Arrays;
 
 /**
  * Asks and bids of crypto currency.

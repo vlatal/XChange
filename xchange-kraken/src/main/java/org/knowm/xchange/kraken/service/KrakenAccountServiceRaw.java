@@ -1,37 +1,18 @@
 package org.knowm.xchange.kraken.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kraken.KrakenUtils;
-import org.knowm.xchange.kraken.dto.account.DepostitStatus;
-import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
-import org.knowm.xchange.kraken.dto.account.KrakenDepositMethods;
-import org.knowm.xchange.kraken.dto.account.KrakenLedger;
-import org.knowm.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
-import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
-import org.knowm.xchange.kraken.dto.account.LedgerType;
-import org.knowm.xchange.kraken.dto.account.Withdraw;
-import org.knowm.xchange.kraken.dto.account.WithdrawInfo;
-import org.knowm.xchange.kraken.dto.account.WithdrawStatus;
-import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
-import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
-import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
-import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
-import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
+import org.knowm.xchange.kraken.dto.account.*;
+import org.knowm.xchange.kraken.dto.account.results.*;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author jamespedwards42
@@ -145,8 +126,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @param assets Set of assets to restrict output to (can be null, defaults to all)
    * @param ledgerType {@link LedgerType} to retrieve (can be null, defaults to all
    * types)
-   * @param start Start Unix timestamp or ledger id of results (can be null)
-   * @param end End Unix timestamp or ledger id of results (can be null)
+   * @param startTime Start Unix timestamp or ledger id of results (can be null)
+   * @param endTime End Unix timestamp or ledger id of results (can be null)
    * @param offset Result offset (can be null)
    * @return
    * @throws IOException
@@ -174,8 +155,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, Date start, Date end, Long offset,
-      Currency... assets) throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, ZonedDateTime start, ZonedDateTime end, Long offset,
+                                                       Currency... assets) throws IOException {
 
     String startTime = null;
     String endTime = null;

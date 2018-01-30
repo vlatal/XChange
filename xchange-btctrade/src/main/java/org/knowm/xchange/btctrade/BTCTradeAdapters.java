@@ -1,16 +1,5 @@
 package org.knowm.xchange.btctrade;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeBalance;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeWallet;
@@ -34,6 +23,14 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 /**
  * Various adapters for converting from BTCTrade DTOs to XChange DTOs.
@@ -62,13 +59,13 @@ public final class BTCTradeAdapters {
 
   }
 
-  public static Date adaptDatetime(String datetime) {
+  public static ZonedDateTime adaptDatetime(String datetime) {
 
     try {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
-      return sdf.parse(datetime);
-    } catch (ParseException e) {
+      DateTimeFormatter sdf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+      sdf.withZone(ZoneId.of("Asia/Shanghai"));
+      return ZonedDateTime.parse(datetime, sdf);
+    } catch (DateTimeParseException e) {
       throw new RuntimeException(e);
     }
   }
@@ -120,7 +117,7 @@ public final class BTCTradeAdapters {
   private static Trade adaptTrade(BTCTradeTrade btcTradeTrade, CurrencyPair currencyPair) {
 
     return new Trade(adaptOrderType(btcTradeTrade.getType()), btcTradeTrade.getAmount(), currencyPair, btcTradeTrade.getPrice(),
-        new Date(btcTradeTrade.getDate() * 1000), String.valueOf(btcTradeTrade.getTid()));
+            DateUtils.fromSecondsToZonedDateTime(btcTradeTrade.getDate()), String.valueOf(btcTradeTrade.getTid()));
   }
 
   private static OrderType adaptOrderType(String type) {

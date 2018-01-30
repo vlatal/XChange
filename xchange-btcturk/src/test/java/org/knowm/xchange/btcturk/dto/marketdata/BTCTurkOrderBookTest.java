@@ -1,14 +1,13 @@
 package org.knowm.xchange.btcturk.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by semihunaldi on 26/11/2017
@@ -23,7 +22,7 @@ public class BTCTurkOrderBookTest {
     BTCTurkOrderBook btcTurkOrderBook = mapper.readValue(is, BTCTurkOrderBook.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(btcTurkOrderBook.getTimestamp().getTime()).isEqualTo(1511729132L);
+    assertThat(btcTurkOrderBook.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1511729132L);
     assertThat(btcTurkOrderBook.getBids().size()).isEqualTo(30);
     assertThat(btcTurkOrderBook.getAsks().size()).isEqualTo(30);
     assertThat(btcTurkOrderBook.getBids().get(0).get(0)).isEqualTo(new BigDecimal("38620.00000000"));

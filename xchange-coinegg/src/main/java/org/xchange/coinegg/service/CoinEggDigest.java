@@ -1,16 +1,14 @@
 package org.xchange.coinegg.service;
 
+import org.apache.commons.codec.binary.Hex;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.Params;
+import si.mazi.rescu.RestInvocation;
+
+import javax.ws.rs.FormParam;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import javax.ws.rs.FormParam;
-
-import org.apache.commons.codec.binary.Hex;
-import org.knowm.xchange.service.BaseParamsDigest;
-
-import si.mazi.rescu.Params;
-import si.mazi.rescu.RestInvocation;
 
 public final class CoinEggDigest extends BaseParamsDigest {
 

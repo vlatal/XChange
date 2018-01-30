@@ -1,10 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,12 +10,13 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author Zach Holmes
@@ -77,15 +73,15 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     final DefaultTradeHistoryParamsTimeSpan params = new DefaultTradeHistoryParamsTimeSpan();
-    params.setStartTime(new Date(System.currentTimeMillis() - 366L * 24 * 60 * 60 * 1000)); // just over one year
-    params.setEndTime(new Date());
+    params.setStartTime(DateUtils.fromSecondsToZonedDateTime(System.currentTimeMillis() - 366L * 24 * 60 * 60)); // just over one year
+    params.setEndTime(ZonedDateTime.now());
     return params;
   }
 
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, IOException {
-    Date start = null;
-    Date end = null;
+    ZonedDateTime start = null;
+    ZonedDateTime end = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       start = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       end = ((TradeHistoryParamsTimeSpan) params).getEndTime();

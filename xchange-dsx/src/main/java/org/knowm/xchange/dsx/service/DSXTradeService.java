@@ -1,10 +1,5 @@
 package org.knowm.xchange.dsx.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -12,11 +7,7 @@ import org.knowm.xchange.dsx.DSXAdapters;
 import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.DSXExchange;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
-import org.knowm.xchange.dsx.dto.trade.DSXOrder;
-import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryResult;
-import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
-import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
+import org.knowm.xchange.dsx.dto.trade.*;
 import org.knowm.xchange.dsx.service.trade.params.DSXTradeHistoryParams;
 import org.knowm.xchange.dsx.service.trade.params.DSXTransHistoryParams;
 import org.knowm.xchange.dto.Order;
@@ -27,17 +18,15 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Mikhail Wall
@@ -166,7 +155,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
     }
   }
 
-  private static Long nullSafeUnixTime(Date time) {
+  private static Long nullSafeUnixTime(ZonedDateTime time) {
 
     return time != null ? DateUtils.toUnixTime(time) : null;
   }

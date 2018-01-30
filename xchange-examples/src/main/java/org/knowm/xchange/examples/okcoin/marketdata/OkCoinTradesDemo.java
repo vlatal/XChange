@@ -1,9 +1,5 @@
 package org.knowm.xchange.examples.okcoin.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -23,6 +19,10 @@ import org.knowm.xchange.okcoin.service.OkCoinFuturesTradeService;
 import org.knowm.xchange.okcoin.service.OkCoinMarketDataServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class OkCoinTradesDemo {
 
@@ -64,7 +64,7 @@ public class OkCoinTradesDemo {
     }
 
     String placeLimitOrder = tradeService
-        .placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("1"), CurrencyPair.BTC_USD, "0", new Date(), new BigDecimal("200")));
+        .placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("1"), CurrencyPair.BTC_USD, "0", ZonedDateTime.now(), new BigDecimal("200")));
     System.out.println(placeLimitOrder);
 
     boolean cancelOrder = tradeService.cancelOrder(placeLimitOrder);

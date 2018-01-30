@@ -1,9 +1,9 @@
 package org.knowm.xchange.abucoins.dto;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 /**
  * <p>POJO representing the input JSON for the Abucoins

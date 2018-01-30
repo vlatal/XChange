@@ -3,17 +3,7 @@ package org.knowm.xchange.quoine.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
-import org.knowm.xchange.quoine.dto.trade.QuoineExecutionsResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewMarginOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequestWrapper;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.quoine.dto.trade.QuoineTradesResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineTransaction;
-import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
+import org.knowm.xchange.quoine.dto.trade.*;
 import si.mazi.rescu.HttpStatusIOException;
 
 import java.io.IOException;

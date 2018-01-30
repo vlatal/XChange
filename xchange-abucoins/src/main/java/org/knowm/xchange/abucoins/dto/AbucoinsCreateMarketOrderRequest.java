@@ -1,11 +1,10 @@
 package org.knowm.xchange.abucoins.dto;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Side;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.math.BigDecimal;
 
 /**
  * <p>* One of size or funds is required.</p>

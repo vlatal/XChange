@@ -1,10 +1,9 @@
 package org.knowm.xchange.abucoins.dto.marketdata;
 
-import java.util.Arrays;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.abucoins.service.AbucoinsArrayOrMessageDeserializer;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.Arrays;
 
 @JsonDeserialize(using = AbucoinsProductStats.AbucoinsProductStatsDeserializer.class)
 public class AbucoinsProductStats {

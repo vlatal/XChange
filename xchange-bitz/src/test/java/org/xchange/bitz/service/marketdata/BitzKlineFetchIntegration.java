@@ -1,13 +1,13 @@
 package org.xchange.bitz.service.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.Test;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.xchange.bitz.BitZExchange;
 import org.xchange.bitz.dto.marketdata.BitZKline;
 import org.xchange.bitz.service.BitZMarketDataService;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BitzKlineFetchIntegration {
 

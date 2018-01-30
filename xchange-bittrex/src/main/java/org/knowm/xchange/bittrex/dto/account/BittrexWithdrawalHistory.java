@@ -1,13 +1,12 @@
 package org.knowm.xchange.bittrex.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import javax.annotation.Generated;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import javax.annotation.Generated;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author npinot
@@ -25,7 +24,7 @@ public class BittrexWithdrawalHistory {
   @JsonProperty("Address")
   private String address;
   @JsonProperty("Opened")
-  private Date opened;
+  private ZonedDateTime opened;
   @JsonProperty("Authorized")
   private Boolean authorized;
   @JsonProperty("PendingPayment")
@@ -80,12 +79,12 @@ public class BittrexWithdrawalHistory {
   }
 
   @JsonProperty("Opened")
-  public Date getOpened() {
+  public ZonedDateTime getOpened() {
     return opened;
   }
 
   @JsonProperty("Opened")
-  public void setOpened(Date opened) {
+  public void setOpened(ZonedDateTime opened) {
     this.opened = opened;
   }
 

@@ -1,10 +1,9 @@
 package org.knowm.xchange.binance.dto.account;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
 
 public final class BinanceBalance {
 

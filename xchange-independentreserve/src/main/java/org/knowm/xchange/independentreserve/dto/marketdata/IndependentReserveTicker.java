@@ -1,11 +1,11 @@
 package org.knowm.xchange.independentreserve.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * @author Stuart Low
@@ -18,7 +18,7 @@ public final class IndependentReserveTicker {
   private final BigDecimal volume;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private Date timestamp;
+  private ZonedDateTime timestamp;
 
   /**
    * Constructor
@@ -49,9 +49,9 @@ public final class IndependentReserveTicker {
     this.ask = ask;
 
     try {
-      SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX");
-      this.timestamp = myFormatter.parse(timestamp);
-    } catch (ParseException e) {
+      DateTimeFormatter myFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSX");
+      this.timestamp = ZonedDateTime.parse(timestamp, myFormatter);
+    } catch (DateTimeParseException e) {
       System.out.println("Received parsing exception while attempting to process timestamp: " + e.getMessage());
     }
 
@@ -92,7 +92,7 @@ public final class IndependentReserveTicker {
     return ask;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

@@ -1,12 +1,11 @@
 package org.knowm.xchange.binance.dto.account;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.binance.dto.account.DepositList.BinanceDeposit;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-
-import org.knowm.xchange.binance.dto.account.DepositList.BinanceDeposit;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class DepositList extends WapiResponse<List<BinanceDeposit>> {
 

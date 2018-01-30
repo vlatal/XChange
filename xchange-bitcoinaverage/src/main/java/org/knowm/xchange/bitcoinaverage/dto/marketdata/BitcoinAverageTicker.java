@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitcoinaverage.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 /**
  * Data object representing Ticker from BitcoinAverage
@@ -69,14 +69,14 @@ public final class BitcoinAverageTicker {
     return volume_percent;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     try {
-      // Parse the timestamp into a Date object
-      return new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(timestamp);
-    } catch (IllegalArgumentException | ParseException e) {
-      // Return current Date
-      return new Date();
+      // Parse the timestamp into a ZonedDateTime object
+      return ZonedDateTime.parse(timestamp, DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()));
+    } catch (IllegalArgumentException | DateTimeParseException e) {
+      // Return current ZonedDateTime
+      return ZonedDateTime.now();
     }
   }
 

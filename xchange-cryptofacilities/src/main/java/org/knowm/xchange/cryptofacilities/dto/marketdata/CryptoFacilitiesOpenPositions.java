@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 /**
  * @author Panchen
@@ -15,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-  private final Date serverTime;
+  private final ZonedDateTime serverTime;
   private final List<CryptoFacilitiesOpenPosition> openPositions;
 
   public CryptoFacilitiesOpenPositions(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
@@ -25,7 +24,7 @@ public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
+    this.serverTime = strServerTime == null ? null : ZonedDateTime.parse(strServerTime, DATE_FORMAT);
     this.openPositions = openPositions;
   }
 
@@ -33,7 +32,7 @@ public class CryptoFacilitiesOpenPositions extends CryptoFacilitiesResult {
     return openPositions;
   }
 
-  public Date getServerTime() {
+  public ZonedDateTime getServerTime() {
     return serverTime;
   }
 

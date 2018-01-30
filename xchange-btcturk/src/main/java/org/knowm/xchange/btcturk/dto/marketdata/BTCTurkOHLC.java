@@ -1,15 +1,15 @@
 package org.knowm.xchange.btcturk.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Created by semihunaldi on 26/11/2017
  */
 public final class BTCTurkOHLC {
-  private final Date time;
+  private final ZonedDateTime time;
   private final BigDecimal open;
   private final BigDecimal high;
   private final BigDecimal low;
@@ -19,7 +19,7 @@ public final class BTCTurkOHLC {
   private final BigDecimal dailyChangeAmount;
   private final BigDecimal dailyChangePercentage;
 
-  public BTCTurkOHLC(@JsonProperty("Time") Date time, @JsonProperty("Open") BigDecimal open,
+  public BTCTurkOHLC(@JsonProperty("Time") ZonedDateTime time, @JsonProperty("Open") BigDecimal open,
       @JsonProperty("High") BigDecimal high, @JsonProperty("Low") BigDecimal low,
       @JsonProperty("Close") BigDecimal close, @JsonProperty("Volume") BigDecimal volume,
       @JsonProperty("Average") BigDecimal average, @JsonProperty("DailyChangeAmount") BigDecimal dailyChangeAmount,
@@ -35,7 +35,7 @@ public final class BTCTurkOHLC {
     this.dailyChangePercentage = dailyChangePercentage;
   }
 
-  public Date getTime() {
+  public ZonedDateTime getTime() {
     return time;
   }
 

@@ -1,20 +1,8 @@
 package org.knowm.xchange.bitcointoyou;
 
-import static org.knowm.xchange.utils.DateUtils.fromUnixTime;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.bitcointoyou.dto.account.BitcointoyouBalance;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouLevel;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouMarketData;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouOrderBook;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouPublicTrade;
-import org.knowm.xchange.bitcointoyou.dto.marketdata.BitcointoyouTicker;
+import org.knowm.xchange.bitcointoyou.dto.marketdata.*;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderInfo;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
 import org.knowm.xchange.currency.Currency;
@@ -31,7 +19,14 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import static org.knowm.xchange.utils.DateUtils.fromUnixTime;
 
 /**
  * Bitcointoyou adapter class.
@@ -69,7 +64,7 @@ public final class BitcointoyouAdapters {
     List<LimitOrder> asks = adaptBitcointoyouPublicOrders(depth.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptBitcointoyouPublicOrders(depth.getBids(), OrderType.BID, currencyPair);
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(ZonedDateTime.now(), asks, bids);
   }
 
   static List<LimitOrder> adaptBitcointoyouPublicOrders(List<List<BigDecimal>> list, OrderType orderType, CurrencyPair currencyPair) {
@@ -108,7 +103,7 @@ public final class BitcointoyouAdapters {
   private static Trade adaptBitcointoyouPublicTrade(BitcointoyouPublicTrade bitcointoyouTrade, CurrencyPair currencyPair) {
 
     OrderType type = bitcointoyouTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-    Date timestamp = fromRfc3339DateStringQuietly(bitcointoyouTrade.getDate().toString());
+    ZonedDateTime timestamp = fromRfc3339DateStringQuietly(bitcointoyouTrade.getDate().toString());
 
     return new Trade(type, bitcointoyouTrade.getAmount(), currencyPair, bitcointoyouTrade.getPrice(), timestamp, bitcointoyouTrade.getTid().toString());
   }
@@ -155,14 +150,14 @@ public final class BitcointoyouAdapters {
 
     if (openOrder != null && openOrder.getOrderList() != null && openOrder.getOrderList().isEmpty()) {
       BitcointoyouOrderInfo orderInfo = openOrder.getOrderList().get(0);
-      Date orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
+      ZonedDateTime orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
       return adaptBitcointoyouSingleOpenOrder(orderInfo, currencyPair, orderDate);
     } else {
       return null;
     }
   }
 
-  private static LimitOrder adaptBitcointoyouSingleOpenOrder(BitcointoyouOrderInfo orderInfo, CurrencyPair currencyPair, Date orderDate) {
+  private static LimitOrder adaptBitcointoyouSingleOpenOrder(BitcointoyouOrderInfo orderInfo, CurrencyPair currencyPair, ZonedDateTime orderDate) {
     OrderType type = orderInfo.getAction().equals("buy") ? OrderType.BID : OrderType.ASK;
     return new LimitOrder.Builder(type, currencyPair).limitPrice(orderInfo.getPrice()).originalAmount(orderInfo.getAmount())
         .id(orderInfo.getId()).timestamp(orderDate).build();
@@ -173,7 +168,7 @@ public final class BitcointoyouAdapters {
     Collection<Order> orders = new ArrayList<>();
     if (bitcointoyouOrderResponse != null && bitcointoyouOrderResponse.getOrderList() != null && !bitcointoyouOrderResponse.getOrderList().isEmpty()) {
       for (BitcointoyouOrderInfo orderInfo : bitcointoyouOrderResponse.getOrderList()) {
-        Date orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
+        ZonedDateTime orderDate = fromRfc3339DateStringQuietly(orderInfo.getDateCreated());
 
         Order order = adaptBitcointoyouSingleOpenOrder(orderInfo, null, orderDate);
         if (order != null) {
@@ -185,7 +180,7 @@ public final class BitcointoyouAdapters {
     return orders;
   }
 
-  private static Date fromRfc3339DateStringQuietly(String orderDate) {
+  private static ZonedDateTime fromRfc3339DateStringQuietly(String orderDate) {
 
     try {
       return DateUtils.fromRfc3339DateString(orderDate);

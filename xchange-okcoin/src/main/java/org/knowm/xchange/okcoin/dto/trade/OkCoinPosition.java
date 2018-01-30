@@ -1,9 +1,9 @@
 package org.knowm.xchange.okcoin.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Instances of this class represent all holdings related to a specific contract, e.g. `this_week`. If you have 2 open positions for this week then
@@ -22,7 +22,7 @@ public class OkCoinPosition {
 
   private final BigDecimal rate;
 
-  private final Date createDate;
+  private final ZonedDateTime createDate;
 
   private BigDecimal buyAmount;
 
@@ -49,7 +49,7 @@ public class OkCoinPosition {
       @JsonProperty("sell_amount") final BigDecimal sellAmount, @JsonProperty("sell_available") final BigDecimal sellAmountAvailable,
       @JsonProperty("sell_profit_real") final BigDecimal sellProfitReal, @JsonProperty("sell_price_avg") final BigDecimal sellPriceAvg,
 
-      @JsonProperty("create_date") final Date createDate) {
+      @JsonProperty("create_date") final ZonedDateTime createDate) {
 
     this.contractId = orderId;
     this.status = status;
@@ -95,7 +95,7 @@ public class OkCoinPosition {
     return rate;
   }
 
-  public Date getCreateDate() {
+  public ZonedDateTime getCreateDate() {
 
     return createDate;
   }

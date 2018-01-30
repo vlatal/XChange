@@ -9,7 +9,7 @@ public class KunaTradeServiceRaw extends KunaBaseService {
   /**
    * Constructor.
    *
-   * @param exchange
+   * @param exchange The Exchange.
    */
   protected KunaTradeServiceRaw(Exchange exchange) {
     super(exchange);

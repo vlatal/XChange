@@ -1,16 +1,15 @@
 package org.xchange.coinegg;
 
-import java.io.IOException;
+import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
+import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
-import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
-import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
+import java.io.IOException;
 
 @Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)

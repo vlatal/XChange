@@ -1,14 +1,13 @@
 package org.knowm.xchange.kuna.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.kuna.dto.enums.KunaOrderType;
 import org.knowm.xchange.kuna.dto.enums.KunaSide;
 import org.knowm.xchange.kuna.util.KunaUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Order of crypto currency.
@@ -33,7 +32,7 @@ public class KunaOrder {
   private BigDecimal averagePrice;
   private String state;
   private String market;
-  private Date createdAt;
+  private ZonedDateTime createdAt;
   private BigDecimal volume;
   private BigDecimal remainingVolume;
   private BigDecimal executedVolume;
@@ -116,7 +115,7 @@ public class KunaOrder {
    * @return order place time
    */
   @JsonProperty(CREATED_AT)
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
     return createdAt;
   }
 

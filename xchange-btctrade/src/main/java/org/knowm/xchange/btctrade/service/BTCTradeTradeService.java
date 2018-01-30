@@ -1,9 +1,5 @@
 package org.knowm.xchange.btctrade.service;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
@@ -18,13 +14,12 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.util.Collection;
 
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements TradeService {
 
@@ -108,7 +103,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Tra
    */
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamsTimeSpan(new Date(0));
+    return new DefaultTradeHistoryParamsTimeSpan(DateUtils.fromMillisToZonedDateTime(0));
   }
 
   @Override

@@ -1,14 +1,5 @@
 package org.knowm.xchange.coinbase.dto.account;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
-import org.knowm.xchange.coinbase.dto.account.CoinbaseAddresses.CoinbaseAddressesDeserializer;
-import org.knowm.xchange.utils.DateUtils;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,7 +8,14 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
+import org.knowm.xchange.coinbase.dto.account.CoinbaseAddresses.CoinbaseAddressesDeserializer;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jamespedwards42
@@ -72,7 +70,7 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
       final String address = nestedAddressNode.path("address").asText();
       final String callbackUrl = nestedAddressNode.path("callback_url").asText();
       final String label = nestedAddressNode.path("label").asText();
-      final Date createdAt = DateUtils.fromISO8601DateString(nestedAddressNode.path("created_at").asText());
+      final ZonedDateTime createdAt = DateUtils.fromISO8601DateString(nestedAddressNode.path("created_at").asText());
 
       return new CoinbaseAddress(address, callbackUrl, label, createdAt);
     }

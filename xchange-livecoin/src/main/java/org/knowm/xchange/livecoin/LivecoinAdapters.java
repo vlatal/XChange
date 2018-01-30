@@ -1,17 +1,5 @@
 package org.knowm.xchange.livecoin;
 
-import static org.knowm.xchange.currency.Currency.getInstance;
-
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimeZone;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -36,12 +24,21 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
 import org.knowm.xchange.utils.DateUtils;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import static org.knowm.xchange.currency.Currency.getInstance;
+
 public class LivecoinAdapters {
 
-  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
   static {
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    dateFormat.withZone(ZoneOffset.UTC);
   }
 
   private LivecoinAdapters() {
@@ -130,8 +127,8 @@ public class LivecoinAdapters {
     return new Trades(trades, nativeTrades[0].getId(), TradeSortType.SortByID);
   }
 
-  private static Date parseDate(Long rawDateLong) {
-    return new Date((long) rawDateLong * 1000);
+  private static ZonedDateTime parseDate(Long rawDateLong) {
+    return ZonedDateTime.ofInstant(Instant.ofEpochSecond(rawDateLong), ZoneOffset.UTC);
   }
 
   public static Ticker adaptTicker(LivecoinTicker ticker, CurrencyPair currencyPair) {
@@ -175,7 +172,7 @@ public class LivecoinAdapters {
         remainingQuantity,
         new CurrencyPair(ccyA, ccyB),
         map.get("id").toString(),
-        DateUtils.fromUnixTime(Long.valueOf(map.get("issueTime").toString())),
+            ZonedDateTime.ofInstant(Instant.ofEpochSecond(Long.valueOf(map.get("issueTime").toString())), ZoneOffset.UTC),
         new BigDecimal(map.get("price").toString()),
         null,
         null,
@@ -196,7 +193,7 @@ public class LivecoinAdapters {
         new BigDecimal(map.get("amount").toString()),
         new CurrencyPair(ccyA, ccyB),
         new BigDecimal(map.get("variableAmount").toString()),
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+            ZonedDateTime.ofInstant(Instant.ofEpochSecond(Long.valueOf(map.get("date").toString())), ZoneOffset.UTC),
         map.get("id").toString(),
         map.get("externalKey").toString(),
         new BigDecimal(map.get("fee").toString()),
@@ -211,7 +208,7 @@ public class LivecoinAdapters {
 
     return new FundingRecord(
         map.get("externalKey").toString(),
-        DateUtils.fromMillisUtc(Long.valueOf(map.get("date").toString())),
+        DateUtils.fromMillisToZonedDateTime(Long.valueOf(map.get("date").toString())),
         getInstance(map.get("fixedCurrency").toString()),
         new BigDecimal(map.get("amount").toString()),
         map.get("id").toString(),

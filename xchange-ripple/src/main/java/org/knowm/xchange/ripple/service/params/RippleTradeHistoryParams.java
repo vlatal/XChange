@@ -1,15 +1,15 @@
 package org.knowm.xchange.ripple.service.params;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * The complete set of parameters that a Ripple trade history query will consider.
@@ -155,22 +155,22 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   }
 
   @Override
-  public void setStartTime(final Date value) {
+  public void setStartTime(final ZonedDateTime value) {
     all.setStartTime(value);
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
     return all.getStartTime();
   }
 
   @Override
-  public void setEndTime(final Date value) {
+  public void setEndTime(final ZonedDateTime value) {
     all.setEndTime(value);
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
     return all.getEndTime();
   }
 }

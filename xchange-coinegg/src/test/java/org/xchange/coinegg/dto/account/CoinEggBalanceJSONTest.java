@@ -1,17 +1,16 @@
 package org.xchange.coinegg.dto.account;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.xchange.coinegg.dto.CoinEggResult;
+import org.xchange.coinegg.dto.accounts.CoinEggBalance;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import org.junit.Test;
-import org.xchange.coinegg.dto.CoinEggResult;
-import org.xchange.coinegg.dto.accounts.CoinEggBalance;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CoinEggBalanceJSONTest {
 	

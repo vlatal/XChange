@@ -1,15 +1,15 @@
 package org.knowm.xchange.okcoin.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class OkCoinFuturesOrder {
 
   private final BigDecimal amount;
   private final String contractName;
-  private final Date createdDate;
+  private final ZonedDateTime createdDate;
   private final BigDecimal dealAmount;
   private final BigDecimal fee;
   private final String orderId;
@@ -22,7 +22,7 @@ public class OkCoinFuturesOrder {
   private final int leverRate;
 
   public OkCoinFuturesOrder(@JsonProperty("amount") BigDecimal amount, @JsonProperty("contract_name") String contractName,
-      @JsonProperty("create_date") Date createdDate, @JsonProperty("deal_amount") BigDecimal dealAmount, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("create_date") ZonedDateTime createdDate, @JsonProperty("deal_amount") BigDecimal dealAmount, @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("order_id") String orderId, @JsonProperty("price") BigDecimal price, @JsonProperty("price_avg") BigDecimal avgPrice,
       @JsonProperty("status") int status, @JsonProperty("symbol") String symbol, @JsonProperty("type") String type,
       @JsonProperty("unit_amount") BigDecimal unitAmount, @JsonProperty("lever_rate") int leverRate) {
@@ -52,7 +52,7 @@ public class OkCoinFuturesOrder {
     return contractName;
   }
 
-  public Date getCreatedDate() {
+  public ZonedDateTime getCreatedDate() {
 
     return createdDate;
   }

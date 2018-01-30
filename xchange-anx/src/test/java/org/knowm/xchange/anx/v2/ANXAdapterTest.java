@@ -1,25 +1,14 @@
 package org.knowm.xchange.anx.v2;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepth;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXTrade;
-import org.knowm.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
-import org.knowm.xchange.anx.v2.dto.marketdata.TickerJSONTest;
+import org.knowm.xchange.anx.v2.dto.marketdata.*;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.anx.v2.dto.trade.ANXOpenOrder;
 import org.knowm.xchange.currency.Currency;
@@ -31,9 +20,15 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the ANXAdapter class
@@ -92,7 +87,7 @@ public class ANXAdapterTest {
     Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().base.getCurrencyCode());
     Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counter.getCurrencyCode());
 
-    Assert.assertEquals(new Date(1393411075000L), openorders.get(0).getTimestamp());
+    Assert.assertEquals(DateUtils.fromMillisToZonedDateTime(1393411075000L), openorders.get(0).getTimestamp());
   }
 
   @Test
@@ -143,7 +138,7 @@ public class ANXAdapterTest {
     assertThat(trade.getPrice()).isEqualTo("655");
     assertThat(trade.getId()).isEqualTo("1402189342525");
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
-    assertThat(trade.getTimestamp().getTime()).isEqualTo(1402189342525L);
+    assertThat(trade.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1402189342525L);
   }
 
   @Test
@@ -187,6 +182,6 @@ public class ANXAdapterTest {
     Assert.assertEquals(new BigDecimal("38.85148"), ticker.getBid());
     Assert.assertEquals(new BigDecimal("897.25596"), ticker.getAsk());
 
-    Assert.assertEquals(new Date(1393388594814L), ticker.getTimestamp());
+    Assert.assertEquals(DateUtils.fromMillisToZonedDateTime(1393388594814L), ticker.getTimestamp());
   }
 }

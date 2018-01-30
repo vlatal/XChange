@@ -1,35 +1,27 @@
 package org.knowm.xchange.anx.v2.service;
 
-import static org.knowm.xchange.utils.DateUtils.toMillisNullSafe;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXV2;
 import org.knowm.xchange.anx.v2.dto.ANXException;
-import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
-import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfoWrapper;
-import org.knowm.xchange.anx.v2.dto.account.ANXBitcoinDepositAddress;
-import org.knowm.xchange.anx.v2.dto.account.ANXBitcoinDepositAddressWrapper;
-import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistory;
-import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
-import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryWrapper;
-import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponseWrapper;
+import org.knowm.xchange.anx.v2.dto.account.*;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.utils.Assert;
-
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.toMillisNullSafe;
 
 public class ANXAccountServiceRaw extends ANXBaseService {
 
@@ -101,8 +93,8 @@ public class ANXAccountServiceRaw extends ANXBaseService {
     }
     boolean userSpecifiedPageNumber = pageNumber != null;
 
-    Date from = null;
-    Date to = null;
+    ZonedDateTime from = null;
+    ZonedDateTime to = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) params;
       from = tradeHistoryParamsTimeSpan.getStartTime();
@@ -127,7 +119,7 @@ public class ANXAccountServiceRaw extends ANXBaseService {
     return all;
   }
 
-  public ANXWalletHistory getWalletHistory(String currency, Integer page, Date from, Date to) throws IOException {
+  public ANXWalletHistory getWalletHistory(String currency, Integer page, ZonedDateTime from, ZonedDateTime to) throws IOException {
     try {
       ANXWalletHistoryWrapper walletHistory = anxV2.getWalletHistory(exchange.getExchangeSpecification().getApiKey(),
           signatureCreator, exchange.getNonceFactory(), currency, page, toMillisNullSafe(from), toMillisNullSafe(to));

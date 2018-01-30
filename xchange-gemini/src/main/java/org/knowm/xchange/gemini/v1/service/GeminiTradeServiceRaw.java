@@ -1,27 +1,17 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Set;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.FundsExceededException;
-import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderFlags;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiPastTradesRequest;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class GeminiTradeServiceRaw extends GeminiBaseService {
 

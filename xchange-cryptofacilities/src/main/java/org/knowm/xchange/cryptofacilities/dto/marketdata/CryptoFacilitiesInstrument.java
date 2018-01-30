@@ -1,13 +1,12 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author Neil Panchen
@@ -15,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CryptoFacilitiesInstrument extends CryptoFacilitiesResult {
 
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
   private final boolean tradeable;
-  private final Date lastTradingTime;
+  private final ZonedDateTime lastTradingTime;
   private final String symbol;
   private final String underlying;
   private final BigDecimal contractSize;
@@ -33,7 +32,7 @@ public class CryptoFacilitiesInstrument extends CryptoFacilitiesResult {
     super(result, error);
 
     this.tradeable = strTradeable.equalsIgnoreCase("true");
-    this.lastTradingTime = strLastTradingTime == null ? null : DATE_FORMAT.parse(strLastTradingTime);
+    this.lastTradingTime = strLastTradingTime == null ? null : ZonedDateTime.parse(strLastTradingTime, DATE_FORMAT);
     this.symbol = symbol;
     this.underlying = underlying;
     this.contractSize = contractSize;
@@ -45,7 +44,7 @@ public class CryptoFacilitiesInstrument extends CryptoFacilitiesResult {
     return tradeable;
   }
 
-  public Date getLastTradingTime() {
+  public ZonedDateTime getLastTradingTime() {
     return lastTradingTime;
   }
 

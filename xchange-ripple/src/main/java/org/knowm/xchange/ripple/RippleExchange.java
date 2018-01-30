@@ -1,10 +1,5 @@
 package org.knowm.xchange.ripple;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,8 +7,12 @@ import org.knowm.xchange.ripple.service.RippleAccountService;
 import org.knowm.xchange.ripple.service.RippleMarketDataService;
 import org.knowm.xchange.ripple.service.RippleTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class RippleExchange extends BaseExchange implements Exchange {
 
@@ -108,9 +107,9 @@ public class RippleExchange extends BaseExchange implements Exchange {
    *
    * @throws com.fasterxml.jackson.databind.exc.InvalidFormatException
    */
-  public static Date ToDate(final String datetime) throws ParseException {
-    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
-    format.setTimeZone(TimeZone.getTimeZone("UTC"));
-    return format.parse(datetime);
+  public static ZonedDateTime ToDate(final String datetime) throws DateTimeParseException {
+    final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+    format.withZone(ZoneOffset.UTC);
+    return ZonedDateTime.parse(datetime, format);
   }
 }

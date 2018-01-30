@@ -1,12 +1,12 @@
 package org.knowm.xchange.ripple.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.UserTrade;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class RippleUserTrade extends UserTrade {
 
@@ -17,8 +17,8 @@ public class RippleUserTrade extends UserTrade {
   private final BigDecimal counterTransferFee;
 
   public RippleUserTrade(final OrderType type, final BigDecimal originalAmount, final CurrencyPair currencyPair, final BigDecimal price,
-      final Date timestamp, final String id, final String orderId, final BigDecimal feeAmount, final Currency feeCurrency,
-      final String baseCounterparty, final String counterCounterparty, final BigDecimal baseTransferFee, final BigDecimal counterTransferFee) {
+                         final ZonedDateTime timestamp, final String id, final String orderId, final BigDecimal feeAmount, final Currency feeCurrency,
+                         final String baseCounterparty, final String counterCounterparty, final BigDecimal baseTransferFee, final BigDecimal counterTransferFee) {
     super(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     this.baseCounterparty = baseCounterparty;
     this.counterCounterparty = counterCounterparty;

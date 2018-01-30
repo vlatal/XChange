@@ -1,8 +1,5 @@
 package org.knowm.xchange.examples.btctrade.marketdata;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
@@ -11,6 +8,9 @@ import org.knowm.xchange.btctrade.service.BTCTradeMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
 
 /**
  * Demonstrate requesting trades at BTCTrade.
@@ -51,7 +51,7 @@ public class TradesDemo {
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
       System.out.println(
-          trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
+          trade.getTid() + "\t" + DateUtils.fromMillisToZonedDateTime(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
     }
 
     // Get 500 trades which tid > 0
@@ -59,7 +59,7 @@ public class TradesDemo {
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
       System.out.println(
-          trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
+          trade.getTid() + "\t" + DateUtils.fromMillisToZonedDateTime(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
     }
   }
 

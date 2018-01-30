@@ -1,11 +1,11 @@
 package org.knowm.xchange.bitcoinde.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author matthewdowney
@@ -14,7 +14,7 @@ public class BitcoindeOrderBook {
 
   private final BigDecimal[][] asks;
   private final BigDecimal[][] bids;
-  private final Date timeStamp = null;
+  private final ZonedDateTime timeStamp = null;
 
   /**
    * Constructor.
@@ -60,7 +60,7 @@ public class BitcoindeOrderBook {
     return bids;
   }
 
-  public Date getTimeStamp() {
+  public ZonedDateTime getTimeStamp() {
     return this.timeStamp;
   }
 

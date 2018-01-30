@@ -1,10 +1,10 @@
 package org.knowm.xchange.abucoins;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import static org.junit.Assert.assertEquals;
 
 public class AbucoinsAdaptersAdaptCurrenyPairTest {
 

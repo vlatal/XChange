@@ -1,10 +1,8 @@
 package org.knowm.xchange.truefx;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -13,9 +11,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.truefx.dto.marketdata.TrueFxTicker;
 import org.knowm.xchange.truefx.service.TrueFxMarketDataServiceRaw;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TrueFxAdaptersTest {
   @Test
@@ -30,7 +29,7 @@ public class TrueFxAdaptersTest {
     Ticker ticker = TrueFxAdapters.adaptTicker(rawTicker);
 
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.GBP_USD);
-    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1490388297563L);
+    assertThat(ticker.getTimestamp().toEpochSecond() * 1000).isEqualTo(1490388297563L);
     assertThat(ticker.getBid()).isEqualTo("1.24876");
     assertThat(ticker.getAsk()).isEqualTo("1.24886");
     assertThat(ticker.getLow()).isEqualTo("1.24689");

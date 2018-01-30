@@ -1,13 +1,12 @@
 package org.knowm.xchange.coinbase.dto.account;
 
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.ZonedDateTime;
 
 /**
  * @author jamespedwards42
@@ -15,14 +14,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class CoinbaseAccountChange {
 
   private final String id;
-  private final Date createdAt;
+  private final ZonedDateTime createdAt;
   private final String transactionId;
   private final boolean confirmed;
   private final CoinbaseCache cache;
   private final CoinbaseMoney amount;
 
   private CoinbaseAccountChange(@JsonProperty("id") final String id,
-      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final ZonedDateTime createdAt,
       @JsonProperty("transaction_id") final String transactionId, @JsonProperty("confirmed") final boolean confirmed,
       @JsonProperty("cache") final CoinbaseCache cache, @JsonProperty("amount") final CoinbaseMoney amount) {
 
@@ -39,7 +38,7 @@ public class CoinbaseAccountChange {
     return id;
   }
 
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
 
     return createdAt;
   }

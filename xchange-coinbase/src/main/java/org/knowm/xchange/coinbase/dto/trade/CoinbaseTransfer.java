@@ -1,17 +1,5 @@
 package org.knowm.xchange.coinbase.dto.trade;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
-import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
-import org.knowm.xchange.utils.DateUtils;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -19,6 +7,17 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jamespedwards42
@@ -30,10 +29,10 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   private final CoinbaseTransferType type;
   private final String fundingType;
   private final String code;
-  private final Date createdAt;
+  private final ZonedDateTime createdAt;
   private final CoinbaseMoney coinbaseFee;
   private final CoinbaseMoney bankFee;
-  private final Date payoutDate;
+  private final ZonedDateTime payoutDate;
   private final String transactionId;
   private final CoinbaseTransferStatus status;
   private final CoinbaseMoney btcAmount;
@@ -41,8 +40,8 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   private final CoinbaseMoney total;
   private final String description;
 
-  public CoinbaseTransfer(String id, final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt,
-      final CoinbaseMoney coinbaseFee, final CoinbaseMoney bankFee, final Date payoutDate, final String transactionId,
+  public CoinbaseTransfer(String id, final CoinbaseTransferType type, final String fundingType, final String code, final ZonedDateTime createdAt,
+      final CoinbaseMoney coinbaseFee, final CoinbaseMoney bankFee, final ZonedDateTime payoutDate, final String transactionId,
       final CoinbaseTransferStatus status, final CoinbaseMoney btcAmount, final CoinbaseMoney subtotal, final CoinbaseMoney total,
       final String description, final boolean success, final List<String> errors) {
 
@@ -88,7 +87,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
     return coinbaseFee;
   }
 
-  public Date getCreatedAt() {
+  public ZonedDateTime getCreatedAt() {
 
     return createdAt;
   }
@@ -98,7 +97,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
     return bankFee;
   }
 
-  public Date getPayoutDate() {
+  public ZonedDateTime getPayoutDate() {
 
     return payoutDate;
   }
@@ -170,11 +169,11 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
       final String fundingType = transferNode.path("_type").asText();
       final CoinbaseTransferType type = CoinbaseTransferType.valueOf(transferNode.path("type").asText().toUpperCase());
       final String code = transferNode.path("code").asText();
-      final Date createdAt = DateUtils.fromISO8601DateString(transferNode.path("created_at").asText());
+      final ZonedDateTime createdAt = DateUtils.fromISO8601DateStringToZonedDateTime(transferNode.path("created_at").asText());
       final JsonNode feesNode = transferNode.path("fees");
       final CoinbaseMoney coinbaseFee = CoinbaseCentsDeserializer.getCoinbaseMoneyFromCents(feesNode.path("coinbase"));
       final CoinbaseMoney bankFee = CoinbaseCentsDeserializer.getCoinbaseMoneyFromCents(feesNode.path("bank"));
-      final Date payoutDate = DateUtils.fromISO8601DateString(transferNode.path("payout_date").asText());
+      final ZonedDateTime payoutDate = DateUtils.fromISO8601DateStringToZonedDateTime(transferNode.path("payout_date").asText());
       final String transactionId = transferNode.path("transaction_id").asText();
       final CoinbaseTransferStatus status = CoinbaseTransferStatus.valueOf(transferNode.path("status").asText().toUpperCase());
       final CoinbaseMoney btcAmount = CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("btc"));

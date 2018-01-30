@@ -1,13 +1,5 @@
 package org.knowm.xchange.btcmarkets.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.powermock.api.mockito.PowerMockito.mock;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,23 +7,26 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsException;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
+import org.knowm.xchange.btcmarkets.dto.trade.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.utils.DateUtils;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({BTCMarketsAuthenticated.class, BTCMarketsOpenOrdersAndTradeHistoryRequest.class, BTCMarketsCancelOrderRequest.class, BTCMarketsOrder.class})
@@ -79,7 +74,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   @Test
   public void shouldPlaceLimitOrder() throws IOException {
     // given
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "11111", new Date(1234567890L),
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "11111", DateUtils.fromMillisToZonedDateTime(1234567890L),
         new BigDecimal("20.00000000"));
 
     BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC",

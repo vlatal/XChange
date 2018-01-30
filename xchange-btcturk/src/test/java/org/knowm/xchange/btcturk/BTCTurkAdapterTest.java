@@ -1,11 +1,6 @@
 package org.knowm.xchange.btcturk;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkOrderBook;
 import org.knowm.xchange.btcturk.dto.marketdata.BTCTurkTicker;
@@ -16,7 +11,11 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by semihunaldi on 26/11/2017
@@ -39,7 +38,7 @@ public class BTCTurkAdapterTest {
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
     assertThat(orderBook.getBids().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.00286318"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_TRY);
-    assertThat(orderBook.getTimeStamp().getTime()).isEqualTo(1511725654L);
+    assertThat(orderBook.getTimeStamp().toInstant().toEpochMilli()).isEqualTo(1511725654L);
   }
 
   @Test
@@ -53,7 +52,7 @@ public class BTCTurkAdapterTest {
     Ticker ticker = BTCTurkAdapters.adaptTicker(btcTurkTicker);
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("38800.02"));
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("39436.99"));
-    assertThat(ticker.getTimestamp().getTime()).isEqualTo(1511724574L);
+    assertThat(ticker.getTimestamp().toInstant().toEpochMilli()).isEqualTo(1511724574L);
     assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("37909.3"));
   }
 
@@ -69,6 +68,6 @@ public class BTCTurkAdapterTest {
     assertThat(trades.getTrades().get(0).getId()).isEqualTo("1");
     assertThat(trades.getTrades().get(0).getPrice()).isEqualTo(new BigDecimal("38880"));
     assertThat(trades.getTrades().get(0).getOriginalAmount()).isEqualTo(new BigDecimal("0.09967147"));
-    assertThat(trades.getTrades().get(0).getTimestamp().getTime()).isEqualTo(1511728478L);
+    assertThat(trades.getTrades().get(0).getTimestamp().toInstant().toEpochMilli()).isEqualTo(1511728478L);
   }
 }

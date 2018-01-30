@@ -1,11 +1,11 @@
 package org.knowm.xchange.bitfinex.v1.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.knowm.xchange.dto.account.FundingRecord;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BitfinexDepositWithdrawalHistoryResponse {
 
@@ -74,8 +74,8 @@ public class BitfinexDepositWithdrawalHistoryResponse {
     return status;
   }
 
-  public Date getTimestamp() {
-    return new Date(timestamp.scaleByPowerOfTen(3).longValue());
+  public ZonedDateTime getTimestamp() {
+    return DateUtils.fromMillisToZonedDateTime(timestamp.scaleByPowerOfTen(3).longValue());
   }
 
 }

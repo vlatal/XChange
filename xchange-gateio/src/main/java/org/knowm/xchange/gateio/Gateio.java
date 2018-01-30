@@ -1,19 +1,14 @@
 package org.knowm.xchange.gateio;
 
-import java.io.IOException;
-import java.util.Map;
+import org.knowm.xchange.gateio.dto.marketdata.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.gateio.dto.marketdata.GateioCurrencyPairs;
-import org.knowm.xchange.gateio.dto.marketdata.GateioDepth;
-import org.knowm.xchange.gateio.dto.marketdata.GateioMarketInfoWrapper;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTicker;
-import org.knowm.xchange.gateio.dto.marketdata.GateioTradeHistory;
+import java.io.IOException;
+import java.util.Map;
 
 @Path("api2/1")
 @Produces(MediaType.APPLICATION_JSON)

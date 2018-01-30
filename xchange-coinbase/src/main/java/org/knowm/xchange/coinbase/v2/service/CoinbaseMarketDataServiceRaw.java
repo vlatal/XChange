@@ -1,15 +1,15 @@
 package org.knowm.xchange.coinbase.v2.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.CoinbasePrice;
 import org.knowm.xchange.currency.Currency;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
 
@@ -33,7 +33,8 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
   /**
    * Unauthenticated resource that tells you the price to buy one unit.
    *
-   * @param pair The currency pair.
+   * @param base The base currency.
+   * @param counter The counter currency.
    * @return The price in the desired {@code currency} to buy one unit.
    * @throws IOException
    * @see <a href="https://developers.coinbase.com/api/v2#get-buy-price">developers.coinbase.com/api/v2#get-buy-price</a>
@@ -46,7 +47,8 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
   /**
    * Unauthenticated resource that tells you the amount you can get if you sell one unit.
    *
-   * @param pair The currency pair.
+   * @param base The base currency.
+   * @param counter The counter currency.
    * @return The price in the desired {@code currency} to sell one unit.
    * @throws IOException
    * @see <a href="https://developers.coinbase.com/api/v2#get-sell-price">developers.coinbase.com/api/v2#get-sell-price</a>
@@ -60,7 +62,8 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
    * Unauthenticated resource that tells you the current price of one unit. 
    * This is usually somewhere in between the buy and sell price, current to within a few minutes.
    *
-   * @param pair The currency pair.
+   * @param base The base currency.
+   * @param counter The counter currency.
    * @return The price in the desired {@code currency} for one unit.
    * @throws IOException
    * @see <a href="https://developers.coinbase.com/api/v2#get-spot-price">developers.coinbase.com/api/v2#get-spot-price</a>
@@ -74,14 +77,15 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBaseService {
    * Unauthenticated resource that tells you the current price of one unit. 
    * This is usually somewhere in between the buy and sell price, current to within a few minutes.
    *
-   * @param pair The currency pair.
+   * @param base The base currency.
+   * @param counter The counter currency.
    * @param date The given date.
    * @return The price in the desired {@code currency} ont the give {@code date} for one unit.
    * @throws IOException
    * @see <a href="https://developers.coinbase.com/api/v2#get-spot-price">developers.coinbase.com/api/v2#get-spot-price</a>
    */
-  public CoinbasePrice getCoinbaseHistoricalSpotRate(Currency base, Currency counter, Date date) throws IOException {
-    String datespec = new SimpleDateFormat("yyyy-MM-dd").format(date);
+  public CoinbasePrice getCoinbaseHistoricalSpotRate(Currency base, Currency counter, ZonedDateTime date) throws IOException {
+    String datespec = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(date);
     return coinbase.getHistoricalSpotRate(Coinbase.CB_VERSION_VALUE, base + "-" + counter, datespec).getData();
   }
 

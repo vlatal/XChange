@@ -1,13 +1,14 @@
 package org.knowm.xchange.luno.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LunoOrderBook {
 
@@ -43,8 +44,8 @@ public class LunoOrderBook {
     }
   }
 
-  public Date getTimestamp() {
-    return new Date(timestamp);
+  public ZonedDateTime getTimestamp() {
+    return DateUtils.fromMillisToZonedDateTime(timestamp);
   }
 
   public Map<BigDecimal, BigDecimal> getBids() {

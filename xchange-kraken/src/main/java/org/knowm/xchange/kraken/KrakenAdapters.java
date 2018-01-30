@@ -1,17 +1,5 @@
 package org.knowm.xchange.kraken;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -32,13 +20,15 @@ import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
-import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.knowm.xchange.kraken.dto.marketdata.*;
 import org.knowm.xchange.kraken.dto.trade.*;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class KrakenAdapters {
 
@@ -47,7 +37,7 @@ public class KrakenAdapters {
     OrdersContainer asksOrdersContainer = adaptOrders(krakenDepth.getAsks(), currencyPair, OrderType.ASK);
     OrdersContainer bidsOrdersContainer = adaptOrders(krakenDepth.getBids(), currencyPair, OrderType.BID);
 
-    return new OrderBook(new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
+    return new OrderBook(DateUtils.fromMillisToZonedDateTime(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
         asksOrdersContainer.getLimitOrders(), bidsOrdersContainer.getLimitOrders());
   }
 
@@ -124,7 +114,7 @@ public class KrakenAdapters {
               krakenOrder.getVolume(),
               currencyPair,
               orderId,
-              new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
+              DateUtils.fromMillisToZonedDateTime(new Double(krakenOrder.getOpenTimestamp()).longValue()),
               krakenOrder.getOrderDescription().getPrice(),
               krakenOrder.getPrice(),
               krakenOrder.getVolumeExecuted(),
@@ -137,7 +127,7 @@ public class KrakenAdapters {
               krakenOrder.getVolume(),
               currencyPair,
               orderId,
-              new Date(new Double(krakenOrder.getOpenTimestamp()).longValue()),
+              DateUtils.fromMillisToZonedDateTime(new Double(krakenOrder.getOpenTimestamp()).longValue()),
               krakenOrder.getPrice(),
               krakenOrder.getVolumeExecuted(),
               orderStatus
@@ -151,7 +141,7 @@ public class KrakenAdapters {
 
   public static LimitOrder adaptOrder(KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {
 
-    Date timeStamp = new Date(order.getTimestamp() * 1000);
+    ZonedDateTime timeStamp = DateUtils.fromSecondsToZonedDateTime(order.getTimestamp());
     BigDecimal volume = order.getVolume();
 
     return new LimitOrder(orderType, volume, currencyPair, "", timeStamp, order.getPrice());
@@ -186,7 +176,7 @@ public class KrakenAdapters {
 
     OrderType type = adaptOrderType(krakenPublicTrade.getType());
     BigDecimal originalAmount = krakenPublicTrade.getVolume();
-    Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime((long) krakenPublicTrade.getTime());
 
     return new Trade(type, originalAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, String.valueOf((long) (krakenPublicTrade.getTime() *
         10000L)));
@@ -259,7 +249,7 @@ public class KrakenAdapters {
     BigDecimal originalAmount = krakenTrade.getVolume();
     String krakenAssetPair = krakenTrade.getAssetPair();
     CurrencyPair pair = adaptCurrencyPair(krakenAssetPair);
-    Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime((long) krakenTrade.getUnixTimestamp());
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
@@ -330,7 +320,7 @@ public class KrakenAdapters {
       if (krakenLedger.getLedgerType() != null) {
         final Currency currency = adaptCurrency(krakenLedger.getAsset());
         if (currency != null) {
-          final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
+          final ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime((long) krakenLedger.getUnixTime());
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
           if (type != null) {
             final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?

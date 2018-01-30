@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitmarket.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmarket.BitMarketUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * @author kfonal
@@ -22,7 +22,7 @@ public class BitMarketOrder {
   private final String type;
   private final long time;
   private final CurrencyPair currencyPair;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
 
   /**
    * Constructor
@@ -46,7 +46,7 @@ public class BitMarketOrder {
     this.fiat = fiat;
     this.type = type;
     this.time = time;
-    this.timestamp = new Date(time * 1000);
+    this.timestamp = DateUtils.fromMillisToZonedDateTime(time * 1000);
     this.currencyPair = BitMarketUtils.bitMarketCurrencyPairToCurrencyPair(market);
   }
 
@@ -78,7 +78,7 @@ public class BitMarketOrder {
     return time;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

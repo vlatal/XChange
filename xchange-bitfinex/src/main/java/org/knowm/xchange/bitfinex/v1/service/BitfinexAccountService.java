@@ -13,7 +13,7 @@ import org.knowm.xchange.service.trade.params.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
@@ -85,8 +85,8 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
       throw new ExchangeException("Currency must be supplied");
     }
 
-    Date startTime = null;
-    Date endTime = null;
+    ZonedDateTime startTime = null;
+    ZonedDateTime endTime = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
@@ -107,7 +107,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     private Integer limit;
     private Currency currency;
 
-    public BitfinexFundingHistoryParams(final Date startTime, final Date endTime, final Integer limit, final Currency currency) {
+    public BitfinexFundingHistoryParams(final ZonedDateTime startTime, final ZonedDateTime endTime, final Integer limit, final Currency currency) {
 
       super(startTime, endTime);
 

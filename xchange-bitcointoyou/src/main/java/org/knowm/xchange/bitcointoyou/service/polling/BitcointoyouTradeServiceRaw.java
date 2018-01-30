@@ -1,13 +1,13 @@
 package org.knowm.xchange.bitcointoyou.service.polling;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcointoyou.BitcointoyouException;
 import org.knowm.xchange.bitcointoyou.dto.trade.BitcointoyouOrderResponse;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * TradeService raw implementation for Bitcointoyou Exchange.

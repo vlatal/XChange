@@ -1,9 +1,9 @@
 package org.knowm.xchange.hitbtc.v2.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class HitbtcOrder {
 
@@ -18,15 +18,15 @@ public class HitbtcOrder {
   public final BigDecimal price;
   public final BigDecimal cumQuantity;
 
-  private final Date createdAt;
-  private final Date updatedAt;
+  private final ZonedDateTime createdAt;
+  private final ZonedDateTime updatedAt;
 
   public HitbtcOrder(@JsonProperty("id") String id, @JsonProperty("clientOrderId") String clientOrderId
       , @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("status") String status
       , @JsonProperty("type") String type, @JsonProperty("timeInForce") String timeInForce
       , @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("price") BigDecimal price
-      , @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("createdAt") Date createdAt
-      , @JsonProperty("updatedAt") Date updatedAt) {
+      , @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("createdAt") ZonedDateTime createdAt
+      , @JsonProperty("updatedAt") ZonedDateTime updatedAt) {
     super();
     this.id = id;
     this.clientOrderId = clientOrderId;
@@ -42,12 +42,12 @@ public class HitbtcOrder {
     this.updatedAt = updatedAt;
   }
 
-  public Date getCreatedAt() {
-    return new Date(createdAt.getTime());
+  public ZonedDateTime getCreatedAt() {
+    return createdAt;
   }
 
-  public Date getUpdatedAt() {
-    return new Date(updatedAt.getTime());
+  public ZonedDateTime getUpdatedAt() {
+    return updatedAt;
   }
 
   @Override

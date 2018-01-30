@@ -1,8 +1,5 @@
 package org.knowm.xchange.kraken.service;
 
-import java.io.IOException;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -10,23 +7,14 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import org.knowm.xchange.kraken.dto.trade.KrakenOpenPosition;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder;
+import org.knowm.xchange.kraken.dto.trade.*;
 import org.knowm.xchange.kraken.dto.trade.KrakenStandardOrder.KrakenOrderBuilder;
-import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
-import org.knowm.xchange.kraken.dto.trade.KrakenType;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
+import org.knowm.xchange.kraken.dto.trade.results.*;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenPositionsResult;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenOrderResult;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
-import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
+
+import java.io.IOException;
+import java.util.Map;
 
 public class KrakenTradeServiceRaw extends KrakenBaseService {
 

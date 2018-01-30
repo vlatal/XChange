@@ -1,11 +1,5 @@
 package org.knowm.xchange.anx.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.anx.v2.dto.ANXValue;
 import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
 import org.knowm.xchange.anx.v2.dto.account.ANXWallet;
@@ -31,6 +25,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Various adapters for converting from anx DTOs to XChange DTOs
@@ -72,7 +72,7 @@ public final class ANXAdapters {
    * @return
    */
   public static LimitOrder adaptOrder(BigDecimal originalAmount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
-      String id, Date timestamp) {
+      String id, ZonedDateTime timestamp) {
 
     // place a limit order
     OrderType orderType = adaptSide(orderTypeString);
@@ -97,7 +97,7 @@ public final class ANXAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (ANXOrder anxOrder : anxOrders) {
-      limitOrders.add(adaptOrder(anxOrder.getAmount(), anxOrder.getPrice(), tradedCurrency, currency, orderType, id, new Date(anxOrder.getStamp())));
+      limitOrders.add(adaptOrder(anxOrder.getAmount(), anxOrder.getPrice(), tradedCurrency, currency, orderType, id, DateUtils.fromMillisToZonedDateTime(anxOrder.getStamp())));
     }
 
     return limitOrders;
@@ -109,7 +109,7 @@ public final class ANXAdapters {
 
     for (ANXOpenOrder anxOpenOrder : anxOpenOrders) {
       limitOrders.add(adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(),
-          anxOpenOrder.getCurrency(), anxOpenOrder.getType(), anxOpenOrder.getOid(), new Date(anxOpenOrder.getDate())));
+          anxOpenOrder.getCurrency(), anxOpenOrder.getType(), anxOpenOrder.getOid(), DateUtils.fromMillisToZonedDateTime(anxOpenOrder.getDate())));
     }
 
     return limitOrders;
@@ -164,7 +164,7 @@ public final class ANXAdapters {
   // BigDecimal price = ANXUtils.getPrice(anxDepthUpdate.getPriceInt());
   //
   // BigDecimal totalVolume = new BigDecimal(anxDepthUpdate.getTotalVolumeInt()).divide(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR));
-  // Date date = new Date(anxDepthUpdate.getNow() / 1000);
+  // ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(anxDepthUpdate.getNow() / 1000);
   //
   // OrderBookUpdate orderBookUpdate = new OrderBookUpdate(orderType, volume, currencyPair, price, date, totalVolume);
   //
@@ -203,7 +203,7 @@ public final class ANXAdapters {
     BigDecimal amount = anxTrade.getAmount();
     BigDecimal price = anxTrade.getPrice();
     CurrencyPair currencyPair = adaptCurrencyPair(anxTrade.getItem(), anxTrade.getPriceCurrency());
-    Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
+    ZonedDateTime dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
     final String tradeId = String.valueOf(anxTrade.getTid());
 
     return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId);
@@ -217,7 +217,7 @@ public final class ANXAdapters {
     BigDecimal ask = anxTicker.getSell().getValue();
     BigDecimal high = anxTicker.getHigh().getValue();
     BigDecimal low = anxTicker.getLow().getValue();
-    Date timestamp = new Date(anxTicker.getNow() / 1000);
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(anxTicker.getNow() / 1000);
 
     CurrencyPair currencyPair = adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
@@ -238,7 +238,7 @@ public final class ANXAdapters {
       trades.add(adaptUserTrade(tradeResult, meta));
     }
 
-    long lastId = trades.size() > 0 ? anxTradeResults[0].getTimestamp().getTime() : 0L;
+    long lastId = trades.size() > 0 ? anxTradeResults[0].getTimestamp().toInstant().toEpochMilli() : 0L;
     return new UserTrades(trades, lastId, TradeSortType.SortByTimestamp);
   }
 
@@ -316,7 +316,7 @@ public final class ANXAdapters {
     //this date is not in utc, it's in HK time (I think) - for example: 1495759124000 should translate to 2017-05-26 09:38:44
 
     Long eightHours = 1000 * 60 * 60 * 8L;
-    Date date = DateUtils.fromMillisUtc(rawDate + eightHours);
+    ZonedDateTime date = DateUtils.fromMillisUtc(rawDate + eightHours);
 
     ANXValue value = entry.getValue();
     Currency currency = new Currency(value.getCurrency());

@@ -1,16 +1,15 @@
 package org.knowm.xchange.kraken.dto.marketdata;
 
-import java.util.Date;
-
-import org.knowm.xchange.utils.jackson.Rfc1123DateDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.utils.jackson.Rfc1123DateDeserializer;
+
+import java.time.ZonedDateTime;
 
 public class KrakenServerTime {
 
   private final long unixTime;
-  private final Date rfc1123Time;
+  private final ZonedDateTime rfc1123Time;
 
   /**
    * Constructor
@@ -19,7 +18,7 @@ public class KrakenServerTime {
    * @param rfc1123Time
    */
   public KrakenServerTime(@JsonProperty("unixtime") long unixTime,
-      @JsonProperty("rfc1123") @JsonDeserialize(using = Rfc1123DateDeserializer.class) Date rfc1123Time) {
+      @JsonProperty("rfc1123") @JsonDeserialize(using = Rfc1123DateDeserializer.class) ZonedDateTime rfc1123Time) {
 
     this.unixTime = unixTime;
     this.rfc1123Time = rfc1123Time;
@@ -30,7 +29,7 @@ public class KrakenServerTime {
     return unixTime;
   }
 
-  public Date getRfc1123Time() {
+  public ZonedDateTime getRfc1123Time() {
 
     return rfc1123Time;
   }

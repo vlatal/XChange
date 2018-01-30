@@ -1,12 +1,13 @@
 package org.knowm.xchange.dsx.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mikhail Wall
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DSXTransaction {
 
   private final long id;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final Type type;
   private final BigDecimal amount;
   private final String currency;
@@ -29,7 +30,7 @@ public class DSXTransaction {
       @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission, @JsonProperty("txid") String txId) {
 
     this.id = id;
-    this.timestamp = new Date(timestamp * 1000);
+    this.timestamp = DateUtils.fromMillisToZonedDateTime(timestamp * 1000);
     this.type = type;
     this.amount = amount;
     this.currency = currency;
@@ -43,7 +44,7 @@ public class DSXTransaction {
     return id;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

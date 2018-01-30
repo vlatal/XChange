@@ -1,21 +1,14 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.dto.AbucoinsServerTime;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRate;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsHistoricRates;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsOrderBook;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProduct;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStat;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsProductStats;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTicker;
-import org.knowm.xchange.abucoins.dto.marketdata.AbucoinsTrade;
+import org.knowm.xchange.abucoins.dto.marketdata.*;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * <p>Class providing a 1:1 proxy for the Abucoins market related
@@ -24,7 +17,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
  * <ul>
  * <li>{@link #getAbucoinsServerTime GET /time}</li>
  * <li>{@link #getAbucoinsProducts GET /products}</li>
- * <li>{@link #getAbucoinsProduct() GET /products/&#123;product-id&#125;}</li>
+ * <li>{@link #getAbucoinsProduct(String) GET /products/&#123;product-id&#125;}</li>
  * <li>{@link #getAbucoinsOrderBook GET /products/&#123;product-id&#125;/book}</li>
  * <li>{@link #getAbucoinsOrderBook(String, AbucoinsOrderBookLevel) GET /products/&#123;product-id&#125;/book?level=&#123;level&#125;}</li>
  * <li>{@link #getAbucoinsTicker GET /products/&#123;product-id&#125;/ticker}</li>
@@ -119,14 +112,14 @@ public class AbucoinsMarketDataServiceRaw extends AbucoinsBaseService {
    * @return
    * @throws IOException
    */
-  public AbucoinsHistoricRate[] getAbucoinsHistoricRates(String productID, long granularitySeconds, Date start, Date end) throws IOException {
+  public AbucoinsHistoricRate[] getAbucoinsHistoricRates(String productID, long granularitySeconds, ZonedDateTime start, ZonedDateTime end) throws IOException {
     if ( start == null || end == null )
       throw new IllegalArgumentException("Must provide begin and end dates");
           
     String granularity = String.valueOf(granularitySeconds);
           
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+    dateFormat.withZone(ZoneOffset.UTC);
           
     String startDate = dateFormat.format(start);
     String endDate = dateFormat.format(end);

@@ -1,15 +1,5 @@
 package org.knowm.xchange.bitflyer;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.bitflyer.dto.BitflyerException;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginAccount;
 import org.knowm.xchange.bitflyer.dto.account.BitflyerMarginStatus;
@@ -19,9 +9,13 @@ import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerOrderbook;
 import org.knowm.xchange.bitflyer.dto.marketdata.BitflyerTicker;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerExecution;
 import org.knowm.xchange.bitflyer.dto.trade.BitflyerPosition;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.List;
 
 @Path("/v1")
 @Produces(MediaType.APPLICATION_JSON)

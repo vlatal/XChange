@@ -1,9 +1,10 @@
 package org.knowm.xchange.kraken.dto.account;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class DepostitStatus {
 
@@ -15,7 +16,7 @@ public class DepostitStatus {
   private final String info;
   private final BigDecimal amount;
   private final BigDecimal fee;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final String status;
   private final String statusProp;
 
@@ -32,7 +33,7 @@ public class DepostitStatus {
     this.info = info;
     this.amount = amount;
     this.fee = fee;
-    this.timestamp = new Date(unixTimestamp * 1000);
+    this.timestamp = DateUtils.fromSecondsToZonedDateTime(unixTimestamp);
     this.status = status;
     this.statusProp = statusProp;
   }
@@ -69,7 +70,7 @@ public class DepostitStatus {
     return fee;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
     return timestamp;
   }
 

@@ -1,15 +1,14 @@
 package org.knowm.xchange.bitcointoyou.dto.marketdata;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.bitcointoyou.BitcointoyouAdaptersTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
 
 /**
  * Tests the {@link BitcointoyouMarketData} class.

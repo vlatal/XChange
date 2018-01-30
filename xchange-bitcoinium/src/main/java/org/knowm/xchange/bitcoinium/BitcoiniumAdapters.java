@@ -1,10 +1,5 @@
 package org.knowm.xchange.bitcoinium;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
@@ -13,6 +8,12 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Various adapters for converting from Bitcoinium DTOs to XChange DTOs
@@ -54,7 +55,7 @@ public final class BitcoiniumAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitcoiniumOrderbook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitcoiniumOrderbook.getBids());
-    Date date = new Date(bitcoiniumOrderbook.getBitcoiniumTicker().getTimestamp()); // Note, this is the timestamp of the piggy-backed Ticker.
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(bitcoiniumOrderbook.getBitcoiniumTicker().getTimestamp()); // Note, this is the timestamp of the piggy-backed Ticker.
     return new OrderBook(date, asks, bids);
 
   }

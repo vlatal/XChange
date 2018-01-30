@@ -1,49 +1,49 @@
 package org.knowm.xchange.service.trade.params;
 
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * Common implementation of {@link TradeHistoryParamsTimeSpan}.
  */
 public class DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamsTimeSpan {
 
-  private Date endTime;
-  private Date startTime;
+  private ZonedDateTime endTime;
+  private ZonedDateTime startTime;
 
   public DefaultTradeHistoryParamsTimeSpan() {
   }
 
-  public DefaultTradeHistoryParamsTimeSpan(Date startTime, Date endTime) {
+  public DefaultTradeHistoryParamsTimeSpan(ZonedDateTime startTime, ZonedDateTime endTime) {
 
     this.endTime = endTime;
     this.startTime = startTime;
   }
 
-  public DefaultTradeHistoryParamsTimeSpan(Date startTime) {
+  public DefaultTradeHistoryParamsTimeSpan(ZonedDateTime startTime) {
 
     this.startTime = startTime;
   }
 
   @Override
-  public void setEndTime(Date endTime) {
+  public void setEndTime(ZonedDateTime endTime) {
 
     this.endTime = endTime;
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
 
     return endTime;
   }
 
   @Override
-  public void setStartTime(Date time) {
+  public void setStartTime(ZonedDateTime time) {
 
     startTime = time;
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
 
     return startTime;
   }

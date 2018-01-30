@@ -1,16 +1,15 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Neil Panchen
@@ -44,7 +43,7 @@ public class CryptoFacilitiesTickersJSONTest {
     assertThat(cryptoFacilitiesTickers.getTicker("F-XBT:USD-Apr16-W5").getVol24H()).isEqualTo(new BigDecimal("5"));
 
     //2016-04-04 18:19:56 UTC
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+    DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
     assertThat(cryptoFacilitiesTickers.getTicker("F-XBT:USD-Apr16-W5").getLastTime()).isEqualTo(DATE_FORMAT.parse("2016-04-04T18:19:56.000Z"));
 
     // Verify that the example data was unmarshalled correctly for vol index contract

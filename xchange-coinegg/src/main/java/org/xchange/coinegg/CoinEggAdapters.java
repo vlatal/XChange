@@ -1,14 +1,5 @@
 package org.xchange.coinegg;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,13 +17,22 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 import org.xchange.coinegg.dto.accounts.CoinEggBalance;
 import org.xchange.coinegg.dto.marketdata.CoinEggOrder;
+import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
 import org.xchange.coinegg.dto.marketdata.CoinEggTicker;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrades;
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
 import org.xchange.coinegg.dto.marketdata.CoinEggTrades.CoinEggTrade;
 import org.xchange.coinegg.dto.trade.CoinEggTradeAdd;
 import org.xchange.coinegg.dto.trade.CoinEggTradeCancel;
 import org.xchange.coinegg.dto.trade.CoinEggTradeView;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CoinEggAdapters {
 
@@ -60,7 +60,7 @@ public class CoinEggAdapters {
   public static LimitOrder adaptOrder(CoinEggOrder coinEggOrder, CurrencyPair currencyPair) {
     
     OrderType type = coinEggOrder.getType() == Type.BUY ? OrderType.ASK : OrderType.BID;
-    Date timestamp = DateUtils.fromMillisUtc(coinEggOrder.getTimestamp());
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(coinEggOrder.getTimestamp());
     String id = String.valueOf(coinEggOrder.getTimestamp());
     BigDecimal amount = coinEggOrder.getAmount();
     BigDecimal price = coinEggOrder.getPrice();

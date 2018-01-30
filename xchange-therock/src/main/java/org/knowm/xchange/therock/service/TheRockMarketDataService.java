@@ -1,8 +1,5 @@
 package org.knowm.xchange.therock.service;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -13,6 +10,9 @@ import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
 
 /**
  * @author Matija Mazi
@@ -27,7 +27,7 @@ public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implem
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     TheRockTicker t = getTheRockTicker(new TheRock.Pair(currencyPair));
     return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
-        .volume(t.getVolumeTraded()).timestamp(new Date()).build();
+        .volume(t.getVolumeTraded()).timestamp(ZonedDateTime.now()).build();
   }
 
   @Override

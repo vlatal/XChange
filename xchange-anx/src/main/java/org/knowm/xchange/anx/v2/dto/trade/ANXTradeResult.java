@@ -1,9 +1,9 @@
 package org.knowm.xchange.anx.v2.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 /**
  * Data object representing trades from ANX
@@ -12,13 +12,13 @@ public final class ANXTradeResult {
 
   private final String tradeId;
   private final String orderId;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final BigDecimal tradedCurrencyFillAmount;
   private final BigDecimal settlementCurrencyFillAmount;
   private final String currencyPair;
   private final String side;
 
-  public ANXTradeResult(@JsonProperty("tradeId") String tradeId, @JsonProperty("orderId") String orderId, @JsonProperty("timestamp") Date timestamp,
+  public ANXTradeResult(@JsonProperty("tradeId") String tradeId, @JsonProperty("orderId") String orderId, @JsonProperty("timestamp") ZonedDateTime timestamp,
       @JsonProperty("tradedCurrencyFillAmount") BigDecimal tradedCurrencyFillAmount,
       @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount, @JsonProperty("ccyPair") String currencyPair,
       @JsonProperty("side") String side) {
@@ -42,7 +42,7 @@ public final class ANXTradeResult {
     return orderId;
   }
 
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }

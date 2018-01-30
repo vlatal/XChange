@@ -1,17 +1,18 @@
 package org.knowm.xchange.btcturk.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author semihunaldi
  */
 public class BTCTurkOrderBook {
 
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
 
@@ -27,13 +28,13 @@ public class BTCTurkOrderBook {
       @JsonProperty("asks") List<List<BigDecimal>> asks) {
     this.bids = bids;
     this.asks = asks;
-    this.timestamp = new Date(timestamp);
+    this.timestamp = DateUtils.fromMillisToZonedDateTime(timestamp);
   }
 
   /**
    * @return Timestamp in Unix milliseconds
    */
-  public Date getTimestamp() {
+  public ZonedDateTime getTimestamp() {
 
     return timestamp;
   }

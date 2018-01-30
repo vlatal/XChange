@@ -1,9 +1,5 @@
 package org.knowm.xchange.campbx.service;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.text.ParseException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.CampBX;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
@@ -11,6 +7,10 @@ import org.knowm.xchange.campbx.dto.trade.MyOpenOrders;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.text.ParseException;
 
 /**
  * @author Matija Mazi

@@ -1,16 +1,15 @@
 package org.knowm.xchange.coinbase.dto.marketdata;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import org.knowm.xchange.utils.DateUtils;
+
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.knowm.xchange.utils.DateUtils;
-
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * @author jamespedwards42
@@ -50,7 +49,7 @@ public class CoinbaseSpotPriceHistory {
       final String rateString = new StringBuilder(matcher.group(1)).reverse().toString();
       final BigDecimal spotRate = new BigDecimal(rateString);
       final String timestampString = new StringBuilder(matcher.group(2)).reverse().toString();
-      Date timestamp = null;
+      ZonedDateTime timestamp = null;
       try {
         timestamp = DateUtils.fromISO8601DateString(timestampString);
       } catch (InvalidFormatException e) {

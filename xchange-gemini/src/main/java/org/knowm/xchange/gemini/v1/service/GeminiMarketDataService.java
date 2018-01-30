@@ -1,9 +1,5 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.LoanOrderBook;
@@ -19,6 +15,10 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -138,7 +138,7 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
         lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else {
         throw new IllegalArgumentException(
-            "Argument 0, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+            "Argument 0, the last trade time, must be a ZonedDateTime or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
       }
     }
     GeminiTrade[] trades = getGeminiTrades(GeminiUtils.toPairString(currencyPair), lastTradeTime, limitTrades);

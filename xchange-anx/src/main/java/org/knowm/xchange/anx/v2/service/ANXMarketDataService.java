@@ -1,9 +1,5 @@
 package org.knowm.xchange.anx.v2.service;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepthWrapper;
@@ -15,6 +11,11 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -74,7 +75,7 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
         currencyPair.counter.getCurrencyCode(), "ask", "");
     List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.base.getCurrencyCode(),
         currencyPair.counter.getCurrencyCode(), "bid", "");
-    Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
+    ZonedDateTime date = DateUtils.fromMillisToZonedDateTime(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
     return new OrderBook(date, asks, bids);
   }
 
@@ -87,12 +88,12 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
       if (args[0] instanceof Number) {
         Number arg = (Number) args[0];
         sinceTimeStamp = arg.longValue();
-      } else if (args[0] instanceof Date) {
-        Date arg = (Date) args[0];
-        sinceTimeStamp = arg.getTime();
+      } else if (args[0] instanceof ZonedDateTime) {
+        ZonedDateTime arg = (ZonedDateTime) args[0];
+        sinceTimeStamp = arg.toInstant().toEpochMilli();
       } else {
         throw new IllegalArgumentException(
-            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+            "Extra argument #1, the last trade time, must be a ZonedDateTime or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
       }
     }
 

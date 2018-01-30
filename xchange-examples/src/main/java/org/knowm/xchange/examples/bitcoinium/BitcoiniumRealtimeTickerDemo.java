@@ -1,14 +1,5 @@
 package org.knowm.xchange.examples.bitcoinium;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.swing.JFrame;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -16,6 +7,7 @@ import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -23,6 +15,14 @@ import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.markers.SeriesMarkers;
+
+import javax.swing.*;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
@@ -33,7 +33,7 @@ public class BitcoiniumRealtimeTickerDemo {
 
   XYChart chart;
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
-  List<Date> xAxisData;
+  List<ZonedDateTime> xAxisData;
   List<Float> yAxisData;
   public static final String SERIES_NAME = "Bitcoinium USD/BTC";
 
@@ -83,9 +83,9 @@ public class BitcoiniumRealtimeTickerDemo {
         try {
           BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker("BTC", "BITSTAMP_USD");
           System.out.println(bitcoiniumTicker.toString());
-          Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
+          ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(bitcoiniumTicker.getTimestamp());
           float price = bitcoiniumTicker.getLast().floatValue();
-          if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
+          if (xAxisData.get(xAxisData.size() - 1).toInstant().toEpochMilli() != timestamp.toInstant().toEpochMilli()) {
             xAxisData.add(timestamp);
             yAxisData.add(price);
             XYSeries series = chart.updateXYSeries(SERIES_NAME, xAxisData, yAxisData, null);
@@ -124,7 +124,7 @@ public class BitcoiniumRealtimeTickerDemo {
 
       BitcoiniumTicker bitcoiniumTicker = bitcoiniumTickerHistory.getCondensedTickers()[i];
 
-      Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
+      ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(bitcoiniumTicker.getTimestamp());
       float price = bitcoiniumTicker.getLast().floatValue();
       System.out.println(timestamp + ": " + price);
       xAxisData.add(timestamp);

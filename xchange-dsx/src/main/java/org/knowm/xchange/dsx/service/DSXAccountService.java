@@ -1,12 +1,5 @@
 package org.knowm.xchange.dsx.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.DSXAdapters;
@@ -20,13 +13,15 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Mikhail Wall
@@ -119,7 +114,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
 
     List<FundingRecord> result = new ArrayList<>();
     for (Map.Entry<Long, DSXTransHistoryResult> t : getDSXTransHistory(count, fromId, toId, null, since, end, type, status, currency).entrySet()) {
-      result.add(new FundingRecord(t.getValue().getAddress(), new Date(t.getValue().getTimestamp() * 1000), Currency.getInstance(t.getValue().getCurrency()),
+      result.add(new FundingRecord(t.getValue().getAddress(), DateUtils.fromSecondsToZonedDateTime(t.getValue().getTimestamp()), Currency.getInstance(t.getValue().getCurrency()),
           t.getValue().getAmount(), Long.toString(t.getValue().getId()), null, convert(t.getValue().getType()), convert(t.getValue().getStatus()), null,
           t.getValue().getCommission(), null));
     }
@@ -152,7 +147,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
     }
   }
 
-  private static Long nullSafeUnixTime(Date time) {
+  private static Long nullSafeUnixTime(ZonedDateTime time) {
     return time != null ? DateUtils.toUnixTime(time) : null;
   }
 

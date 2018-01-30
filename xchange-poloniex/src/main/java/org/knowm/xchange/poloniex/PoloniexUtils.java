@@ -1,17 +1,16 @@
 package org.knowm.xchange.poloniex;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import org.knowm.xchange.currency.CurrencyPair;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import org.knowm.xchange.currency.CurrencyPair;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * @author Zach Holmes
@@ -19,39 +18,34 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 public class PoloniexUtils {
 
-  public static String toPairString(CurrencyPair currencyPair) {
+    public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
-  }
-
-  public static CurrencyPair toCurrencyPair(String pair) {
-
-    String[] currencies = pair.split("_");
-    return new CurrencyPair(currencies[1], currencies[0]);
-  }
-
-  public static Date stringToDate(String dateString) {
-
-    try {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return sdf.parse(dateString);
-    } catch (ParseException e) {
-      return new Date(0);
+        return currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
     }
-  }
 
-  public static class UnixTimestampDeserializer extends JsonDeserializer<Date> {
-    @Override
-    public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-      final String dateTimeInUnixFormat = p.getText();
-      try {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.setTimeInMillis(Long.parseLong(dateTimeInUnixFormat + "000"));
-        return calendar.getTime();
-      } catch (Exception e) {
-        return new Date(0);
-      }
+    public static CurrencyPair toCurrencyPair(String pair) {
+
+        String[] currencies = pair.split("_");
+        return new CurrencyPair(currencies[1], currencies[0]);
     }
-  }
+
+    public static ZonedDateTime stringToDate(String dateString) {
+
+        try {
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            df.withZone(ZoneOffset.UTC);
+            return ZonedDateTime.parse(dateString, df);
+        } catch (DateTimeParseException e) {
+            return ZonedDateTime.ofInstant(Instant.EPOCH, ZoneOffset.UTC);
+        }
+    }
+
+    public static class UnixTimestampDeserializer extends JsonDeserializer<ZonedDateTime> {
+        @Override
+        public ZonedDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+            final String dateTimeInUnixFormat = p.getText();
+            ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.ofEpochSecond(Long.valueOf(dateTimeInUnixFormat)), ZoneOffset.UTC);
+            return zdt;
+        }
+    }
 }

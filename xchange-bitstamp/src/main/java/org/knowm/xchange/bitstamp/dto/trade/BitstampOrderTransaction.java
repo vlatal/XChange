@@ -1,11 +1,10 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class BitstampOrderTransaction {
 

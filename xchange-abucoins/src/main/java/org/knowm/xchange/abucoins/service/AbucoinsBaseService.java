@@ -1,19 +1,17 @@
 package org.knowm.xchange.abucoins.service;
 
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.abucoins.Abucoins;
 import org.knowm.xchange.abucoins.AbucoinsAuthenticated;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
+
+import java.math.BigDecimal;
 
 /**
  * @author bryant_harris

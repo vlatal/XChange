@@ -1,45 +1,24 @@
 package org.knowm.xchange.gdax;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
 import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
-import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
-import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccount;
-import org.knowm.xchange.gdax.dto.trade.GDAXCoinbaseAccountAddress;
-import org.knowm.xchange.gdax.dto.trade.GDAXFill;
-import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
-import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
+import org.knowm.xchange.gdax.dto.marketdata.*;
+import org.knowm.xchange.gdax.dto.trade.*;
 import org.knowm.xchange.utils.DateUtils;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -181,7 +160,7 @@ public interface GDAX {
       pdf, csv
     }
 
-    public GDAXReportRequest(Type type, Date startDate, Date endDate, String productId, String accountId, Format format, String email) {
+    public GDAXReportRequest(Type type, ZonedDateTime startDate, ZonedDateTime endDate, String productId, String accountId, Format format, String email) {
       this(type.name(), DateUtils.toUTCString(startDate), DateUtils.toUTCString(endDate), productId, accountId, format == null ? null : format.name(), email);
     }
 

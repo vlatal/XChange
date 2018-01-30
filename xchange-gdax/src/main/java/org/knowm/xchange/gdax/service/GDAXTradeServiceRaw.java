@@ -1,7 +1,5 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -15,8 +13,9 @@ import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
 
 public class GDAXTradeServiceRaw extends GDAXBaseService {
 

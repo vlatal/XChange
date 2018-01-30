@@ -1,11 +1,5 @@
 package org.knowm.xchange.wex.v3.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -15,13 +9,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
@@ -29,13 +17,15 @@ import org.knowm.xchange.wex.v3.WexAdapters;
 import org.knowm.xchange.wex.v3.WexAuthenticated;
 import org.knowm.xchange.wex.v3.WexExchange;
 import org.knowm.xchange.wex.v3.dto.marketdata.WexExchangeInfo;
-import org.knowm.xchange.wex.v3.dto.trade.WexCancelOrderResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexOrder;
-import org.knowm.xchange.wex.v3.dto.trade.WexPlaceOrderResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexTradeHistoryResult;
-import org.knowm.xchange.wex.v3.dto.trade.WexTransHistoryResult;
+import org.knowm.xchange.wex.v3.dto.trade.*;
 import org.knowm.xchange.wex.v3.service.trade.params.WexTradeHistoryParams;
 import org.knowm.xchange.wex.v3.service.trade.params.WexTransHistoryParams;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author Matija Mazi
@@ -173,7 +163,7 @@ public class WexTradeService extends WexTradeServiceRaw implements TradeService 
     }
   }
 
-  private static Long nullSafeUnixTime(Date time) {
+  private static Long nullSafeUnixTime(ZonedDateTime time) {
     return time != null ? DateUtils.toUnixTime(time) : null;
   }
 

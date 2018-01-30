@@ -1,21 +1,7 @@
 package org.knowm.xchange.ccex;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
 import org.knowm.xchange.ccex.dto.account.CCEXBalance;
-import org.knowm.xchange.ccex.dto.marketdata.CCEXBuySellData;
-import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
-import org.knowm.xchange.ccex.dto.marketdata.CCEXMarket;
-import org.knowm.xchange.ccex.dto.marketdata.CCEXTrade;
-import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;
+import org.knowm.xchange.ccex.dto.marketdata.*;
 import org.knowm.xchange.ccex.dto.ticker.CCEXPriceResponse;
 import org.knowm.xchange.ccex.dto.trade.CCEXOpenorder;
 import org.knowm.xchange.ccex.dto.trade.CCEXOrderhistory;
@@ -35,6 +21,17 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CCEXAdapters {
 
@@ -57,7 +54,7 @@ public class CCEXAdapters {
   public static Trade adaptCCEXPublicTrade(CCEXTrade cCEXTrade, CurrencyPair currencyPair) {
 
     OrderType type = cCEXTrade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
-    Date timestamp = stringToDate(cCEXTrade.getTimestamp());
+    ZonedDateTime timestamp = stringToDate(cCEXTrade.getTimestamp());
 
     Trade trade = new Trade(type, cCEXTrade.getQuantity(), currencyPair, cCEXTrade.getPrice(), timestamp, cCEXTrade.getId());
     return trade;
@@ -73,7 +70,7 @@ public class CCEXAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, ccexOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, ccexOrderBook.getBids());
-    Date date = new Date();
+    ZonedDateTime date = ZonedDateTime.now();
     return new OrderBook(date, asks, bids);
   }
 
@@ -120,14 +117,14 @@ public class CCEXAdapters {
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
 
-  public static Date stringToDate(String dateString) {
+  public static ZonedDateTime stringToDate(String dateString) {
 
     try {
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-      sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-      return sdf.parse(dateString);
-    } catch (ParseException e) {
-      return new Date(0);
+      DateTimeFormatter sdf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+      sdf.withZone(ZoneOffset.UTC);
+      return ZonedDateTime.parse(dateString, sdf);
+    } catch (DateTimeParseException e) {
+      return ZonedDateTime.now();
     }
   }
 
@@ -181,7 +178,7 @@ public class CCEXAdapters {
 
     OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
-    Date date = CCEXUtils.toDate(trade.getTimeStamp());
+    ZonedDateTime date = CCEXUtils.toDate(trade.getTimeStamp());
     String orderId = String.valueOf(trade.getOrderUuid());
 
     BigDecimal price = trade.getPricePerUnit();
@@ -202,7 +199,7 @@ public class CCEXAdapters {
     BigDecimal low = cCEXTicker.getLow();
     BigDecimal volume = cCEXTicker.getBuysupport();
 
-    Date timestamp = new Date(cCEXTicker.getUpdated());
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(cCEXTicker.getUpdated());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();

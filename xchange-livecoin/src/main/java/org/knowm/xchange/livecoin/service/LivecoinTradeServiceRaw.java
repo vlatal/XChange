@@ -1,11 +1,5 @@
 package org.knowm.xchange.livecoin.service;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -21,6 +15,12 @@ import org.knowm.xchange.service.trade.params.CancelOrderByCurrencyPair;
 import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
 
@@ -45,7 +45,7 @@ public class LivecoinTradeServiceRaw extends LivecoinBaseService<Livecoin> {
     return resp;
   }
 
-  public List<UserTrade> tradeHistory(Date start, Date end, Integer limit, Long offset) throws IOException {
+  public List<UserTrade> tradeHistory(ZonedDateTime start, ZonedDateTime end, Integer limit, Long offset) throws IOException {
     List<Map> response = service.transactions(
         apiKey,
         signatureCreator,

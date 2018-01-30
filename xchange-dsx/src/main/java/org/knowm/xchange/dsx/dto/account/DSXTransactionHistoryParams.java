@@ -1,19 +1,19 @@
 package org.knowm.xchange.dsx.dto.account;
 
-import java.util.Date;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+
+import java.time.ZonedDateTime;
 
 public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan, TradeHistoryParamCurrency {
 
   private Currency currency = null;
   private String startId = null;
   private String endId = null;
-  private Date startTime = null;
-  private Date endTime = null;
+  private ZonedDateTime startTime = null;
+  private ZonedDateTime endTime = null;
 
   @Override
   public void setCurrency(Currency currency) {
@@ -46,22 +46,22 @@ public class DSXTransactionHistoryParams implements TradeHistoryParamsTimeSpan, 
   }
 
   @Override
-  public void setStartTime(Date startTime) {
+  public void setStartTime(ZonedDateTime startTime) {
     this.startTime = startTime;
   }
 
   @Override
-  public Date getStartTime() {
+  public ZonedDateTime getStartTime() {
     return startTime;
   }
 
   @Override
-  public void setEndTime(Date endTime) {
+  public void setEndTime(ZonedDateTime endTime) {
     this.endTime = endTime;
   }
 
   @Override
-  public Date getEndTime() {
+  public ZonedDateTime getEndTime() {
     return endTime;
   }
 }

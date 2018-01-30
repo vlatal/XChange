@@ -1,14 +1,6 @@
 package org.knowm.xchange.btctrade;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeBalance;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeWallet;
@@ -27,8 +19,13 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.DateUtils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class BTCTradeAdaptersTest {
 
@@ -86,25 +83,25 @@ public class BTCTradeAdaptersTest {
     Trades trades = BTCTradeAdapters.adaptTrades(btcTradeTrades, CurrencyPair.BTC_CNY);
     List<Trade> tradeList = trades.getTrades();
 
-    assertEquals(new Date(1403397140L * 1000L), tradeList.get(0).getTimestamp());
+    assertEquals(DateUtils.fromSecondsToZonedDateTime(1403397140L), tradeList.get(0).getTimestamp());
     assertEquals(new BigDecimal("3703"), tradeList.get(0).getPrice());
     assertEquals(new BigDecimal("3.50000000000"), tradeList.get(0).getOriginalAmount());
     assertEquals("2895575", tradeList.get(0).getId());
     assertEquals(OrderType.BID, tradeList.get(0).getType());
 
-    assertEquals(new Date(1403397191L * 1000L), tradeList.get(1).getTimestamp());
+    assertEquals(DateUtils.fromSecondsToZonedDateTime(1403397191L), tradeList.get(1).getTimestamp());
     assertEquals(new BigDecimal("3704"), tradeList.get(1).getPrice());
     assertEquals(new BigDecimal("0.00200000000"), tradeList.get(1).getOriginalAmount());
     assertEquals("2895576", tradeList.get(1).getId());
     assertEquals(OrderType.BID, tradeList.get(1).getType());
 
-    assertEquals(new Date(1403428819L * 1000L), tradeList.get(tradeList.size() - 2).getTimestamp());
+    assertEquals(DateUtils.fromSecondsToZonedDateTime(1403428819L), tradeList.get(tradeList.size() - 2).getTimestamp());
     assertEquals(new BigDecimal("3740.01"), tradeList.get(tradeList.size() - 2).getPrice());
     assertEquals(new BigDecimal("0.01000000000"), tradeList.get(tradeList.size() - 2).getOriginalAmount());
     assertEquals("2896235", tradeList.get(tradeList.size() - 2).getId());
     assertEquals(OrderType.ASK, tradeList.get(tradeList.size() - 2).getType());
 
-    assertEquals(new Date(1403428797L * 1000L), tradeList.get(tradeList.size() - 1).getTimestamp());
+    assertEquals(DateUtils.fromSecondsToZonedDateTime(1403428797L), tradeList.get(tradeList.size() - 1).getTimestamp());
     assertEquals(new BigDecimal("3752"), tradeList.get(tradeList.size() - 1).getPrice());
     assertEquals(new BigDecimal("16.70000000000"), tradeList.get(tradeList.size() - 1).getOriginalAmount());
     assertEquals("2896239", tradeList.get(tradeList.size() - 1).getId());
@@ -167,7 +164,7 @@ public class BTCTradeAdaptersTest {
     assertEquals("16636810", order.getId());
     assertEquals(new BigDecimal("1.01"), order.getLimitPrice());
     // 2014-09-14 12:48:53 Asia/Shanghai
-    assertEquals(1410670133000L, order.getTimestamp().getTime());
+    assertEquals(1410670133000L, order.getTimestamp().toInstant().toEpochMilli());
     assertEquals(new BigDecimal("0.1"), order.getOriginalAmount());
     assertEquals(OrderType.BID, order.getType());
 
@@ -176,7 +173,7 @@ public class BTCTradeAdaptersTest {
     assertEquals("16634460", order.getId());
     assertEquals(new BigDecimal("10.01"), order.getLimitPrice());
     // 2014-09-14 12:31:46 Asia/Shanghai
-    assertEquals(1410669106000L, order.getTimestamp().getTime());
+    assertEquals(1410669106000L, order.getTimestamp().toInstant().toEpochMilli());
     assertEquals(new BigDecimal("0.01"), order.getOriginalAmount());
     assertEquals(OrderType.BID, order.getType());
   }

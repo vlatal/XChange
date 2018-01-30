@@ -1,16 +1,16 @@
 package org.knowm.xchange.therock.service;
 
-import java.io.IOException;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTrades;
-
+import org.knowm.xchange.utils.DateUtils;
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.time.ZonedDateTime;
 
 public class TheRockMarketDataServiceRaw extends TheRockBaseService {
 
@@ -30,13 +30,13 @@ public class TheRockMarketDataServiceRaw extends TheRockBaseService {
   }
 
   public TheRockTrades getTheRockTrades(TheRock.Pair currencyPair, Object[] args) throws IOException {
-    Date after = null;
+    ZonedDateTime after = null;
     if (args.length == 1) {
       Object arg = args[0];
       if (arg instanceof Number) {
-        after = new Date(((Number) arg).longValue() * 1000);
-      } else if (arg instanceof Date) {
-        after = (Date) arg;
+        after = DateUtils.fromSecondsToZonedDateTime(((Number) arg).longValue());
+      } else if (arg instanceof ZonedDateTime) {
+        after = (ZonedDateTime) arg;
       }
 
     }

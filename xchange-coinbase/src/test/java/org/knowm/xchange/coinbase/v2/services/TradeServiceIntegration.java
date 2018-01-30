@@ -1,8 +1,5 @@
 package org.knowm.xchange.coinbase.v2.services;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
@@ -19,6 +16,9 @@ import org.knowm.xchange.coinbase.v2.service.CoinbaseTradeService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.AuthUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class TradeServiceIntegration {
 

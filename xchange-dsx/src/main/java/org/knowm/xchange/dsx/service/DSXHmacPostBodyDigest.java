@@ -1,13 +1,11 @@
 package org.knowm.xchange.dsx.service;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
-
-import org.knowm.xchange.service.BaseParamsDigest;
-
-import si.mazi.rescu.RestInvocation;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
 /**
  * @author Mikhail Wall

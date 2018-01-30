@@ -1,11 +1,10 @@
 package org.knowm.xchange.abucoins.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Side;
 import org.knowm.xchange.abucoins.dto.trade.AbucoinsOrder.Type;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbucoinsBaseCreateOrderRequest {
   /** [optional] limit or market.  Default limit */

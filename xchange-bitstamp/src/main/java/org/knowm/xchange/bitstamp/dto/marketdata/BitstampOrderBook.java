@@ -1,12 +1,11 @@
 package org.knowm.xchange.bitstamp.dto.marketdata;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
+
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi
@@ -29,7 +28,7 @@ public class BitstampOrderBook {
 
     this.bids = bids;
     this.asks = asks;
-    this.timestamp = ZonedDateTime.ofInstant(Instant.ofEpochMilli(timestamp * 1000), ZoneOffset.UTC);
+    this.timestamp = DateUtils.fromMillisToZonedDateTime(timestamp * 1000);
   }
 
   /**

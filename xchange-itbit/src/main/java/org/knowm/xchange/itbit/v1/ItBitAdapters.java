@@ -1,6 +1,5 @@
 package org.knowm.xchange.itbit.v1;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -29,16 +28,15 @@ import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,9 +51,9 @@ public final class ItBitAdapters {
     CUSTOM_SYMBOLS.setDecimalSeparator('.');
   }
 
-  private static DateFormat getDateFormat() {
-    DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_STRING);
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+  private static DateTimeFormatter getDateFormat() {
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(DATE_FORMAT_STRING);
+    dateFormat.withZone(ZoneOffset.UTC);
     return dateFormat;
   }
 
@@ -84,12 +82,12 @@ public final class ItBitAdapters {
 
   }
 
-  private static Date parseDate(String date) {
+  private static ZonedDateTime parseDate(String date) {
 
-    Date parse;
+    ZonedDateTime parse;
     try {
-      parse = getDateFormat().parse(date.substring(0, 23) + 'Z');
-    } catch (ParseException e) {
+      parse = ZonedDateTime.parse(date.substring(0, 23) + 'Z', getDateFormat());
+    } catch (DateTimeParseException e) {
       return null;
     }
 
@@ -119,7 +117,7 @@ public final class ItBitAdapters {
     if (matcher.matches()) {
       timestamp = matcher.group(1) + "Z";
     }
-    Date date = DateUtils.fromISODateString(timestamp);
+    ZonedDateTime date = DateUtils.fromISODateStringToZonedDateTime(timestamp);
     final String tradeId = String.valueOf(trade.getTid());
 
     return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);
@@ -141,7 +139,7 @@ public final class ItBitAdapters {
   }
 
   private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType,
-                                       Date timestamp) {
+                                       ZonedDateTime timestamp) {
 
     return new LimitOrder(orderType, amount, currencyPair, orderId, timestamp, price);
   }
@@ -188,7 +186,7 @@ public final class ItBitAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-      Date timestamp = parseDate(itBitOrder.getCreatedTime());
+      ZonedDateTime timestamp = parseDate(itBitOrder.getCreatedTime());
       limitOrders.add(adaptOrder(itBitOrder.getAmount(), itBitOrder.getPrice(), currencyPair, itBitOrder.getId(), orderType, timestamp));
     }
 
@@ -221,7 +219,7 @@ public final class ItBitAdapters {
     BigDecimal low = itBitTicker.getLowToday();
     BigDecimal last = itBitTicker.getLastPrice();
     BigDecimal volume = itBitTicker.getVolume24h();
-    Date timestamp = itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
+    ZonedDateTime timestamp = itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -247,10 +245,10 @@ public final class ItBitAdapters {
   }
 
   public static FundingRecord adapt(ItBitFunding itBitFunding) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");//"2015-02-18T23:43:37.1230000"
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");//"2015-02-18T23:43:37.1230000"
 
     try {
-      Date date = dateFormat.parse(itBitFunding.time);
+      ZonedDateTime date = ZonedDateTime.parse(itBitFunding.time, dateFormat);
 
       FundingRecord.Type type = itBitFunding.transactionType.equalsIgnoreCase("Deposit") ? FundingRecord.Type.DEPOSIT : FundingRecord.Type.WITHDRAWAL;
 
@@ -275,7 +273,7 @@ public final class ItBitAdapters {
           null,
           null
       );
-    } catch (ParseException e) {
+    } catch (DateTimeParseException e) {
       throw new IllegalStateException("Cannot parse " + itBitFunding, e);
     }
   }

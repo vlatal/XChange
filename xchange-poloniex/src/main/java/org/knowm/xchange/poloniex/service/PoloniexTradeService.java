@@ -1,24 +1,11 @@
 package org.knowm.xchange.poloniex.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -29,16 +16,16 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsAll;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements TradeService {
 
@@ -119,8 +106,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     CurrencyPair currencyPair = null;
-    Date startTime = null;
-    Date endTime = null;
+    ZonedDateTime startTime = null;
+    ZonedDateTime endTime = null;
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
       currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
@@ -226,25 +213,25 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
     }
 
     @Override
-    public void setStartTime(Date value) {
+    public void setStartTime(ZonedDateTime value) {
 
       all.setStartTime(value);
     }
 
     @Override
-    public Date getStartTime() {
+    public ZonedDateTime getStartTime() {
 
       return all.getStartTime();
     }
 
     @Override
-    public void setEndTime(Date value) {
+    public void setEndTime(ZonedDateTime value) {
 
       all.setEndTime(value);
     }
 
     @Override
-    public Date getEndTime() {
+    public ZonedDateTime getEndTime() {
 
       return all.getEndTime();
     }

@@ -1,11 +1,10 @@
 package org.knowm.xchange.bitcurex.service;
 
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
+
 import javax.crypto.Mac;
 import java.util.Base64;
-
-import org.knowm.xchange.service.BaseParamsDigest;
-
-import si.mazi.rescu.RestInvocation;
 
 public class BitcurexDigest extends BaseParamsDigest {
 

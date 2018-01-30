@@ -27,11 +27,11 @@ import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+import static org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime;
 
 /**
  * Author: brox Since: 2/6/14
@@ -52,7 +52,7 @@ public class CexIOAdapters {
 
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
-    Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
+    ZonedDateTime date = DateUtils.fromSecondsToZonedDateTime(trade.getDate());
     OrderType type = trade.getType().equals(ORDER_TYPE_BUY) ? OrderType.BID : OrderType.ASK;
     return new Trade(type, amount, currencyPair, price, date, String.valueOf(trade.getTid()));
   }
@@ -73,7 +73,7 @@ public class CexIOAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      // Date is reversed order. Insert at index 0 instead of appending
+      // ZonedDateTime is reversed order. Insert at index 0 instead of appending
       tradesList.add(0, adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
@@ -94,7 +94,7 @@ public class CexIOAdapters {
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
     BigDecimal volume = ticker.getVolume();
-    Date timestamp = new Date(ticker.getTimestamp() * 1000L);
+    ZonedDateTime timestamp = DateUtils.fromSecondsToZonedDateTime(ticker.getTimestamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -111,7 +111,7 @@ public class CexIOAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, depth.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, depth.getBids());
-    Date date = new Date(depth.getTimestamp() * 1000);
+    ZonedDateTime date = DateUtils.fromSecondsToZonedDateTime(depth.getTimestamp());
     return new OrderBook(date, asks, bids);
   }
 
@@ -172,7 +172,7 @@ public class CexIOAdapters {
       String id = Long.toString(cexIOOrder.getId());
       limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getPending(),
           new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
-          DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
+          DateUtils.fromMillisToZonedDateTime(cexIOOrder.getTime()), cexIOOrder.getPrice()));
     }
 
     return new OpenOrders(limitOrders);
@@ -181,7 +181,7 @@ public class CexIOAdapters {
 
   public static UserTrade adaptArchivedOrder(CexIOArchivedOrder cexIOArchivedOrder) {
     try {
-      Date timestamp = fromISODateString(cexIOArchivedOrder.time);
+      ZonedDateTime timestamp = fromISODateStringToZonedDateTime(cexIOArchivedOrder.time);
 
       OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
       BigDecimal originalAmount = cexIOArchivedOrder.amount;
@@ -203,7 +203,7 @@ public class CexIOAdapters {
     OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
     BigDecimal originalAmount = new BigDecimal(cexIOOrder.amount);
     CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
-    Date timestamp = new Date(cexIOOrder.time);
+    ZonedDateTime timestamp = DateUtils.fromMillisToZonedDateTime(cexIOOrder.time);
     BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
     Order.OrderStatus status = adaptOrderStatus(cexIOOrder);
     return new LimitOrder(orderType, originalAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice, null, null, status);

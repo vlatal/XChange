@@ -1,18 +1,13 @@
 package org.xchange.bitz;
 
-import java.io.IOException;
+import org.xchange.bitz.dto.marketdata.result.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.xchange.bitz.dto.marketdata.result.BitZKlineResult;
-import org.xchange.bitz.dto.marketdata.result.BitZOrdersResult;
-import org.xchange.bitz.dto.marketdata.result.BitZTickerAllResult;
-import org.xchange.bitz.dto.marketdata.result.BitZTickerResult;
-import org.xchange.bitz.dto.marketdata.result.BitZTradesResult;
+import java.io.IOException;
 
 @Path("api_v1")
 @Produces(MediaType.APPLICATION_JSON)
