@@ -27,10 +27,18 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
 
   // the /wapi endpoint of binance is not stable yet and can be changed in future, there is also a lack of current documentation
 
-  public void withdraw(String asset, String address, BigDecimal amount, String name, Long recvWindow
+  public String withdraw(String asset, String address, BigDecimal amount, String name, Long recvWindow
       , long timestamp) throws IOException, BinanceException {
-    WithdrawRequest result = binance.withdraw(asset, address, amount, name, recvWindow, timestamp, super.apiKey, super.signatureCreator);
+    WithdrawRequest result = binance.withdraw(asset, address, null, amount, name, recvWindow, timestamp, super.apiKey, super.signatureCreator);
     checkWapiResponse(result);
+    return result.getData();
+  }
+
+  public String withdraw(String asset, String address, String addressTag, BigDecimal amount, String name, Long recvWindow
+      , long timestamp) throws IOException, BinanceException {
+    WithdrawRequest result = binance.withdraw(asset, address, addressTag, amount, name, recvWindow, timestamp, super.apiKey, super.signatureCreator);
+    checkWapiResponse(result);
+    return result.getData();
   }
 
   public List<BinanceDeposit> depositHistory(String asset, Long startTime, Long endTime, Long recvWindow, long timestamp) throws BinanceException, IOException {
@@ -43,7 +51,7 @@ public class BinanceAccountServiceRaw extends BinanceBaseService {
     return checkWapiResponse(result);
   }
 
-  private <T> T checkWapiResponse(WapiResponse<T> result) throws IOException {
+  private <T> T checkWapiResponse(WapiResponse<T> result){
     if (!result.success) {
       BinanceException exception;
       try {
