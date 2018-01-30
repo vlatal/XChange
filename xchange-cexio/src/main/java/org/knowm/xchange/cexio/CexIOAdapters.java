@@ -31,8 +31,6 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateStringToZonedDateTime;
-
 /**
  * Author: brox Since: 2/6/14
  */
@@ -170,9 +168,9 @@ public class CexIOAdapters {
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(), cexIOOrder.getPending(),
-          new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
-          DateUtils.fromMillisToZonedDateTime(cexIOOrder.getTime()), cexIOOrder.getPrice()));
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getAmount(),
+              cexIOOrder.getAmount().subtract(cexIOOrder.getPending()), new CurrencyPair(cexIOOrder.getTradableIdentifier(),
+              cexIOOrder.getTransactionCurrency()), id, DateUtils.fromMillisToZonedDateTime(cexIOOrder.getTime()), cexIOOrder.getPrice()));
     }
 
     return new OpenOrders(limitOrders);
@@ -181,7 +179,7 @@ public class CexIOAdapters {
 
   public static UserTrade adaptArchivedOrder(CexIOArchivedOrder cexIOArchivedOrder) {
     try {
-      ZonedDateTime timestamp = fromISODateStringToZonedDateTime(cexIOArchivedOrder.time);
+      ZonedDateTime timestamp = DateUtils.fromISODateStringToZonedDateTime(cexIOArchivedOrder.time);
 
       OrderType orderType = cexIOArchivedOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
       BigDecimal originalAmount = cexIOArchivedOrder.amount;

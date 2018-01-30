@@ -18,6 +18,7 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   protected final ParamsDigest signatureCreator;
 
   protected BinanceBaseService(Exchange exchange) {
+
     super(exchange);
     this.binance = RestProxyFactory.createProxy(BinanceAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), getClientConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
@@ -25,11 +26,13 @@ public class BinanceBaseService extends BaseExchangeService implements BaseServi
   }
 
   public long getTimestamp() throws IOException {
+
     return System.currentTimeMillis() + ((BinanceExchange) exchange).deltaServerTime();
-  } 
-  
+  }
+
   public BinanceExchangeInfo getExchangeInfo() throws IOException {
+
     return binance.exchangeInfo();
   }
-  
+
 }

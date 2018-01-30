@@ -1,13 +1,15 @@
 package org.xchange.coinegg.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinEggTradesJSONTest {
 	
@@ -15,28 +17,28 @@ public class CoinEggTradesJSONTest {
 	public void testUnmarshal() throws IOException {
 		
 		// Read in the JSON from the example resources
-	    InputStream is = CoinEggTradesJSONTest.class.getResourceAsStream("/marketdata/example-depth-data.json");
+	    InputStream is = CoinEggTradesJSONTest.class.getResourceAsStream("/marketdata/example-orders-data.json");
 
 	    // Parse JSON Example Using Jackson
 	    ObjectMapper mapper = new ObjectMapper();
-	    CoinEggTrades coinEggTrades = mapper.readValue(is, CoinEggTrades.class);
+	    CoinEggTrade[] coinEggTrades = mapper.readValue(is, CoinEggTrade[].class);
 	    
-	    // Verify The Trades Unmarshalls Correctly
+	    // Verify The Ticker Unmarshalls Correctly
 	    assertThat(coinEggTrades).isNotNull();
 	    
-	    assertThat(coinEggTrades.getAsks()).isNotNull();
-	    assertThat(coinEggTrades.getAsks()).isNotEmpty();
-	    assertThat(coinEggTrades.getAsks().length).isEqualTo(31);
-      
-	    assertThat(coinEggTrades.getAsks()[0].getPrice()).isEqualTo(new BigDecimal("70000"));
-      assertThat(coinEggTrades.getAsks()[0].getQuantity()).isEqualTo(new BigDecimal("5"));
+	    // Verify Buy Order
 	    
-	    assertThat(coinEggTrades.getBids()).isNotNull();
-      assertThat(coinEggTrades.getBids()).isNotEmpty();
-      assertThat(coinEggTrades.getBids().length).isEqualTo(32);
-      
-      assertThat(coinEggTrades.getBids()[0].getPrice()).isEqualTo(new BigDecimal("38300"));
-      assertThat(coinEggTrades.getBids()[0].getQuantity()).isEqualTo(new BigDecimal("1.879"));
-	    
-	  }
+	    assertThat(coinEggTrades[0].getTimestamp()).isEqualTo(0);
+	    assertThat(coinEggTrades[0].getPrice()).isEqualTo(new BigDecimal("3"));
+	    assertThat(coinEggTrades[0].getAmount()).isEqualTo(new BigDecimal("0.1"));
+	    assertThat(coinEggTrades[0].getTransactionID()).isEqualTo(1);
+	    assertThat(coinEggTrades[0].getType()).isEqualTo(Type.BUY);
+
+	    // Verify Sell Order
+	    assertThat(coinEggTrades[1].getTimestamp()).isEqualTo(0);
+        assertThat(coinEggTrades[1].getPrice()).isEqualTo(new BigDecimal("32323"));
+        assertThat(coinEggTrades[1].getAmount()).isEqualTo(new BigDecimal("2"));
+        assertThat(coinEggTrades[1].getTransactionID()).isEqualTo(2);
+        assertThat(coinEggTrades[1].getType()).isEqualTo(Type.SELL);
+    }
 }

@@ -1,16 +1,17 @@
 package org.xchange.coinegg.dto.trade;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.xchange.coinegg.dto.CoinEggResult;
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Test;
+import org.xchange.coinegg.dto.CoinEggResult;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CoinEggTradeListJSONTest {
 	

@@ -3,7 +3,7 @@ package org.xchange.coinegg.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.utils.DateUtils;
-import org.xchange.coinegg.dto.marketdata.CoinEggOrder.Type;
+import org.xchange.coinegg.dto.marketdata.CoinEggTrade.Type;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;

@@ -1,5 +1,7 @@
 package org.knowm.xchange.gdax.service;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -13,9 +15,8 @@ import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import java.io.IOException;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GDAXTradeServiceRaw extends GDAXBaseService {
 
@@ -87,6 +88,20 @@ public class GDAXTradeServiceRaw extends GDAXBaseService {
 
     try {
       return gdax.placeMarketOrder(new GDAXPlaceOrder(marketOrder.getOriginalAmount(), null, side, productId, "market", marketOrder.getOrderFlags
+              ()), apiKey, digest,
+          nonceFactory, passphrase);
+    } catch (GDAXException e) {
+      throw handleError(e);
+    }
+  }
+
+  public GDAXIdResponse placeGDAXStopOrder(MarketOrder stopOrder) throws IOException {
+
+    String side = side(stopOrder.getType());
+    String productId = toProductId(stopOrder.getCurrencyPair());
+
+    try {
+      return gdax.placeStopOrder(new GDAXPlaceOrder(stopOrder.getOriginalAmount(), stopOrder.getAveragePrice(), side, productId, "stop", stopOrder.getOrderFlags
               ()), apiKey, digest,
           nonceFactory, passphrase);
     } catch (GDAXException e) {
