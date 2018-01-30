@@ -100,7 +100,7 @@ public class DateUtils {
     try {
       return ZonedDateTime.parse(iso8601FormattedDate, iso8601Format);
     } catch (DateTimeParseException e) {
-      throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, Date.class);
+      throw new InvalidFormatException("Error parsing as date", iso8601FormattedDate, ZonedDateTime.class);
     }
   }
 
@@ -117,7 +117,7 @@ public class DateUtils {
     try {
       return ZonedDateTime.parse(rfc1123FormattedDate, rfc1123DateFormat);
     } catch (DateTimeParseException e) {
-      throw new InvalidFormatException("Error parsing as date", rfc1123FormattedDate, Date.class);
+      throw new InvalidFormatException("Error parsing as date", rfc1123FormattedDate, ZonedDateTime.class);
     }
   }
 

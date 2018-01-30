@@ -1,6 +1,8 @@
 package org.knowm.xchange.independentreserve.util;
 
 
+import org.knowm.xchange.utils.DateUtils;
+
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -34,7 +36,7 @@ public class Util {
   }
 
   public static ZonedDateTime toDate(String date) throws com.fasterxml.jackson.databind.exc.InvalidFormatException {
-    return org.knowm.xchange.utils.DateUtils.fromISO8601DateString(date);
+    return DateUtils.fromISO8601DateStringToZonedDateTime(date);
   }
 
 }

@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.dto.trade;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.knowm.xchange.currency.Currency;
@@ -12,8 +13,8 @@ public class BitmexUserTrade extends UserTrade {
 
   private final BigDecimal cost;
 
-  public BitmexUserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id,
-      String orderId, BigDecimal feeAmount, Currency feeCurrency, BigDecimal cost) {
+  public BitmexUserTrade(OrderType type, BigDecimal originalAmount, CurrencyPair currencyPair, BigDecimal price, ZonedDateTime timestamp, String id,
+                         String orderId, BigDecimal feeAmount, Currency feeCurrency, BigDecimal cost) {
     super(type, originalAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     this.cost = cost;
   }

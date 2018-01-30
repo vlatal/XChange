@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitmex.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.knowm.xchange.bitmex.dto.trade.BitmexSide;
@@ -12,7 +13,7 @@ public class BitmexPublicTrade {
 
   private final BigDecimal price;
   private final BigDecimal size;
-  private final Date timestamp;
+  private final ZonedDateTime timestamp;
   private final BitmexSide side;
   private final BitmexTickDirection tickDirection;
   private final String symbol;
@@ -21,7 +22,7 @@ public class BitmexPublicTrade {
   private final BigDecimal homeNotional;
   private final BigDecimal foreignNotional;
 
-  public BitmexPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("timestamp") Date timestamp, @JsonProperty("side") BitmexSide side,
+  public BitmexPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("timestamp") ZonedDateTime timestamp, @JsonProperty("side") BitmexSide side,
       @JsonProperty("tickDirection") BitmexTickDirection tickDirection, @JsonProperty("symbol") String symbol, @JsonProperty("trdMatchID") String trdMatchID,
       @JsonProperty("grossValue") BigDecimal grossValue, @JsonProperty("homeNotional") BigDecimal homeNotional, @JsonProperty("foreignNotional") BigDecimal foreignNotional) {
 
@@ -48,7 +49,7 @@ public class BitmexPublicTrade {
     return size;
   }
 
-  public Date getTime() {
+  public ZonedDateTime getTime() {
 
     return timestamp;
   }

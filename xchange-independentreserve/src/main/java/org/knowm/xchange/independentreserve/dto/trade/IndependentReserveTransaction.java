@@ -1,6 +1,7 @@
 package org.knowm.xchange.independentreserve.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -30,11 +31,11 @@ public class IndependentReserveTransaction {
     this.bitcoinTransactionId = bitcoinTransactionId;
     this.bitcoinTransactionOutputIndex = bitcoinTransactionOutputIndex;
     this.comment = comment;
-    this.createdTimestamp = createdTimestampUtc == null ? null : org.knowm.xchange.utils.DateUtils.fromISO8601DateString(createdTimestampUtc) ;
+    this.createdTimestamp = createdTimestampUtc == null ? null : DateUtils.fromISO8601DateStringToZonedDateTime(createdTimestampUtc) ;
     this.credit = credit;
     this.currencyCode = currencyCode;
     this.debit = debit;
-    this.settleTimestamp = settleTimestampUtc == null ? null : org.knowm.xchange.utils.DateUtils.fromISO8601DateString(settleTimestampUtc) ;
+    this.settleTimestamp = settleTimestampUtc == null ? null : DateUtils.fromISO8601DateStringToZonedDateTime(settleTimestampUtc) ;
     this.status = status;
     this.type = type;
   }

@@ -100,7 +100,7 @@ public class CoinMarketCapMarketDataJsonTest {
 
     CoinMarketCapHistoricalSpotPrice historicalSpotPrice = spotPriceHistoryList.get(0);
     assertThat(historicalSpotPrice.getSpotRate()).isEqualTo("719.79");
-    assertThat(historicalSpotPrice.getTimestamp()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-08T13:21:51-08:00"));
+    assertThat(historicalSpotPrice.getTimestamp()).isEqualTo(DateUtils.fromISO8601DateStringToZonedDateTime("2014-02-08T13:21:51-08:00"));
   }
 */
 }

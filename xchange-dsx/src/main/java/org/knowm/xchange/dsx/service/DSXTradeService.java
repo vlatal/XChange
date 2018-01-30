@@ -82,7 +82,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
     String pair = DSXAdapters.getPair(limitOrder.getCurrencyPair());
 
-    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice()
+    DSXOrder dsxOrder = new DSXOrder(pair, type, limitOrder.getOriginalAmount(), limitOrder.getOriginalAmount(), limitOrder.getLimitPrice(),
         3, DSXOrder.OrderType.limit, null);
 
     DSXTradeResult result = tradeDSX(dsxOrder);

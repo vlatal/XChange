@@ -34,10 +34,10 @@ public class CoinbaseTradeJsonTest {
 
     CoinbaseTransfer transfer = transferList.get(0);
     assertThat(transfer.getId()).isEqualTo("52f4411667c71baf9000003c");
-    assertThat(transfer.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"));
+    assertThat(transfer.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateStringToZonedDateTime("2014-02-06T18:12:38-08:00"));
     assertThat(transfer.getCoinbaseFee()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal("9.05")));
     assertThat(transfer.getBankFee()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal(".15")));
-    assertThat(transfer.getPayoutDate()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-06T18:12:37-08:00"));
+    assertThat(transfer.getPayoutDate()).isEqualTo(DateUtils.fromISO8601DateStringToZonedDateTime("2014-02-06T18:12:37-08:00"));
     assertThat(transfer.getTransactionId()).isEqualTo("52f4411767c71baf9000003f");
     assertThat(transfer.getFundingType()).isEqualTo("AchDebit");
     assertThat(transfer.getCode()).isEqualTo("52f4411667c71baf9000003c");

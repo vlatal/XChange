@@ -70,7 +70,7 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
       final String address = nestedAddressNode.path("address").asText();
       final String callbackUrl = nestedAddressNode.path("callback_url").asText();
       final String label = nestedAddressNode.path("label").asText();
-      final ZonedDateTime createdAt = DateUtils.fromISO8601DateString(nestedAddressNode.path("created_at").asText());
+      final ZonedDateTime createdAt = DateUtils.fromISO8601DateStringToZonedDateTime(nestedAddressNode.path("created_at").asText());
 
       return new CoinbaseAddress(address, callbackUrl, label, createdAt);
     }

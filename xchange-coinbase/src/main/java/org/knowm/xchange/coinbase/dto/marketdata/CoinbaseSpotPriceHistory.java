@@ -51,7 +51,7 @@ public class CoinbaseSpotPriceHistory {
       final String timestampString = new StringBuilder(matcher.group(2)).reverse().toString();
       ZonedDateTime timestamp = null;
       try {
-        timestamp = DateUtils.fromISO8601DateString(timestampString);
+        timestamp = DateUtils.fromISO8601DateStringToZonedDateTime(timestampString);
       } catch (InvalidFormatException e) {
         e.printStackTrace();
       }

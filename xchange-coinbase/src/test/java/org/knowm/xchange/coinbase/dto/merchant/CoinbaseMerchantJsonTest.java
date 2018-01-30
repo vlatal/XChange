@@ -66,7 +66,7 @@ public class CoinbaseMerchantJsonTest {
 
     CoinbaseOrder order = orderList.get(0);
     assertThat(order.getId()).isEqualTo("ND4923CX");
-    assertThat(order.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-19T13:30:50-08:00"));
+    assertThat(order.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateStringToZonedDateTime("2014-02-19T13:30:50-08:00"));
     assertThat(order.getStatus()).isEqualTo(CoinbaseOrderStatus.COMPLETED);
     assertThat(order.getTotalBTC()).isEqualToComparingFieldByField(new CoinbaseMoney("BTC", new BigDecimal(".00157800")));
     assertThat(order.getTotalNative()).isEqualToComparingFieldByField(new CoinbaseMoney("USD", new BigDecimal("1.00")));
@@ -100,7 +100,7 @@ public class CoinbaseMerchantJsonTest {
 
     CoinbaseSubscription subscription = subscriptionList.get(0);
     assertThat(subscription.getId()).isEqualTo("530522c5610d7c296200015b");
-    assertThat(subscription.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateString("2014-02-19T13:31:49-08:00"));
+    assertThat(subscription.getCreatedAt()).isEqualTo(DateUtils.fromISO8601DateStringToZonedDateTime("2014-02-19T13:31:49-08:00"));
     assertThat(subscription.getStatus()).isEqualTo(CoinbaseRecurringPaymentStatus.ACTIVE);
     assertThat(subscription.getCustom()).isEmpty();
 

@@ -88,7 +88,7 @@ public class BitmexAdapters {
       BitmexPublicTrade trade = trades[i];
       tradeList.add(adaptTrade(trade, currencyPair));
     }
-    long lastTid = trades.length > 0 ? (trades[0].getTime().getTime()) : 0;
+    long lastTid = trades.length > 0 ? (trades[0].getTime().toInstant().toEpochMilli()) : 0;
     // long lastTid = 0L;
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
@@ -151,7 +151,7 @@ public class BitmexAdapters {
     // Date timestamp = adaptTimestamp(bitmexPublicTrade.getTime());
     // new Date((long) (bitmexPublicTrade.getTime()));
 
-    return new Trade(type, originalAmount, currencyPair, bitmexPublicTrade.getPrice(), timestamp, String.valueOf(timestamp.getTime()));
+    return new Trade(type, originalAmount, currencyPair, bitmexPublicTrade.getPrice(), timestamp, String.valueOf(timestamp.toInstant().toEpochMilli()));
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> bitmexWallet) {

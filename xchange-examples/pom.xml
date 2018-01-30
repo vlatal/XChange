@@ -377,6 +377,11 @@
         	<artifactId>xchange-bitz</artifactId>
         	<version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-kucoin</artifactId>
+            <version>4.3.3-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
