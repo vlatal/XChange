@@ -5,7 +5,7 @@
 
     <parent>
         <artifactId>xchange-parent</artifactId>
-        <groupId>us.futurio.xchange</groupId>
+        <groupId>us.futurio.app.xchange</groupId>
         <version>4.3.3-SNAPSHOT</version>
     </parent>
 

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.kucoin.dto.marketdata.KucoinTicker;
+import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author Jan Akerman
@@ -19,7 +20,7 @@ public class KucoinAdapters {
         .low(kucoinTicker.getLow())
         .volume(kucoinTicker.getVol())
         .currencyPair(kucoinTicker.getSymbol())
-        .timestamp(new Date(kucoinTicker.getDatetime()))
+        .timestamp(DateUtils.fromMillisToZonedDateTime(kucoinTicker.getDatetime()))
         .build();
   }
 

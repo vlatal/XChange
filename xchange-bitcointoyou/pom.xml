@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>us.futurio.xchange</groupId>
+		<groupId>us.futurio.app.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
 		<version>4.3.3-SNAPSHOT</version>
 	</parent>

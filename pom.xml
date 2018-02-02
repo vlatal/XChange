@@ -3,7 +3,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>us.futurio.xchange</groupId>
+    <groupId>us.futurio.app.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
     <version>4.3.3-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -85,6 +85,7 @@
     </ciManagement>
 
     <modules>
+        <module>xchange-core</module>
         <module>xchange-abucoins</module>
         <module>xchange-anx</module>
         <module>xchange-acx</module>
@@ -119,13 +120,11 @@
         <module>xchange-coinmarketcap</module>
         <module>xchange-coinfloor</module>
         <module>xchange-coinmate</module>
-        <module>xchange-core</module>
         <module>xchange-cryptofacilities</module>
         <module>xchange-cryptopia</module>
         <module>xchange-cryptonit</module>
         <module>xchange-dsx</module>
         <module>xchange-empoex</module>
-        <module>xchange-examples</module>
         <module>xchange-gatecoin</module>
         <module>xchange-gateio</module>
         <module>xchange-gdax</module>
@@ -158,6 +157,7 @@
         <module>xchange-vircurex</module>
         <module>xchange-yobit</module>
         <module>xchange-wex</module>
+        <module>xchange-examples</module>
   </modules>
 
     <repositories>
